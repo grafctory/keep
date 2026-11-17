@@ -18,7 +18,7 @@
     "proof": "npm run build && ush ws --open docs"
   },
   "devDependencies": {
-    "@metreeca/rack": "^0.6.0",
+    "@metreeca/rack": "^0.7.0",
     "typedoc": "^0.28.18"
   },
   "allowScripts": {

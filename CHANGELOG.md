@@ -10,98 +10,81 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 - `@metreeca/keep` — `lookup` takes a `virtual` flag retrieving a resource derived from the store rather than held
-  in it: the entry needn't be present, its single-valued members are read off whatever it holds and its collections
-  off the resources their range shapes describe by class rather than off stored links, so a listing over every
-  instance of a class is served without a stored container; `createBatchingStore` forwards the flag to its `detail`
-  and `select` requests, never sharing a `select` batch across the two, and `createCachingStore` keys on it
+  in it: the entry needn't be stored, and its collections list every instance of the classes their range shapes
+  declare rather than the stored links, so a class listing needs no stored container; the batching and caching
+  stores honour the flag, keeping virtual and stored lookups of the same entry apart
 - `@metreeca/keep-sparql` — `createSPARQLStore` serves virtual lookups, binding the members of a virtual collection
-  by the class membership their range declares in place of the owner edge, and reading the resources they reach as
-  held, so expansion below them stays link-driven while the listing itself needs no stored container or links
+  by the class their range declares, while expansion below them stays driven by stored links
 - `@metreeca/keep-rest` — `createRESTStore` rejects a `virtual` lookup with a `RangeError` before any request is
   sent, as the REST contract carries no such flag and the service alone decides which resources it derives
-- `@metreeca/keep-suite` — a `RetrieveVirtual` sub-suite requires connectors to serve virtual lookups: presence
-  without a stored entry, special fields, stored single-valued members, collections read by class whatever the
-  stored links and spanning subtypes, criteria over them, link-driven expansion below them and empty ones omitted
+- `@metreeca/keep-suite` — a `RetrieveVirtual` sub-suite checks that connectors serve virtual lookups
 - `@metreeca/keep` — `createBatchingStore` hands each handler a batch of requests sharing one plan (the same shape,
   model and locale for a detail, the same field, query and locale for a selection), so connectors read the plan off
-  any request and never compare them, and takes a `limit` option capping the requests per batch and type, so a
-  connector declares what its backend accepts in one query and a larger accumulation runs as several batches
-- `@metreeca/keep` — the `limit` option of `createBatchingStore` takes a `burst`, the most handler calls in flight at
-  once, so a connector whose backend limits its connections, or charges per concurrent query, is never asked for
-  more than it declares; without one every call of a round still runs at once, as before
+  any request, and takes a `limit` option capping the requests per batch and, through `burst`, the handler calls in
+  flight at once, so a connector is never asked for more than its backend accepts
 - `@metreeca/keep-sparql` — `createSPARQLStore` takes a `batch` cap on the entries one query binds and a `burst` cap
   on the queries in flight at once, with defaults of `500` and `8` and `0` lifting a cap, so a backend behind a
   gateway with a short request limit or a tight connection pool is served within what it accepts
-- `@metreeca/keep-flake` — `getFlakeTemplate` rebuilds the retrieval template a node's branches request, restricted
-  to one union variant on demand, so a connector expanding a nested resource hands it to its retrieval pass under
-  the template the original request stated instead of reconstructing it from the tree
+- `@metreeca/keep-flake` — `getFlakeTemplate` rebuilds the retrieval template a node's branches request, optionally
+  restricted to one union variant, so a connector expanding a nested resource retrieves it under the template the
+  original request stated, leaving out the branches bound by the enclosing projection
 
 ### Changed
 
-- `@metreeca/keep-suite` — template retrieval requires connectors to accept a locale alternative over the text variant
-  of a union-typed property, returning the localised text as a dictionary, where it previously required rejection
-  with a `RangeError`; alternatives reaching the same variant fold into one request, a locale or template prevailing
-  over the atomic and templates merging their properties (§5.5), so connectors passing the 0.12 suite may need updating
-- `@metreeca/keep-suite` — grouped retrieval requires connectors to accept a sort or focus key matching a grouping key
-  over a multi-valued property, sorting or ranking the groups by their key value (§5.7.4, §5.7.5, §5.8.2.1), as
-  faceted listings need to keep selected values on top; the same keys stay rejected on ungrouped queries
+- **Breaking**: Upgrade `@metreeca/core`, `@metreeca/blue` and `@metreeca/qest` to `^0.14.0`, `@metreeca/http` to
+  `^0.6.0`, `@metreeca/tape` and `@metreeca/wire-sparql` to `^0.13.0` and `@metreeca/trio` to `^0.3.0`; projects
+  using them alongside these packages raise their own ranges as well, so that each is shared as a single copy
+- **Breaking**: `@metreeca/keep-suite` — template retrieval requires connectors to accept a locale alternative over
+  the text variant of a union-typed property and return the localised text as a dictionary (§5.5), where it
+  previously required rejection with a `RangeError`: connectors passing the 0.12 suite replace the rejection with
+  the dictionary result, folding alternatives that reach the same variant into one request
+- **Breaking**: `@metreeca/keep-suite` — grouped retrieval requires connectors to accept a sort or focus key matching
+  a grouping key over a multi-valued property, sorting or ranking the groups by their key value (§5.7.4, §5.7.5,
+  §5.8.2.1): connectors rejecting such keys accept them on grouped queries and keep rejecting them on ungrouped ones
 
 ### Removed
 
-- `@metreeca/keep-flake` — `isScalarFlake`, which no connector or component consumed: a computed node that does not
-  aggregate is told by `isComputedFlake` and `isAggregateFlake` together, with no separate predicate needed
+- **Breaking**: `@metreeca/keep-flake` — `isScalarFlake`: replace `isScalarFlake(flake)` with
+  `isComputedFlake(flake) && !isAggregateFlake(flake)`, which tells a computed node that does not aggregate
 
 ### Fixed
 
-- `@metreeca/keep-sparql` — looking up a large collection with a template expanding its members no longer fails or
-  slows down on query size: the generated queries grow with the template and linearly with the members, no longer
-  with their product ([#22](https://github.com/metreeca/keep/issues/22)), and no query binds more than 500 entries,
-  as a larger batch reaches the connector as several batches; a paged multi-valued property read under several
-  members is windowed by the backend for each member, through one subselect per member, so no query fetches a row
-  beyond the pages requested, however many members the template expands and however many values each one holds
+- `@metreeca/keep-sparql` — lookups expanding the members of a large collection and updates to resources with many
+  multi-valued values no longer fail or slow down on query size: their cost grows linearly with the members and
+  values involved, no longer with their product ([#22](https://github.com/metreeca/keep/issues/22)), and a paged
+  multi-valued property read under several members fetches only the pages requested for each member
 - `@metreeca/keep-sparql` — a backend failure on one query rejects the requests that query served and no other:
   unrelated requests batched in the same round, such as the other members of an expanded collection, settle on
   their own instead of all rejecting with the one error, so a lookup fails only where its own query failed
-- `@metreeca/keep-sparql` — updating a resource no longer slows down with the product of the values of its
-  multi-valued properties: clearing its previous state now scales with the number of triples it holds, where a
-  product with a few keywords, documents, categories and reviews previously took seconds to update on Oxigraph
 - `@metreeca/keep-sparql` — a property declaring both a forward and a reverse predicate is cleared and cascaded in
-  whichever direction its edge is stored: updating a resource now retracts an owned edge a graph loaded by other
-  means carries in one direction only, and deleting a resource reaches the embedded and captive resources linked to
-  it through such an edge, where both were previously left behind next to the new state
+  whichever direction its edge is stored: updating a resource retracts an owned edge a graph loaded by other means
+  carries in one direction only, and deleting a resource reaches the embedded and captive resources linked through
+  such an edge, where both were previously left behind in the store next to the new state
 - `@metreeca/keep-sparql` — a collection query under an explicitly empty language priority matches no localised
   text, taking the supplied priority literally as the specification requires, instead of falling back to `und`;
   the `und` default still applies where a request states no priority at all, as it does on every other lookup
 - `@metreeca/keep-sparql` — a reference projected under the atomic placeholder beside a binding descending through
-  it, as in `"value=university": {}, "label=university.label": {}`, now comes back as the bare reference naming
-  the resource, where it previously came back as an object holding the sibling's value and no identifier, leaving
+  it, as in `"value=university": {}, "label=university.label": {}`, comes back as the bare reference naming the
+  resource, where it previously came back as an object holding the sibling's value and no identifier, leaving
   facets over linked resources with no value to offer ([#24](https://github.com/metreeca/keep/issues/24)); the
-  item itself bound through an empty path beside a binding is kept bare the same way
+  item itself, projected through an empty path beside such a binding, now comes back as a bare reference as well
 - `@metreeca/keep-sparql` — a localised label coalesces under the owner's own tags whatever other resources carry:
   under a priority such as `["en", "und"]`, a resource labelled only in `und` now sorts, projects and contributes
-  its union text variant by that label, where sort keys like `^label` and `^vendor.label`, projected labels and
-  union variants previously came back unbound whenever the leading tag was present anywhere else in the store
-  ([#26](https://github.com/metreeca/keep/issues/26)); `@metreeca/keep-suite` checks connectors for the fallthrough
-- `@metreeca/keep-sparql` — `min`, `max`, `sum` and `avg` over a property some items lack now reduce the items
-  carrying it, as the specification requires, where they previously came back undefined on Oxigraph and Jena,
-  which void an aggregate fed an unbound value as SPARQL 1.1 §18.5.1 allows
-  ([#27](https://github.com/metreeca/keep/issues/27)), whether over the whole collection, within groups, under row
-  and group filters or wrapped in a scalar transform; `@metreeca/keep-suite` checks connectors for these sparse
-  reductions, including groups keyed on an optional property, whose values never leak into other groups
-- `@metreeca/keep-sparql` — `sum` and `avg` over a union-typed property, such as a score held as either a decimal or
-  a letter grade, now reduce the numeric values alone, as the specification requires. A single value on the string
-  branch previously voided the aggregate on Oxigraph and Jena, so `sum` read as `0` and `avg` as undefined
-  ([#28](https://github.com/metreeca/keep/issues/28)). `min` and `max` over a union mixing literals with references,
-  such as an origin held as either a text or a linked place, likewise reduce the literals alone. `@metreeca/keep-suite`
-  now checks that connectors total and average the numeric variant of a union-typed property alone
+  its union text variant by that label, where it previously came back unbound whenever the leading tag was present
+  anywhere else in the store ([#26](https://github.com/metreeca/keep/issues/26))
+- `@metreeca/keep-sparql` — `min`, `max`, `sum` and `avg` reduce only the values in their domain, as the
+  specification requires: over a property some items lack they reduce the items carrying it, where they previously
+  came back undefined on backends such as Oxigraph and Jena ([#27](https://github.com/metreeca/keep/issues/27)),
+  and over a union-typed property `sum` and `avg` reduce its numeric values and `min` and `max` its literals, where
+  a single value on another branch previously voided the result ([#28](https://github.com/metreeca/keep/issues/28));
+  `@metreeca/keep-suite` checks connectors for both cases and for localised label fallthrough
 - `@metreeca/keep-flake` — a bare template key in a collection query no longer gives its node an alias, so
-  `isProbeBranch` picks out projected nodes alone and `isModelBranch` no longer misses single-valued template
-  entries; `getFlakeTemplate` leaves out the branches bound by the enclosing projection, since they are bindings of
-  their own rather than part of the template the node is expanded under, however deep they descend through the node
+  `isProbeBranch` picks out projected nodes alone and `isModelBranch` no longer misses single-valued template entries
 
 ### Security
 
-- Upgrade `undici` to `8.12.3` (GHSA-xjj6-f33q-929c, GHSA-2m5v-pch6-74hx, GHSA-9fm3-97px-rjf6, GHSA-qrxm-fqhp-jwvm): development dependency, no consumer impact
+- Upgrade `undici` to `8.12.3`, fixing GHSA-xjj6-f33q-929c, GHSA-2m5v-pch6-74hx, GHSA-9fm3-97px-rjf6 and
+  GHSA-qrxm-fqhp-jwvm (development dependency, no consumer impact: the published packages never load it)
 
 ## [0.12.2](https://github.com/metreeca/keep/compare/v0.12.1...v0.12.2) - 2026-10-22
 

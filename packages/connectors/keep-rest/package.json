@@ -46,13 +46,13 @@
     "check": "npx vitest --typecheck run"
   },
   "dependencies": {
-    "@metreeca/core": "^0.13.0",
-    "@metreeca/http": "^0.5.0",
+    "@metreeca/core": "^0.14.0",
+    "@metreeca/http": "^0.6.0",
     "@metreeca/keep": "^0.13.0",
-    "@metreeca/qest": "^0.13.0"
+    "@metreeca/qest": "^0.14.0"
   },
   "devDependencies": {
-    "@metreeca/blue": "^0.13.0",
+    "@metreeca/blue": "^0.14.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.13"
   }
