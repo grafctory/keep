@@ -51,47 +51,27 @@
       "TypeError": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
       "fetch": "https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch"
     },
-    "typescript": {
-      "Error": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
-      "RangeError": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
-      "TypeError": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
-      "fetch": "https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch"
-    },
-    "@metreeca/blue": {
-      "validate": "https://metreeca.github.io/blue/functions/index.validate.html",
-      "resource": "https://metreeca.github.io/blue/functions/resource.resource.html"
-    },
     "@metreeca/blue/union": {
       "getShapeBranches": "https://metreeca.github.io/blue/functions/union.getShapeBranches.html"
     },
     "@metreeca/blue/resource": {
-      "PropertyConstraints": "https://metreeca.github.io/blue/interfaces/resource.PropertyConstraints.html",
       "PropertyConstraints.foreign": "https://metreeca.github.io/blue/interfaces/resource.PropertyConstraints.html#foreign",
       "PropertyConstraints.captive": "https://metreeca.github.io/blue/interfaces/resource.PropertyConstraints.html#captive"
     },
     "@metreeca/core": {
-      "isNestedIRI": "https://metreeca.github.io/core/functions/resource.isNestedIRI.html",
       "Optional": "https://metreeca.github.io/core/types/index.Optional.html",
       "TraceError": "https://metreeca.github.io/core/classes/trace.TraceError.html"
     },
     "@metreeca/core/trace": {
       "TraceError": "https://metreeca.github.io/core/classes/trace.TraceError.html"
     },
-    "@metreeca/core/arrays": {
-      "Some": "https://metreeca.github.io/core/types/arrays.Some.html"
-    },
-    "@metreeca/core/async": {
-      "Awaitable": "https://metreeca.github.io/core/types/async.Awaitable.html"
-    },
     "@metreeca/core/values": {
       "DeepPartial": "https://metreeca.github.io/core/types/values.DeepPartial.html"
     },
     "@metreeca/http": {
-      "createFetch": "https://metreeca.github.io/http/functions/index.createFetch.html",
       "Problem": "https://metreeca.github.io/http/types/success.Problem.html"
     },
     "@metreeca/trio": {
-      "Triple": "https://metreeca.github.io/trio/types/index.Triple.html",
       "Term": "https://metreeca.github.io/trio/types/index.Term.html",
       "named": "https://metreeca.github.io/trio/functions/index.named.html",
       "tagged": "https://metreeca.github.io/trio/functions/index.tagged.html",

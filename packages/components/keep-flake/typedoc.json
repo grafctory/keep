@@ -3,9 +3,6 @@
     "@metreeca/blue": {
       "*": "https://metreeca.github.io/blue/"
     },
-    "@metreeca/blue/resource": {
-      "ResourceShape": "https://metreeca.github.io/blue/interfaces/resource.ResourceShape.html"
-    },
     "@metreeca/blue/value": {
       "*": "https://metreeca.github.io/blue/"
     },

@@ -2,53 +2,15 @@
   "externalSymbolLinkMappings": {
     "@metreeca/blue": {
       "*": "https://metreeca.github.io/blue/",
-      "ValueShape": "https://metreeca.github.io/blue/types/index.ValueShape.html",
-      "TraceError": "https://metreeca.github.io/blue/classes/index.TraceError.html",
-      "audit": "https://metreeca.github.io/blue/functions/index.audit.html",
-      "validate": "https://metreeca.github.io/blue/functions/index.validate.html",
-      "tag": "https://metreeca.github.io/blue/functions/index.tag.html"
-    },
-    "@metreeca/core/resource": {
-      "nests": "https://metreeca.github.io/core/functions/resource.nests.html"
-    },
-    "@metreeca/blue/resource": {
-      "id": "https://metreeca.github.io/blue/functions/resource.id.html",
-      "foreign": "https://metreeca.github.io/blue/functions/resource.foreign.html",
-      "resource": "https://metreeca.github.io/blue/functions/resource.resource.html",
-      "Property": "https://metreeca.github.io/blue/interfaces/resource.Property.html",
-      "PropertyConstraints": "https://metreeca.github.io/blue/interfaces/resource.PropertyConstraints.html",
-      "PropertyConstraints.foreign": "https://metreeca.github.io/blue/interfaces/resource.PropertyConstraints.html#foreign",
-      "PropertyConstraints.captive": "https://metreeca.github.io/blue/interfaces/resource.PropertyConstraints.html#captive",
-      "ResourceShape": "https://metreeca.github.io/blue/interfaces/resource.ResourceShape.html"
-    },
-    "@metreeca/blue/value": {
-      "getShapeModel": "https://metreeca.github.io/blue/functions/value.getShapeModel.html",
-      "Delivery": "https://metreeca.github.io/blue/types/value.Delivery.html"
+      "validate": "https://metreeca.github.io/blue/functions/index.validate.html"
     },
     "@metreeca/core": {
-      "*": "https://metreeca.github.io/core/",
-      "Problem": "https://metreeca.github.io/core/types/index.Problem.html",
-      "Optional": "https://metreeca.github.io/core/types/index.Optional.html",
-      "nests": "https://metreeca.github.io/core/functions/resource.nests.html"
-    },
-    "@metreeca/core/arrays": {
-      "Some": "https://metreeca.github.io/core/types/arrays.Some.html"
-    },
-    "@metreeca/core/async": {
-      "Awaitable": "https://metreeca.github.io/core/types/async.Awaitable.html"
+      "*": "https://metreeca.github.io/core/"
     },
     "@metreeca/qest": {
       "*": "https://metreeca.github.io/qest/",
       "Reference": "https://metreeca.github.io/qest/types/state.Reference.html",
-      "Resource": "https://metreeca.github.io/qest/types/state.Resource.html",
-      "Values": "https://metreeca.github.io/qest/types/state.Values.html",
-      "Indexed": "https://metreeca.github.io/qest/types/index.Indexed.html"
-    },
-    "@metreeca/qest/model": {
-      "*": "https://metreeca.github.io/qest/modules/model.html",
-      "Transform": "https://metreeca.github.io/qest/types/model.Transform.html",
-      "Pipe": "https://metreeca.github.io/qest/types/model.Pipe.html",
-      "Query": "https://metreeca.github.io/qest/types/model.Query.html"
+      "Resource": "https://metreeca.github.io/qest/types/state.Resource.html"
     }
   }
 }
