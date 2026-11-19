@@ -55,8 +55,8 @@
       "getShapeBranches": "https://metreeca.github.io/blue/functions/union.getShapeBranches.html"
     },
     "@metreeca/blue/resource": {
-      "PropertyConstraints.foreign": "https://metreeca.github.io/blue/interfaces/resource.PropertyConstraints.html#foreign",
-      "PropertyConstraints.captive": "https://metreeca.github.io/blue/interfaces/resource.PropertyConstraints.html#captive"
+      "PropertyConstraints.foreign": "https://metreeca.github.io/blue/types/resource.PropertyConstraints.html#foreign",
+      "PropertyConstraints.captive": "https://metreeca.github.io/blue/types/resource.PropertyConstraints.html#captive"
     },
     "@metreeca/core": {
       "Optional": "https://metreeca.github.io/core/types/index.Optional.html",
@@ -78,10 +78,10 @@
       "typed": "https://metreeca.github.io/trio/functions/index.typed.html"
     },
     "@metreeca/wire-sparql": {
-      "Repository": "https://metreeca.github.io/wire/interfaces/_metreeca_wire-sparql.Repository.html",
-      "Repository.execute": "https://metreeca.github.io/wire/interfaces/_metreeca_wire-sparql.Repository.html#execute",
-      "SPARQL": "https://metreeca.github.io/wire/types/_metreeca_wire-sparql.SPARQL.html",
-      "Tuple": "https://metreeca.github.io/wire/types/_metreeca_wire-sparql.Tuple.html"
+      "Repository": "https://metreeca.github.io/wire/interfaces/_metreeca_wire-sparql.index.Repository.html",
+      "Repository.execute": "https://metreeca.github.io/wire/interfaces/_metreeca_wire-sparql.index.Repository.html#execute",
+      "SPARQL": "https://metreeca.github.io/wire/types/_metreeca_wire-sparql.index.SPARQL.html",
+      "Tuple": "https://metreeca.github.io/wire/types/_metreeca_wire-sparql.index.Tuple.html"
     }
   },
   "packageOptions": {
