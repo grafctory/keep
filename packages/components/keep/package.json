@@ -68,7 +68,7 @@
     "@metreeca/qest": "^0.15.0"
   },
   "devDependencies": {
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "vitest": "^4.0.13"
   }
 }
