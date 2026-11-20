@@ -189,7 +189,8 @@ order by asc(?owner) <focus…> <sort keys…> <tiebreak…>
 	union-retrieved cell. Each arm restates the edge on its stored object so the shard binds inside its own group, gated
   by the variant's `membership` (a class triple or a literal-kind filter; a localised variant coalesces into the shard,
   or binds the owner under a locale placeholder). The arms stand beside the edge, not inside it, so a folded or
-  coalesced edge admitting no value under the request priority leaves the shards to bind on their own
+  coalesced edge admitting no value under the request priority leaves the shards to bind on their own. Only a cell the
+  query returns or groups by binds its arms; a value the query merely constrains or orders on is read off its edge
 - **filters** — a node's comparison, text-search and `?` conditions on its value, and its `!` conditions, each an
 	`exists` re-walking the node's path from the member with fresh variables so a multi-valued path is tested across its
   whole value set (a `null` option becomes `not exists`); then those of the read stages and branches. Filters sit at the
@@ -224,7 +225,9 @@ order by asc(?owner) <focus…> <sort keys…> <tiebreak…>
   yield no row for such an owner, so it gets one row of empty aggregates, `count` and `sum` restored to `0`
 - **ordering** — the owner first, then focus boosts, then sort keys by precedence, each ranked by processing-type
   tier (boolean < numeric < temporal < string) before its value (§5.7.5), then the group keys or the member as a
-  stable tiebreak, so the rows of every owner come back in the same order whatever else shares the query
+  stable tiebreak, so the rows of every owner come back in the same order whatever else shares the query. A key is
+  tested only for the tiers its range admits, and a key confined to a single tier is ordered by its value alone. A
+  range storing nodes fits no tier, so its key is tested for every tier, like a value of unknown type
 - **slicing** — after the ordering. A `limit` spans every owner bound in a query, so a sliced query over several
   owners runs one arm per owner, each a subselect binding that owner alone and windowing its own members, under
   `select * where { arm union arm … } order by asc(?owner) <ordering>`; the arms also project the keys the outer

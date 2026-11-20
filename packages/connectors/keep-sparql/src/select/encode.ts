@@ -252,11 +252,73 @@ type Reduction = {
 
 };
 
+/**
+ * A processing-type tier of the sort order (§5.7.5).
+ */
+type Tier = {
+
+	/**
+	 * The condition holding if a row's value belongs to the tier.
+	 */
+	readonly holds: (value: SPARQL) => SPARQL;
+
+	/**
+	 * Checks whether a range variant stores values of the tier. No tier admits a variant storing nodes.
+	 */
+	readonly admits: (variant: Shape) => boolean;
+
+	/**
+	 * Whether the values of the tier are ordered as typed values rather than by their lexical form.
+	 */
+	readonly typed: boolean;
+
+};
+
 
 /**
  * The term standing for an absent grouping key in the join variables, which no stored key resolves to.
  */
 const absent = named("urn:x-metreeca:keep:absent");
+
+/**
+ * The temporal datatypes compared as typed values (§3). Any other temporal form is ordered as an opaque string.
+ */
+const temporals = [xsd.dateTime, xsd.date, xsd.time];
+
+/**
+ * The processing-type tiers ranking a sort key, lowest first (§5.7.5).
+ *
+ * Each tier states both the condition its values meet and the range variants storing them, so a key is tested only
+ * for the tiers its range admits. The last tier takes every value the others reject: its condition is never evaluated.
+ */
+const tiers: readonly Tier[] = [
+
+	{
+		holds: value => eq(datatype(value), reference(xsd.boolean)),
+		admits: variant => variant.kind === "boolean",
+		typed: false
+	},
+
+	{
+		holds: isNumeric,
+		admits: variant => variant.kind === "number",
+		typed: true
+	},
+
+	{
+		holds: value => isIn(datatype(value), temporals.map(reference)),
+		admits: variant => variant.kind === "string" && temporals.some(temporal => temporal === variant.datatype),
+		typed: true
+	},
+
+	{
+		holds: () => boolean(true),
+		admits: variant => variant.kind === "dictionary" || variant.kind === "string"
+			&& variant.datatype !== sh.IRI && !temporals.some(temporal => temporal === variant.datatype),
+		typed: false
+	}
+
+];
 
 
 /**
@@ -305,12 +367,7 @@ function settle(scope: Scope<Variable>, group: Group): Context {
 	const read = reader(flake);
 	const root = scope.resolve(flake);
 
-	const keys = grouping(flake);
 	const reductions = reducing(scope, flake, read);
-
-	const joins = keys
-		.flatMap(key => (schema.get(key) ?? derive(key)).map(shard => column(scope, shard)))
-		.map((key): readonly [Variable, Variable] => [key, scope.resolve()]);
 
 	// a query whose projection aggregates is one grouped select; one reduced per item alone (§5.8.2.1)
 	// groups by the member in a subselect, which the query then projects as distinct rows (§5.2)
@@ -318,6 +375,14 @@ function settle(scope: Scope<Variable>, group: Group): Context {
 	const form = reductions.length === 0 ? "ungrouped"
 		: isGroupingFlake(flake) ? "grouped"
 			: "itemised";
+
+	// a query reducing nothing groups by nothing, so it has no key to bind, join or order by
+
+	const keys = form === "ungrouped" ? [] : grouping(flake);
+
+	const joins = keys
+		.flatMap(key => (schema.get(key) ?? derive(key)).map(shard => column(scope, shard)))
+		.map((key): readonly [Variable, Variable] => [key, scope.resolve()]);
 
 	// an aggregate over the whole collection has a value on an empty collection too (§5.2): a keyless
 	// aggregation yields one group whatever its input, but grouped by owner it keeps an owner's group only
@@ -634,33 +699,44 @@ function ordering(context: Context): SPARQL {
 		getFlakeFocusing(flake).map(node =>
 			asc(iif(any(variable(scope.resolve(node)), optionsToTerms(node.focus, node.range)), number(0), number(1)))
 		),
-		getFlakeOrdering(flake).flatMap(node => [tier(variable(scope.resolve(node))), sortable(variable(scope.resolve(node)))].map(
-			getOrderDirection(node.order) < 0 ? desc : asc
-		)),
+		getFlakeOrdering(flake).flatMap(node => sortable(node).map(getOrderDirection(node.order) < 0 ? desc : asc)),
 		tiebreak.map(asc)
 	);
 
 
-	function tier(value: SPARQL): SPARQL {
-		return iif(eq(datatype(value), reference(xsd.boolean)), number(0),
-			iif(isNumeric(value), number(1),
-				iif(temporal(value), number(2),
-					number(3)
-				)
-			)
-		);
-	}
+	/**
+	 * The expressions ordering the rows by one sort key: the rank of its tier, then its value within the tier.
+	 *
+	 * Only the tiers admitted by the key's range are told apart, and a key confined to a single tier is ordered by its
+	 * value alone. A range storing nodes fits no tier, so its key is tested for every tier, like a value of unknown type.
+	 */
+	function sortable(node: Flake): readonly SPARQL[] {
 
-	function sortable(value: SPARQL): SPARQL {
-		return iif(or(isNumeric(value), temporal(value)), value, str(value));
-	}
+		const value = variable(scope.resolve(node));
+		const variants = getShapeBranches(node.range.shape);
 
-	function temporal(value: SPARQL): SPARQL {
-		return isIn(datatype(value), [
-			reference(xsd.dateTime),
-			reference(xsd.date),
-			reference(xsd.time)
-		]);
+		const literal = variants.every(variant => tiers.some(tier => tier.admits(variant)));
+
+		const ranked = tiers.filter(tier => !literal || variants.some(tier.admits));
+
+		const typed = ranked.filter(tier => tier.typed);
+
+		return [
+			...(ranked.length > 1 ? [rank(ranked)] : []),
+			typed.length === 0 ? str(value)
+				: typed.length === ranked.length ? value
+					: iif(or(typed.map(tier => tier.holds(value))), value, str(value))
+		];
+
+
+		function rank([tier, ...rest]: readonly Tier[]): SPARQL {
+
+			const index = number(tiers.indexOf(tier));
+
+			return rest.length === 0 ? index : iif(tier.holds(value), index, rank(rest));
+
+		}
+
 	}
 
 }
@@ -813,7 +889,7 @@ function patterns(context: Context, node: Flake, value: Variable): SPARQL {
 
 			const edge: Edge = { owner, property: entry, object: scope.resolve() };
 
-			return reached(folded(scope, edge, variable(value), locale), edge);
+			return reached(folded(scope, edge, branch.range.shape, variable(value), locale), edge);
 
 		} else {
 
@@ -843,15 +919,19 @@ function patterns(context: Context, node: Flake, value: Variable): SPARQL {
  * the edge rather than inside it, so a folded or coalesced edge admitting no value under the request
  * priority leaves the variant columns to bind on their own, and a member of another variant still surfaces.
  * The root of a virtual collection has no edge to restate, so its membership alone gates each arm.
+ *
+ * Only a cell the query returns or groups by binds its arms: no clause reads the variant columns of other nodes.
  */
 function shards(context: Context, node: Flake, edge: Edge): SPARQL {
 
-	const { scope, group: { flake, locale, virtual } } = context;
+	const { scope, group: { flake, locale, virtual }, cells, keys } = context;
 	const { owner, property, object } = edge;
 
 	const held = !virtual || node !== flake;
+	const projected = cells.includes(node) || keys.includes(node);
+	const columned = node.drain?.form === "union" && !isComputedFlake(node) && projected;
 
-	return node.drain?.form !== "union" || isComputedFlake(node) ? nil() : fragment(...shard(context, node).map(shard => {
+	return !columned ? nil() : fragment(...shard(context, node).map(shard => {
 
 		const target = variable(column(scope, shard));
 

@@ -7,6 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/metreeca/keep/compare/v0.14.0...HEAD)
 
+### Changed
+
+- `@metreeca/keep-sparql` — collections filtered, sorted or aggregated on localised text are retrieved faster, most
+  of all where the request states a single language, and every sorted collection is ordered by the key value alone
+  where the key holds one type of value: sorting a large collection on a label takes about a fifth of the time
+
 ## [0.14.0](https://github.com/metreeca/keep/compare/v0.13.0...v0.14.0) - 2026-11-19
 
 ### Changed

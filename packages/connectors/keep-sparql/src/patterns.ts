@@ -47,6 +47,7 @@ import {
 	and,
 	avg,
 	bind,
+	boolean,
 	ceil,
 	coalesce,
 	count,
@@ -329,8 +330,8 @@ export function textual(value: SPARQL): SPARQL {
  * nothing, as every owner does under an empty priority, which is taken literally rather than defaulted (§6.2).
  *
  * The patterns return one row per value under the winning tag and bind only where the owner is bound, so they nest
- * safely inside any group at any depth, `optional` groups included. The winning tag is settled as Appendix A.5
- * prescribes, so a property carrying several strings per tag never multiplies its rows by the values under other tags.
+ * safely inside any group at any depth, `optional` groups included. The winning tag is settled by presence alone
+ * (Appendix A.5): a property carrying several strings per tag never multiplies its rows by the values under other tags.
  *
  * @param scope The variable scope allocating the probe the priority is settled with
  * @param edge The edge storing the localised values
@@ -347,7 +348,7 @@ export function coalesced(scope: Scope<Variable>, edge: Edge, target: SPARQL, lo
 
 	return [
 		link([owner, property, object]),
-		filter(and(ne(lang(raw), string("")), eq(lang(raw), winner(scope, edge, locale)))),
+		filter(winning(scope, edge, lang(raw), locale)),
 		bind(str(raw), target)
 	];
 
@@ -361,39 +362,55 @@ export function coalesced(scope: Scope<Variable>, edge: Edge, target: SPARQL, lo
  *
  * @param scope The variable scope allocating the probe the priority is settled with
  * @param edge The edge storing the mixed values
+ * @param shape The range of the stored values, possibly a union
  * @param target The variable the folded value is bound to
  * @param locale The request's language priority, most preferred first
  *
  * @returns The patterns binding the folded value to `target`
  */
-export function folded(scope: Scope<Variable>, edge: Edge, target: SPARQL, locale: readonly Tag[]): readonly SPARQL[] {
+export function folded(
+	scope: Scope<Variable>,
+	edge: Edge,
+	shape: Lazy<Shape>,
+	target: SPARQL,
+	locale: readonly Tag[]
+): readonly SPARQL[] {
 
 	const { owner, property, object } = edge;
 
 	const raw = variable(object);
-	const tag = coalesce(lang(raw), string("")); // a node carries no tag
+
+	// reading the tag of a node is an error, which only a range admitting a node has to guard against
+
+	const nodes = getShapeBranches(shape).some(variant => variant.kind === "reference" || variant.kind === "resource");
+	const tag = nodes ? coalesce(lang(raw), string("")) : lang(raw);
 
 	return [
 		link([owner, property, object]),
-		filter(or(eq(tag, string("")), eq(tag, winner(scope, edge, locale)))),
+		filter(or(eq(tag, string("")), winning(scope, edge, tag, locale))),
 		bind(iif(eq(tag, string("")), raw, str(raw)), target)
 	];
 
 }
 
 /**
- * Generates the expression settling the tag the request's language priority picks for a property's text: the
- * first priority tag the owner carries a value under, or the empty string for none.
+ * Generates the condition holding if `tag` is the one the request's language priority picks for a property's text.
+ *
+ * A priority tag wins if the owner has no value under any tag ranked ahead of it. Under an empty priority, no tag
+ * wins, so the condition never holds and an owner binds no localised value at all.
  */
-function winner(scope: Scope<Variable>, { owner, property }: Edge, locale: readonly Tag[]): SPARQL {
+function winning(scope: Scope<Variable>, { owner, property }: Edge, tag: SPARQL, locale: readonly Tag[]): SPARQL {
 
 	const probe = scope.resolve();
 
-	return locale.reduceRight<SPARQL>((rest, tag) => iif(present(tag), string(tag), rest), string(""));
+	return locale.length === 0 ? boolean(false) : or(locale.map((candidate, index) => and(
+		eq(tag, string(candidate)),
+		locale.slice(0, index).map(ahead => not(present(ahead)))
+	)));
 
 
-	function present(tag: Tag): SPARQL {
-		return exists(link([owner, property, probe]), filter(eq(lang(variable(probe)), string(tag))));
+	function present(ahead: Tag): SPARQL {
+		return exists(link([owner, property, probe]), filter(eq(lang(variable(probe)), string(ahead))));
 	}
 
 }

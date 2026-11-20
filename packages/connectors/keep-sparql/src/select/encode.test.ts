@@ -19,6 +19,7 @@ import type { Tag } from "@metreeca/core/language";
 import { createScope } from "@metreeca/core/scope";
 import { createQueryFlake } from "@metreeca/keep-flake";
 import { Category, toys, Vendors } from "@metreeca/keep-suite/toys";
+import type { Select } from "@metreeca/keep/batching";
 import type { Query, Slot } from "@metreeca/qest/model";
 import type { Reference } from "@metreeca/qest/state";
 import { type SPARQL, variable } from "@metreeca/wire-sparql";
@@ -29,7 +30,8 @@ import { schema } from "./schema.js";
 
 describe("encode", () => {
 
-	const field = property("narrower");
+	const narrower = property(Category, "narrower");
+	const members = property(Vendors, "members");
 
 	const entries: readonly Reference[] = [
 		"http://example.com/categories/0001",
@@ -38,9 +40,9 @@ describe("encode", () => {
 	];
 
 
-	function property(name: string): Property {
+	function property(shape: Select["shape"], name: string): Property {
 
-		const member = getShapeProperties(Category)[name];
+		const member = getShapeProperties(shape)[name];
 
 		if ( member?.kind !== "property" ) {
 			throw new Error(`undefined property <${name}>`);
@@ -50,7 +52,14 @@ describe("encode", () => {
 
 	}
 
-	function group(entries: readonly Reference[], query: Query<Slot> = {}, locale: readonly Tag[] = [], virtual: boolean = false): Group {
+	function plan(
+		shape: Select["shape"],
+		field: Property,
+		entries: readonly Reference[],
+		query: Query<Slot>,
+		locale: readonly Tag[],
+		virtual: boolean
+	): Group {
 
 		const flake = createQueryFlake(field.range.shape, query);
 
@@ -59,11 +68,26 @@ describe("encode", () => {
 			flake,
 			schema: schema(flake),
 			items: entries.map(entry => ({
-				request: { virtual, entry, shape: Category, field, query, locale },
+				request: { virtual, entry, shape, field, query, locale },
 				resolve: vi.fn(),
 				reject: vi.fn()
 			}))
 		};
+
+	}
+
+	/**
+	 * The group of the categories narrower than each of `entries`.
+	 */
+	function group(entries: readonly Reference[], query: Query<Slot> = {}, locale: readonly Tag[] = [], virtual: boolean = false): Group {
+		return plan(Category, narrower, entries, query, locale, virtual);
+	}
+
+	/**
+	 * The group of the vendors listed under each entry, whose union-typed properties the categories lack.
+	 */
+	function vendors(query: Query<Slot>, locale: readonly Tag[] = []): Group {
+		return plan(Vendors, members, entries, query, locale, false);
 	}
 
 	function query(group: Group): SPARQL {
@@ -132,6 +156,10 @@ describe("encode", () => {
 			return query.match(/\{ select /g) ?? [];
 		}
 
+		function joins(query: SPARQL): readonly string[] {
+			return query.match(/bind\(coalesce\(\?\d+, <[^>]+>\) as \?\d+\)/g) ?? [];
+		}
+
 		function requirements(query: SPARQL): readonly string[] {
 			return query.match(/filter\(bound\(\?\d+\)\)/g) ?? [];
 		}
@@ -185,7 +213,19 @@ describe("encode", () => {
 			// the key is bound to a join variable standing in for an absent key, once in the query and once in
 			// the subselect, so neither side ever matches an unbound key with any value of the other side
 
-			expect(encoded.match(/bind\(coalesce\(\?\d+, <[^>]+>\) as \?\d+\)/g)).toHaveLength(2);
+			expect(joins(encoded)).toHaveLength(2);
+
+		});
+
+		it.each<[string, Query<Slot>]>([
+			["a plain query", {}],
+			["a sorted query", { "^code": 1 }],
+			["a projection", { "code=code": {} }]
+		])("joins nothing in %s reducing nothing", async (_, request) => {
+
+			// with no subselect to join, the join variables have no use
+
+			expect(joins(query(group(entries, request)))).toHaveLength(0);
 
 		});
 
@@ -210,31 +250,8 @@ describe("encode", () => {
 			// `Vendor.score` is `union(decimal, string)`: `sum`/`avg` accept its number variant alone, `min`/`max`
 			// and `count` accept both, so only the former need the subselect to guard the branch (Appendix A.4.2)
 
-			const members = getShapeProperties(Vendors)["members"];
-
 			function guards(query: SPARQL): readonly string[] {
 				return query.match(/filter\(\(bound\(\?\d+\) && isnumeric\(\?\d+\)\)\)/g) ?? [];
-			}
-
-			function vendors(query: Query<Slot>): Group {
-
-				if ( members?.kind !== "property" ) {
-					throw new Error("undefined property <members>");
-				}
-
-				const flake = createQueryFlake(members.range.shape, query);
-
-				return {
-					virtual: false, field: members, query, locale: [],
-					flake,
-					schema: schema(flake),
-					items: entries.map(entry => ({
-						request: { virtual: false, entry, shape: Vendors, field: members, query, locale: [] },
-						resolve: vi.fn(),
-						reject: vi.fn()
-					}))
-				};
-
 			}
 
 
@@ -311,6 +328,67 @@ describe("encode", () => {
 
 	});
 
+	describe("with the sort keys", () => {
+
+		// a key is ranked by processing type before its value (§5.7.5): its types are told apart row by row
+		// only where the range of the key admits values of several of them, and not at all otherwise
+
+		const typed = "datatype(";
+		const numeric = "isnumeric(";
+
+		function ordering(query: SPARQL): string {
+			return query.slice(query.lastIndexOf("order by"));
+		}
+
+
+		it.each<[string, () => Group]>([
+			["a string key", () => group(entries, { "^code": 1 })],
+			["a boolean key", () => group(entries, { "^featured": 1 })],
+			["a localised key", () => group(entries, { "^label": 1 }, ["en"])]
+		])("orders %s by its value alone", async (_, request) => {
+
+			const ordered = ordering(query(request()));
+
+			expect(ordered).not.toContain(typed);
+			expect(ordered).not.toContain(numeric);
+
+		});
+
+		it("tells apart only the numeric type of a union key admitting numbers and strings", async () => {
+
+			// `Vendor.score` is `union(decimal, string)`: a number or a string, never a boolean or a temporal value
+
+			const ordered = ordering(query(vendors({ "^score": 1 })));
+
+			expect(ordered).toContain(numeric);
+			expect(ordered).not.toContain(typed);
+
+		});
+
+		it("tells apart only the datatypes of a union key admitting booleans and dates", async () => {
+
+			// `Vendor.audited` is `union(boolean, date)`: a boolean or a temporal value, never a number
+
+			const ordered = ordering(query(vendors({ "^audited": 1 })));
+
+			expect(ordered).toContain(typed);
+			expect(ordered).not.toContain(numeric);
+
+		});
+
+		it("tells apart every type for a key admitting a node", async () => {
+
+			// `Vendor.origin` is `union(dictionary, Place)`: a node has no processing type to be ranked by
+
+			const ordered = ordering(query(vendors({ "^origin": 1 }, ["en"])));
+
+			expect(ordered).toContain(typed);
+			expect(ordered).toContain(numeric);
+
+		});
+
+	});
+
 	describe("with the window", () => {
 
 		it("keeps the server window for a single owner", async () => {
@@ -327,6 +405,130 @@ describe("encode", () => {
 			const encoded = query(group(entries, { "@": 1, "#": 2 }));
 
 			expect(encoded.match(/offset 1 limit 2/g)).toHaveLength(entries.length);
+
+		});
+
+	});
+
+	describe("with the variant columns", () => {
+
+		// `Vendor.score` is `union(decimal, string)`: retrieved as a union, it binds one arm per variant beside
+		// its edge (§5.5), each restating the edge, so the edges of a query count the arms it binds
+
+		function edges(query: SPARQL): number {
+			return query.split(`<${toys.score}>`).length-1;
+		}
+
+
+		it("binds the arms of a cell it returns", async () => {
+
+			const encoded = query(vendors({ "score=score": {} }));
+
+			expect(edges(encoded)).toBe(3);
+
+		});
+
+		it("binds the arms of a key it groups by, in the query and in every subselect", async () => {
+
+			const encoded = query(vendors({ "score=score": {}, "cnt=count:id": {} }));
+
+			expect(edges(encoded)).toBe(6);
+
+		});
+
+		it("binds no arm for a value it only orders by", async () => {
+
+			// the detail pass re-fetches the templated content and the ordering reads the value off its edge
+
+			const encoded = query(vendors({ score: {}, "^score": 1 }));
+
+			expect(edges(encoded)).toBe(1);
+
+		});
+
+		it("binds no arm for a value it only orders by in the arms of a sliced query", async () => {
+
+			const encoded = query(vendors({ score: {}, "^score": 1, "#": 1 }));
+
+			expect(edges(encoded)).toBe(entries.length);
+
+		});
+
+	});
+
+	describe("with text mixed with other variants", () => {
+
+		// a folded value (§3.2) is told from text by its language tag, which a node does not have: reading the
+		// tag of a node is an error, so it takes a guard only where the range admits a node
+
+		const guard = "coalesce(lang(";
+
+		it("reads the language tag unguarded where no variant holds a node", async () => {
+
+			// `Vendor.tagline` is `union(string, dictionary)`
+
+			const encoded = query(vendors({ "^tagline": 1 }, ["en"]));
+
+			expect(encoded).toContain("lang(");
+			expect(encoded).not.toContain(guard);
+
+		});
+
+		it("guards the language tag where a variant holds a node", async () => {
+
+			// `Vendor.origin` is `union(dictionary, Place)`
+
+			const encoded = query(vendors({ "^origin": 1 }, ["en"]));
+
+			expect(encoded).toContain(guard);
+
+		});
+
+	});
+
+	describe("with the language priority", () => {
+
+		// a text value passes under the first priority tag its owner carries a value under (§6.2): a tag is
+		// settled by probing the owner for the tags ahead of it alone, so the leading tag takes no probe
+
+		function probes(query: SPARQL, tag?: Tag): readonly string[] {
+			return (query.match(/exists \{[^}]*}/g) ?? [])
+				.filter(probe => tag === undefined || probe.includes(`"${tag}"`));
+		}
+
+
+		it.each<[string, () => Group]>([
+			["localised text", () => group(entries, { "^label": 1 }, ["en"])],
+
+			// `Vendor.origin` is `union(dictionary, Place)`, so its values reach the query folded (§3.2)
+
+			["text mixed with other variants", () => vendors({ "^origin": 1 }, ["en"])]
+		])("probes nothing for %s under a single tag", async (_, request) => {
+
+			const encoded = query(request());
+
+			expect(encoded).toContain(`"en"`);
+			expect(probes(encoded)).toHaveLength(0);
+
+		});
+
+		it("probes the owner for the tags ahead of each tag alone", async () => {
+
+			const encoded = query(group(entries, { "^label": 1 }, ["en", "it", "fr"]));
+
+			// `it` yields to `en`, `fr` to `en` and `it`, and nothing yields to `fr`
+
+			expect(probes(encoded, "en")).toHaveLength(2);
+			expect(probes(encoded, "it")).toHaveLength(1);
+			expect(probes(encoded, "fr")).toHaveLength(0);
+
+		});
+
+		it("probes nothing under an empty priority", async () => {
+
+			const encoded = query(group(entries, { "^label": 1 }, []));
+
+			expect(probes(encoded)).toHaveLength(0);
 
 		});
 
