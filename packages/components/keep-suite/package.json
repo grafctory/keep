@@ -1,6 +1,6 @@
 {
   "name": "@metreeca/keep-suite",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Connector conformance test suite for @metreeca/keep.",
   "keywords": [
     "typescript",

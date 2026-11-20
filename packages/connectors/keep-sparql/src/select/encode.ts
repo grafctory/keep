@@ -71,7 +71,14 @@ import {
 	isRequiredFlake
 } from "@metreeca/keep-flake";
 import type { Deferred, Select } from "@metreeca/keep/batching";
-import { type Aggregate, getOrderDirection, isAggregate, type Query, type Slot, Transforms } from "@metreeca/qest/model";
+import {
+	type Aggregate,
+	getOrderDirection,
+	isAggregate,
+	type Query,
+	type Slot,
+	Transforms
+} from "@metreeca/qest/model";
 import type { Literal } from "@metreeca/qest/state";
 import { named, rdf, type Term } from "@metreeca/trio";
 import type { SPARQL, Variable } from "@metreeca/wire-sparql";
@@ -126,7 +133,18 @@ import {
 	variable,
 	where
 } from "@metreeca/wire-sparql/builder";
-import { admission, anchor, coalesced, type Edge, expression, extension, folded, link, membership, textual } from "../patterns.js";
+import {
+	admission,
+	anchor,
+	coalesced,
+	type Edge,
+	expression,
+	extension,
+	folded,
+	link,
+	membership,
+	textual
+} from "../patterns.js";
 import { optionsToTerms, valueToTerm } from "../terms.js";
 import { type Column, column, columns as derive, type Schema } from "./schema.js";
 
@@ -706,7 +724,7 @@ function ordering(context: Context): SPARQL {
 	 * The expressions ordering the rows by one sort key: the rank of its tier, then its value within the tier.
 	 *
 	 * Only the tiers admitted by the key's range are told apart, and a key confined to a single tier is ordered by its
-	 * value alone. A range storing nodes fits no tier, so its key is tested for every tier, like a value of unknown type.
+	 * value alone. A range storing nodes fits no tier, so its key is tested for every tier, like an untyped value.
 	 */
 	function sortable(node: Flake): readonly SPARQL[] {
 

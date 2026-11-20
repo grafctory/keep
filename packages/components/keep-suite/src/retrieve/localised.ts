@@ -166,7 +166,7 @@ export function testRetrieveLocalised(factory: TestFactory): void {
 
 				// §6.2: a supplied priority is taken literally and the `und` default applies only where none is
 				// supplied at all, so an empty priority names no tag and every localised property coalesces to
-				// `undefined`, the und-tagged vendor `label` included, on a collection row and a detailed resource alike
+				// `undefined` on a collection row and a detailed resource alike, und-tagged vendor `label` included
 
 				const rows = members(await store.lookup({
 					entry: VendorCatalogue,

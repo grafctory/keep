@@ -168,7 +168,12 @@ describe("decode", () => {
 		expect(details).toHaveLength(1);
 		expect(details[0]).toMatchObject({ entry: members[0], model: { title: { "*": {} } } });
 
-		expect(build([{ title: { en: "Title", it: "Titolo" } }], [])).toEqual([{ title: { en: "Title", it: "Titolo" } }]);
+		expect(build([{ title: { en: "Title", it: "Titolo" } }], [])).toEqual([{
+			title: {
+				en: "Title",
+				it: "Titolo"
+			}
+		}]);
 
 	});
 

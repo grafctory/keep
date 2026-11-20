@@ -68,12 +68,22 @@ describe("schema", () => {
 
 	it("projects a union binding as one column per requested variant", async () => {
 		expect(forms(Vendor, { "score=score": {} }, "score")).toEqual(["value", "value"]);
-		expect(forms(Vendor, { "address=address": { "0": {}, "1": { city: {} } } }, "address")).toEqual(["value", "value"]);
+		expect(forms(Vendor, {
+			"address=address": {
+				"0": {},
+				"1": { city: {} }
+			}
+		}, "address")).toEqual(["value", "value"]);
 	});
 
 	it("projects the text variant of a union binding by its own alternative", async () => {
 		expect(forms(Vendor, { "origin=origin": { "0": { "*": {} } } }, "origin")).toEqual(["owner"]);
-		expect(forms(Vendor, { "origin=origin": { "0": {}, "1": { latitude: {} } } }, "origin")).toEqual(["label", "value"]);
+		expect(forms(Vendor, {
+			"origin=origin": {
+				"0": {},
+				"1": { latitude: {} }
+			}
+		}, "origin")).toEqual(["label", "value"]);
 	});
 
 });

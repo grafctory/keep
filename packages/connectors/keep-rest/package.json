@@ -1,6 +1,6 @@
 {
   "name": "@metreeca/keep-rest",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "REST/JSON proxy connector for @metreeca/keep.",
   "keywords": [
     "typescript",
