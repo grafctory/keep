@@ -13,6 +13,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   of all where the request states a single language, and every sorted collection is ordered by the key value alone
   where the key holds one type of value: sorting a large collection on a label takes about a fifth of the time
 
+### Fixed
+
+- `@metreeca/keep-sparql` — a filter, sort, focus or aggregate on a localised property applies to its label where
+  the model also retrieves the property under a locale placeholder such as `{ "*": {} }`: filters no longer match
+  nothing and sort keys are no longer ignored ([#25](https://github.com/metreeca/keep/issues/25))
+- `@metreeca/keep-suite` — localised retrieval checks that a criterion on a localised property selects and orders
+  the same members whether or not the model retrieves that property under a locale placeholder
+
 ## [0.14.0](https://github.com/metreeca/keep/compare/v0.13.0...v0.14.0) - 2026-11-19
 
 ### Changed

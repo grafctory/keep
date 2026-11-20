@@ -342,9 +342,7 @@ export function encode(
 	// owner, each windowing its own members, under an outer query restating the ordering over their union: the
 	// arms project the ordering keys the outer query reads, which an unprojected key would leave unbound
 
-	const arms = (isNumber(flake.offset) || isNumber(flake.limit)) && items.length > 1 ? "per-owner" : "values";
-
-	return arms === "per-owner"
+	return (isNumber(flake.offset) || isNumber(flake.limit)) && items.length > 1
 		? select(wildcard(),
 			where(union(items.map(item => query(context, [item], true)))),
 			orderBy(asc(variable(context.owner)), ordering(context))
@@ -381,7 +379,7 @@ function settle(scope: Scope<Variable>, group: Group): Context {
 	const keys = form === "ungrouped" ? [] : grouping(flake);
 
 	const joins = keys
-		.flatMap(key => (schema.get(key) ?? derive(key)).map(shard => column(scope, shard)))
+		.flatMap(key => shard(schema, key).map(candidate => column(scope, candidate)))
 		.map((key): readonly [Variable, Variable] => [key, scope.resolve()]);
 
 	// an aggregate over the whole collection has a value on an empty collection too (§5.2): a keyless
@@ -760,14 +758,14 @@ function slicing(flake: Flake): SPARQL {
  * cell's single column, carrying its stored value, its coalesced label or its owner as the schema states.
  */
 function columns(context: Context, cell: Flake): readonly SPARQL[] {
-	return shard(context, cell).map(shard => variable(column(context.scope, shard)));
+	return shard(context.group.schema, cell).map(candidate => variable(column(context.scope, candidate)));
 }
 
 /**
  * The schema columns of a cell; a node the schema does not return, a grouping or ordering key the query
  * reads without returning it, takes the columns the schema would derive for it.
  */
-function shard({ group: { schema } }: Context, cell: Flake): readonly Column[] {
+function shard(schema: Schema, cell: Flake): readonly Column[] {
 	return schema.get(cell) ?? derive(cell);
 }
 
@@ -815,7 +813,7 @@ function admitted(context: Context): SPARQL {
  */
 function patterns(context: Context, node: Flake, value: Variable): SPARQL {
 
-	const { scope, group: { locale }, read } = context;
+	const { scope, group: { locale, schema }, read, cells, keys } = context;
 
 	return fragment(
 		stages(node, value),
@@ -839,11 +837,15 @@ function patterns(context: Context, node: Flake, value: Variable): SPARQL {
 	}
 
 	/**
-	 * The patterns reaching one branch off its owner: a marker binds the owner itself (`id`) or its
-	 * declared class (`type`); a localised property its coalesced label, its owner under a locale
-	 * placeholder, or its raw tagged values under tagged options; a property mixing text with other
-	 * variants its stored values folded (§3.2); any other property its stored edge. The branch's own
-	 * patterns nest inside the edge, optional unless a constraint requires the path to exist.
+	 * The patterns reaching one branch off its owner. A marker binds the owner itself (`id`) or its declared
+	 * class (`type`). A localised property binds its coalesced label, or its raw tagged values under tagged
+	 * options. A property mixing text with other variants binds its stored values folded (§3.2). Any other
+	 * property binds its stored edge. The branch's own patterns nest inside the edge, which stays optional
+	 * unless a constraint requires the path to exist, so a member lacking the path still yields its row.
+	 *
+	 * A locale placeholder states how a localised property is returned, never what a criterion on it reads
+	 * (§5.4). The property then also binds its owner to a column of its own, and binds no value if nothing
+	 * reads one, as no criterion or stage would ever filter, sort or compute on it.
 	 */
 	function step(parent: Flake, branch: Branch, owner: Variable): SPARQL {
 
@@ -851,6 +853,7 @@ function patterns(context: Context, node: Flake, value: Variable): SPARQL {
 		const entry = branch.entry;
 
 		const required = isRequiredFlake(branch) && !hasNullOptions(branch);
+		const valued = isConstrainedFlake(branch) || getFlakeTransforms(branch).some(read);
 
 		if ( entry.kind === "id" ) {
 
@@ -875,9 +878,9 @@ function patterns(context: Context, node: Flake, value: Variable): SPARQL {
 				patterns(context, branch, value)
 			);
 
-		} else if ( isLocalised(branch) && branch.drain?.form === "locale" ) {
+		} else if ( isLocalised(branch) && branch.drain?.form === "locale" && !valued ) {
 
-			return fragment(bind(variable(owner), variable(value)), patterns(context, branch, value));
+			return owned();
 
 		} else if ( isLocalised(branch) && !hasDictionaryOptions(branch) ) {
 
@@ -903,8 +906,24 @@ function patterns(context: Context, node: Flake, value: Variable): SPARQL {
 		function reached(reach: SPARQL | readonly SPARQL[], edge?: Edge): SPARQL {
 			return fragment(
 				required ? fragment(reach, patterns(context, branch, value)) : optional(reach, patterns(context, branch, value)),
-				edge === undefined ? nil() : shards(context, branch, edge)
+				edge === undefined ? nil() : shards(context, branch, edge),
+				owned()
 			);
+		}
+
+		/**
+		 * The owner columns of a localised branch returned under a locale placeholder, which the decoder expands
+		 * into the tag-range map the placeholder asks for. A branch retrieved as a union binds them in its shards.
+		 */
+		function owned(): SPARQL {
+
+			const returned = branch.drain?.form === "locale" && (cells.includes(branch) || keys.includes(branch));
+
+			return fragment((returned ? shard(schema, branch) : [])
+				.filter(({ form }) => form === "owner")
+				.map(candidate => bind(variable(owner), variable(column(scope, candidate))))
+			);
+
 		}
 
 	}
@@ -924,22 +943,22 @@ function patterns(context: Context, node: Flake, value: Variable): SPARQL {
  */
 function shards(context: Context, node: Flake, edge: Edge): SPARQL {
 
-	const { scope, group: { flake, locale, virtual }, cells, keys } = context;
+	const { scope, group: { flake, locale, virtual, schema }, cells, keys } = context;
 	const { owner, property, object } = edge;
 
 	const held = !virtual || node !== flake;
 	const projected = cells.includes(node) || keys.includes(node);
 	const columned = node.drain?.form === "union" && !isComputedFlake(node) && projected;
 
-	return !columned ? nil() : fragment(...shard(context, node).map(shard => {
+	return !columned ? nil() : fragment(...shard(schema, node).map(candidate => {
 
-		const target = variable(column(scope, shard));
+		const target = variable(column(scope, candidate));
 
-		return shard.form === "owner"
+		return candidate.form === "owner"
 			? optional(link([owner, property, object]), filter(and(isLiteral(variable(object)), ne(lang(variable(object)), string("")))), bind(anchor(owner), target))
-			: shard.form === "label"
+			: candidate.form === "label"
 				? optional(coalesced(scope, edge, target, locale))
-				: optional(held ? link([owner, property, object]) : nil(), membership(object, shard.variant), bind(variable(object), target));
+				: optional(held ? link([owner, property, object]) : nil(), membership(object, candidate.variant), bind(variable(object), target));
 
 	}));
 
@@ -1124,9 +1143,7 @@ function isLocalised(branch: Branch): boolean {
  */
 function isMixed(branch: Branch): boolean {
 
-	const variants = getShapeBranches(branch.range.shape);
-
-	return variants.some(variant => variant.kind === "dictionary") && !variants.every(variant => variant.kind === "dictionary");
+	return !isLocalised(branch) && getShapeBranches(branch.range.shape).some(variant => variant.kind === "dictionary");
 
 }
 
@@ -1141,10 +1158,9 @@ function accepted(node: Flake, aggregate: Aggregate): readonly Shape[] {
 	const { accepts } = Transforms[aggregate];
 
 	return getShapeBranches(node.range.shape).filter(variant =>
-		accepts === "any" ? true
-			: accepts === "numeric" ? variant.kind === "number"
-				: variant.kind === "boolean" || variant.kind === "number" || variant.kind === "dictionary"
-				|| (variant.kind === "string" && variant.datatype !== sh.IRI)
+		accepts === "any" || (accepts === "numeric" ? variant.kind === "number"
+			: variant.kind === "boolean" || variant.kind === "number" || variant.kind === "dictionary"
+			|| (variant.kind === "string" && variant.datatype !== sh.IRI))
 	);
 
 }

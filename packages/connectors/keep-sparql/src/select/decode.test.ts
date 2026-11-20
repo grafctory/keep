@@ -84,6 +84,13 @@ describe("decode", () => {
 		};
 	}
 
+	/**
+	 * The variable of the first column of the cell `group` projects under `alias`.
+	 */
+	function cell(scope: Scope<Variable>, group: Group, alias: string): Variable {
+		return column(scope, (group.schema.get(getFlakeProjection(group.flake)[alias]) ?? [])[0]);
+	}
+
 
 	it("decodes an owner's members in row order", async () => {
 
@@ -139,11 +146,9 @@ describe("decode", () => {
 		const [one] = owners;
 		const batch = group(owners, { "title=title": {} });
 
-		const cell = column(scope, (batch.schema.get(getFlakeProjection(batch.flake)["title"]) ?? [])[0]);
-
 		expect(decode(scope, batch, batch.items[0], [{
 			[scope.resolve(batch)]: named(one),
-			[cell]: tagged("Title", "en")
+			[cell(scope, batch, "title")]: tagged("Title", "en")
 		}]).build([], [])).toEqual([{ title: "Title" }]);
 
 	});
@@ -155,17 +160,35 @@ describe("decode", () => {
 		const [one] = owners;
 		const batch = group(owners, { "title=title": { "*": {} } });
 
-		const cell = column(scope, (batch.schema.get(getFlakeProjection(batch.flake)["title"]) ?? [])[0]);
-
 		const { details, build } = decode(scope, batch, batch.items[0], [{
 			[scope.resolve(batch)]: named(one),
-			[cell]: named(members[0])
+			[cell(scope, batch, "title")]: named(members[0])
 		}]);
 
 		expect(details).toHaveLength(1);
 		expect(details[0]).toMatchObject({ entry: members[0], model: { title: { "*": {} } } });
 
 		expect(build([{ title: { en: "Title", it: "Titolo" } }], [])).toEqual([{ title: { en: "Title", it: "Titolo" } }]);
+
+	});
+
+	it("reads a localised binding under a locale off its owner, whatever a criterion reads beside it", async () => {
+
+		// a criterion on the same property reads its coalesced label, bound to the value of the cell
+
+		const scope = createScope(variable);
+
+		const [one] = owners;
+		const batch = group(owners, { "title=title": { "*": {} }, "~title": "title" });
+
+		const { details } = decode(scope, batch, batch.items[0], [{
+			[scope.resolve(batch)]: named(one),
+			[scope.resolve(getFlakeProjection(batch.flake)["title"])]: typed("Title"),
+			[cell(scope, batch, "title")]: named(members[0])
+		}]);
+
+		expect(details).toHaveLength(1);
+		expect(details[0]).toMatchObject({ entry: members[0], model: { title: { "*": {} } } });
 
 	});
 
@@ -178,14 +201,10 @@ describe("decode", () => {
 		const [one] = owners;
 		const batch = group(owners, { "v=narrower": {}, "n=narrower.code": {} });
 
-		const projection = getFlakeProjection(batch.flake);
-
-		const cell = (alias: string): Variable => column(scope, (batch.schema.get(projection[alias]) ?? [])[0]);
-
 		const { details, build } = decode(scope, batch, batch.items[0], [{
 			[scope.resolve(batch)]: named(one),
-			[cell("v")]: named(members[0]),
-			[cell("n")]: typed("0010", xsd.string)
+			[cell(scope, batch, "v")]: named(members[0]),
+			[cell(scope, batch, "n")]: typed("0010", xsd.string)
 		}]);
 
 		expect(details).toEqual([]);
@@ -200,14 +219,10 @@ describe("decode", () => {
 		const [one] = owners;
 		const batch = group(owners, { "item=": {}, "n=code": {} });
 
-		const projection = getFlakeProjection(batch.flake);
-
-		const cell = (alias: string): Variable => column(scope, (batch.schema.get(projection[alias]) ?? [])[0]);
-
 		const { details, build } = decode(scope, batch, batch.items[0], [{
 			[scope.resolve(batch)]: named(one),
-			[cell("item")]: named(members[0]),
-			[cell("n")]: typed("0010", xsd.string)
+			[cell(scope, batch, "item")]: named(members[0]),
+			[cell(scope, batch, "n")]: typed("0010", xsd.string)
 		}]);
 
 		expect(details).toEqual([]);
@@ -222,14 +237,10 @@ describe("decode", () => {
 		const [one] = owners;
 		const batch = group(owners, { "item=id": {}, "total=count:": {}, "missing=code": {} });
 
-		const projection = getFlakeProjection(batch.flake);
-
-		const cell = (alias: string): Variable => column(scope, (batch.schema.get(projection[alias]) ?? [])[0]);
-
 		const { details, build } = decode(scope, batch, batch.items[0], [{
 			[scope.resolve(batch)]: named(one),
-			[cell("item")]: named(members[0]),
-			[cell("total")]: typed("3", xsd.integer)
+			[cell(scope, batch, "item")]: named(members[0]),
+			[cell(scope, batch, "total")]: typed("3", xsd.integer)
 		}]);
 
 		expect(build([], [])).toEqual([{ item: members[0], total: 3 }]);

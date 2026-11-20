@@ -128,16 +128,17 @@ export function columns(cell: Flake): readonly Column[] {
 /**
  * Resolves the variable a column is bound to.
  *
- * A shard of a cell retrieved as a union is keyed on the cell and its variant, so the shards of one cell take
- * distinct variables; any other column is keyed on its cell alone, the one variable the cell's value is read from.
+ * The shards of a cell retrieved as a union take distinct variables, one per variant. The owner column of a
+ * localised cell takes a variable of its own, apart from the value a criterion on the same cell reads. Any other
+ * column takes the variable of its cell, the one the cell's value is read from.
  *
  * @param scope The variable scope shared by encoder and decoder
  * @param column The column to resolve
  *
  * @returns The variable bound to `column`
  */
-export function column(scope: Scope<Variable>, { node, variant }: Column): Variable {
-	return node.drain?.form === "union" && !isComputedFlake(node)
+export function column(scope: Scope<Variable>, { node, variant, form }: Column): Variable {
+	return form === "owner" || node.drain?.form === "union" && !isComputedFlake(node)
 		? scope.resolve(node, variant)
 		: scope.resolve(node);
 }

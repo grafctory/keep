@@ -20,7 +20,7 @@ import { createScope } from "@metreeca/core/scope";
 import { createQueryFlake, getFlakeProjection } from "@metreeca/keep-flake";
 import { Category, Vendor } from "@metreeca/keep-suite/toys";
 import type { Query, Slot } from "@metreeca/qest/model";
-import { variable } from "@metreeca/wire-sparql";
+import { variable, type Variable } from "@metreeca/wire-sparql";
 import { describe, expect, it } from "vitest";
 import { column, schema } from "./schema.js";
 
@@ -76,33 +76,54 @@ describe("schema", () => {
 		expect(forms(Vendor, { "origin=origin": { "0": {}, "1": { latitude: {} } } }, "origin")).toEqual(["label", "value"]);
 	});
 
+});
 
-	describe("column", () => {
+describe("column", () => {
 
-		it("keys the shards of a union cell on the cell and the variant", async () => {
+	/**
+	 * The variables of the columns of the cell projected under `alias`, and the variable of the cell value.
+	 */
+	function resolve(shape: Lazy<ResourceShape>, query: Query<Slot>, alias: string): {
+		readonly variables: readonly Variable[]
+		readonly value: Variable
+	} {
 
-			const scope = createScope(variable);
+		const scope = createScope(variable);
 
-			const flake = createQueryFlake(Vendor, { "score=score": {} });
-			const cell = getFlakeProjection(flake)["score"];
+		const flake = createQueryFlake(shape, query);
+		const cell = getFlakeProjection(flake)[alias];
 
-			const variables = (schema(flake).get(cell) ?? []).map(candidate => column(scope, candidate));
+		return {
+			variables: (schema(flake).get(cell) ?? []).map(candidate => column(scope, candidate)),
+			value: scope.resolve(cell)
+		};
 
-			expect(new Set(variables).size).toBe(2);
-			expect(variables).not.toContain(scope.resolve(cell));
+	}
 
-		});
 
-		it("keys any other column on the cell alone", async () => {
+	it("keys the shards of a union cell on the cell and the variant", async () => {
 
-			const scope = createScope(variable);
+		const { variables, value } = resolve(Vendor, { "score=score": {} }, "score");
 
-			const flake = createQueryFlake(Category, { "code=code": {} });
-			const cell = getFlakeProjection(flake)["code"];
+		expect(new Set(variables).size).toBe(2);
+		expect(variables).not.toContain(value);
 
-			expect((schema(flake).get(cell) ?? []).map(candidate => column(scope, candidate))).toEqual([scope.resolve(cell)]);
+	});
 
-		});
+	it("keys the owner of a localised cell apart from the value criteria read", async () => {
+
+		const { variables, value } = resolve(Category, { "title=title": { "*": {} } }, "title");
+
+		expect(variables).toHaveLength(1);
+		expect(variables).not.toContain(value);
+
+	});
+
+	it("keys any other column on the cell alone", async () => {
+
+		const { variables, value } = resolve(Category, { "code=code": {} }, "code");
+
+		expect(variables).toEqual([value]);
 
 	});
 

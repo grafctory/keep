@@ -113,6 +113,7 @@ record or a flake node, so the decoder recovers a slot by resolving the same key
 | `group`           | the **owner**: the entry of the request a row belongs to, bound by the `values` block and projected first                                                       |
 | `node`            | the **value** of a node: the member for the root, the stored object of a branch's edge, the computed value of a scalar stage, the aggregate of a reducing stage |
 | `(node, variant)` | the **shard** of a cell retrieved as a union (§5.5): bound, from the value, only when the stored value belongs to `variant`                                     |
+| `(node, variant)` | the **owner** of a localised cell retrieved under a locale placeholder (§5.4), apart from the value a criterion on the cell reads                               |
 
 Keying on identity rather than on a path keeps the same property at distinct coordinates on distinct variables. The
 requests of a group share every node variable and are told apart by the owner alone, so encoder and decoder must
@@ -131,8 +132,10 @@ The value of a node is fixed by what the node is:
   declares, read from the stored lineage filtered to that class; a `type` under set matching (`?`, `!`, `+`) is the
   stored lineage, so a supertype option spans its subtypes (§5.7.3) and a filter on a class reaches every instance
 - a **localised** property (every variant a dictionary) is its **coalesced label** (§6.2) as a plain `xsd:string`,
-	unless retrieved through a locale placeholder, when it is its **owner**, or constrained by tagged options, when it is
-  the raw tagged literal, so an option tagged with a language is matched against the text stored under that tag
+	unless constrained by tagged options, when it is the raw tagged literal, so an option tagged with a language is
+	matched against the text stored under that tag. A locale placeholder states how the property is returned, not
+	what a criterion on it reads (§5.4): the cell then returns its **owner** in a column of its own, beside the value
+	the criteria read, and binds no value at all where no criterion or stage reads one
 - a property **mixing** text with other variants (a path crossing a union whose variants declare it as text and as a
 	plain value, §5.8.1) is its stored value **folded** (§3.2): a tagged value passes under the winning priority tag
 	alone, as a plain string, any other value as it is; an `und` text is language-tagged like any other, so it passes

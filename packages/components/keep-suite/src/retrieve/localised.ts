@@ -29,7 +29,7 @@
  */
 
 import type { Tag } from "@metreeca/core/language";
-import { isString } from "@metreeca/core";
+import { isString, opt } from "@metreeca/core";
 import { ascending, by, compound } from "@metreeca/core/order";
 import type { Criteria } from "@metreeca/qest/model";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -319,6 +319,176 @@ export function testRetrieveLocalised(factory: TestFactory): void {
 
 				expect(result).toHaveLength(vendors.length);
 				expect(result[0]?.id).toBe(focal.id);
+
+			}));
+
+		});
+
+
+		describe("criteria beside structural access — §5.4", () => {
+
+			// §5.4/§6: the placeholder a localised property is retrieved through states how its value is returned,
+			// never what a criterion on the same property reads. A criterion reads the coalesced label, or the tagged
+			// values for a tagged option, whether the property is retrieved as a tag-range map or not at all, so
+			// retrieving it structurally must leave the selected members and their order as they are.
+
+			const option = "ToyMaster GmbH";
+
+			// the label of the vendor the identifier order leaves last, so that focusing on it reorders the members
+
+			const focal = coalesce([...vendors].sort(by(v => v.id))[vendors.length-1].label) ?? option;
+
+			const selections: ReadonlyArray<readonly [string, Criteria]> = [
+				["a lower bound", { ">=label": "M" }],
+				["an upper bound", { "<label": "M" }],
+				["a substring search", { "~label": "Giochi Piccoli" }],
+				["a plain option", { "?label": [option] }],
+				["a tagged option", { "?label": { und: option } }],
+				["a tagged option under `!`", { "!label": { und: option } }],
+				["an ascending sort", { "^label": 1 }],
+				["a descending sort", { "^label": -1 }],
+				["a focus", { "+label": [focal] }]
+			];
+
+			const ids = (items: undefined | readonly { readonly id?: unknown }[]): readonly unknown[] =>
+				(items ?? []).map(item => item.id);
+
+			it.each(selections)("should apply %s to a property a template retrieves structurally", (_label, selection) => factory(async ({ store }) => {
+
+				const [expected, wildcard, tagged] = await Promise.all([
+					{ id: {} },
+					{ id: {}, label: { "*": {} } },
+					{ id: {}, label: { und: {} } }
+				].map(async element => ids(members(await store.lookup({
+					entry: VendorCatalogue,
+					shape: Vendors,
+					model: catalogue(element, selection)
+				})))));
+
+				expect(expected.length).toBeGreaterThan(0);
+				expect(wildcard).toEqual(expected);
+				expect(tagged).toEqual(expected);
+
+			})());
+
+			it.each(selections)("should apply %s to a property a projection retrieves structurally", (_label, selection) => factory(async ({ store }) => {
+
+				const [expected, wildcard, tagged] = await Promise.all([
+					{ "id=id": {} },
+					{ "id=id": {}, "label=label": { "*": {} } },
+					{ "id=id": {}, "label=label": { und: {} } }
+				].map(async element => ids(projected(members(await store.lookup({
+					entry: VendorCatalogue,
+					shape: Vendors,
+					model: catalogue(element, selection)
+				}))))));
+
+				expect(expected.length).toBeGreaterThan(0);
+				expect(wildcard).toEqual(expected);
+				expect(tagged).toEqual(expected);
+
+			})());
+
+			it("should return the tag-range map of a property a criterion reads", factory(async ({ store }) => {
+
+				// the criterion narrows the members by their label, each still carrying the map the template asked for
+
+				const bound = "M";
+				const expected = vendors.filter(v => (coalesce(v.label) ?? "") >= bound);
+
+				const result = members(await store.lookup({
+					entry: VendorCatalogue,
+					shape: Vendors,
+					model: catalogue({ id: {}, label: { "*": {} } }, { ">=label": bound })
+				})) ?? [];
+
+				expect(expected.length).toBeGreaterThan(0);
+				expect(result).toHaveLength(expected.length);
+
+				expected.forEach(v => expect(result.find(r => r.id === v.id)?.label).toEqual(v.label));
+
+			}));
+
+			it("should match a tagged option under language negotiation (§5.7.3)", factory(async ({ store }) => {
+
+				// the case metreeca/keep#25 reports: `Product.name` carries no `und` entry, so the selection holds
+				// only where the option is matched against the text stored under its own tag, `en`
+
+				const target = lookup(products, p => enOf(p.name) !== undefined);
+				const enName = target === undefined ? undefined : enOf(target.name);
+
+				if ( enName === undefined ) { return; }
+
+				const expected = products.filter(p => enOf(p.name) === enName).map(p => p.id).sort();
+
+				const result = members(await store.lookup({
+					entry: ProductCatalogue,
+					shape: Products,
+					model: catalogue({ id: {}, name: { "*": {} } }, { "?name": { en: enName } })
+				}, { locale: ["en"] })) ?? [];
+
+				expect(result.map(r => r.id).sort()).toEqual(expected);
+
+			}));
+
+			it("should search an array-per-tag property a template retrieves structurally (§5.7.2)", factory(async ({ store }) => {
+
+				const priority = ["en"];
+				const query = "dino";
+
+				const expected = products
+					.filter(p => setOf(p.keywords, priority).some(k => k.toLowerCase().includes(query)))
+					.map(p => p.id)
+					.sort();
+
+				const result = members(await store.lookup({
+					entry: ProductCatalogue,
+					shape: Products,
+					model: catalogue({ id: {}, keywords: { "*": {} } }, { "~keywords": query })
+				}, { locale: priority })) ?? [];
+
+				expect(expected.length).toBeGreaterThan(0);
+				expect(result.map(r => r.id).sort()).toEqual(expected);
+
+			}));
+
+			it("should reduce a property a projection retrieves structurally (§5.8.2.1)", factory(async ({ store }) => {
+
+				// each vendor carries one label, so the least label of its group is its own coalesced label
+
+				const expected = vendors
+					.flatMap(v => opt(coalesce(v.label), label => [[v.id, label]], []))
+					.sort(by(([id]) => id));
+
+				const result = projected(members(await store.lookup({
+					entry: VendorCatalogue,
+					shape: Vendors,
+					model: catalogue({ "id=id": {}, "label=label": { "*": {} }, "least=min:label": {} })
+				})));
+
+				expect(expected.length).toBeGreaterThan(0);
+				expect(result.map(r => [r.id, r.least]).sort(by(([id]) => String(id)))).toEqual(expected);
+
+			}));
+
+			it("should search a nested property a nested template retrieves structurally (§5.7.2)", factory(async ({ store }) => {
+
+				const query = "giochi";
+
+				const expected = ids(members(await store.lookup({
+					entry: ProductCatalogue,
+					shape: Products,
+					model: catalogue({ id: {} }, { "~vendor.label": query })
+				})));
+
+				const result = ids(members(await store.lookup({
+					entry: ProductCatalogue,
+					shape: Products,
+					model: catalogue({ id: {}, vendor: { id: {}, label: { "*": {} } } }, { "~vendor.label": query })
+				})));
+
+				expect(expected.length).toBeGreaterThan(0);
+				expect(result).toEqual(expected);
 
 			}));
 

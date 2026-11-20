@@ -22,6 +22,7 @@ import { Category, toys, Vendors } from "@metreeca/keep-suite/toys";
 import type { Select } from "@metreeca/keep/batching";
 import type { Query, Slot } from "@metreeca/qest/model";
 import type { Reference } from "@metreeca/qest/state";
+import { rdfs } from "@metreeca/trio";
 import { type SPARQL, variable } from "@metreeca/wire-sparql";
 import { describe, expect, it, vi } from "vitest";
 import { encode, type Group } from "./encode.js";
@@ -529,6 +530,41 @@ describe("encode", () => {
 			const encoded = query(group(entries, { "^label": 1 }, []));
 
 			expect(probes(encoded)).toHaveLength(0);
+
+		});
+
+	});
+
+	describe("with a localised property retrieved structurally", () => {
+
+		// a locale placeholder states how the property is returned, as the owner the decoder expands into its
+		// tag-range map (§5.4); a criterion on the same property still reads its coalesced label (§6.2)
+
+		const label = `<${rdfs.label}>`;
+
+		it.each<[string, Query<Slot>]>([
+			["a template", { label: { "*": {} }, "~label": "dragon" }],
+			["a projection", { "label=label": { "*": {} }, "^label": 1 }]
+		])("binds the label a criterion reads beside %s", async (_, request) => {
+
+			expect(query(group(entries, request, ["en"]))).toContain(label);
+
+		});
+
+		it("binds the raw text a tagged option matches", async () => {
+
+			const encoded = query(group(entries, { "label=label": { "*": {} }, "?label": { en: "Dragons" } }, ["en"]));
+
+			expect(encoded).toContain(label);
+			expect(encoded).not.toContain("str(");
+
+		});
+
+		it("binds no label where nothing reads it", async () => {
+
+			const encoded = query(group(entries, { "label=label": { "*": {} } }, ["en"]));
+
+			expect(encoded).not.toContain(label);
 
 		});
 
