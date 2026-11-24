@@ -26,11 +26,11 @@
  * @module
  */
 
-import { getShapeBranches } from "@metreeca/blue/union";
-import type { Shape } from "@metreeca/blue/value";
-import type { Scope } from "@metreeca/core/scope";
-import { type Drain, type Flake, getFlakeProjections, isComputedFlake } from "@metreeca/keep-flake";
-import type { Variable } from "@metreeca/wire-sparql";
+import { getShapeBranches } from "@grafctory/blue/union";
+import type { Shape } from "@grafctory/blue/value";
+import type { Scope } from "@grafctory/core/scope";
+import { type Drain, type Flake, getFlakeProjections, isComputedFlake } from "@grafctory/keep-flake";
+import type { Variable } from "@grafctory/wire-sparql";
 
 
 /**

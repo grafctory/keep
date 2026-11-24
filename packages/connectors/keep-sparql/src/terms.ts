@@ -25,16 +25,16 @@
  * @module
  */
 
-import { getShapeId } from "@metreeca/blue/resource";
-import { getOptionBranch, getShapeBranches } from "@metreeca/blue/union";
-import { type Range, sh, type Shape } from "@metreeca/blue/value";
-import { error, isBoolean, isNumber, isObject, isString } from "@metreeca/core";
-import { some } from "@metreeca/core/arrays";
-import { isNumeric as isNumericDatatype, xsd } from "@metreeca/core/datatype";
-import type { Tag } from "@metreeca/core/language";
-import { Options } from "@metreeca/qest/model";
-import { isReference, isVacuous, type Reference, type Value, type Values } from "@metreeca/qest/state";
-import { named, tagged, type Term, typed } from "@metreeca/trio";
+import { getShapeId } from "@grafctory/blue/resource";
+import { getOptionBranch, getShapeBranches } from "@grafctory/blue/union";
+import { type Range, sh, type Shape } from "@grafctory/blue/value";
+import { error, isBoolean, isNumber, isObject, isString } from "@grafctory/core";
+import { some } from "@grafctory/core/arrays";
+import { isNumeric as isNumericDatatype, xsd } from "@grafctory/core/datatype";
+import type { Tag } from "@grafctory/core/language";
+import { Options } from "@grafctory/qest/model";
+import { isReference, isVacuous, type Reference, type Value, type Values } from "@grafctory/qest/state";
+import { named, tagged, type Term, typed } from "@grafctory/trio";
 
 
 //// Encoders //////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -19,7 +19,7 @@
  *
  * Turns any SPARQL 1.1 {@link Repository} into a fully featured {@link Store}, so shape-driven retrieval and
  * persistence run against a graph backend without hand-written queries. A ready-made connector from the
- * {@link https://github.com/metreeca/wire @metreeca/wire} collection (Oxigraph, generic HTTP endpoints, RDF4J, …)
+ * {@link https://github.com/grafctory/wire @grafctory/wire} collection (Oxigraph, generic HTTP endpoints, RDF4J, …)
  * covers the common backends; a new backend is supported by implementing {@link Repository} directly.
  *
  * **Wiring a Connector**
@@ -27,8 +27,8 @@
  * A ready-made connector is passed to {@link createSPARQLStore} to obtain a store:
  *
  * ```typescript
- * import { createSPARQLStore } from "@metreeca/keep-sparql";
- * import { createOxiRepository } from "@metreeca/wire-sparql-oxigraph";
+ * import { createSPARQLStore } from "@grafctory/keep-sparql";
+ * import { createOxiRepository } from "@grafctory/wire-sparql-oxigraph";
  *
  * const store = createSPARQLStore(createOxiRepository());
  *
@@ -42,16 +42,16 @@
  *
  * **Implementing a Connector**
  *
- * A new SPARQL backend is supported by implementing a {@link @metreeca/wire-sparql!Repository | Repository}. The
- * repository exchanges {@link @metreeca/wire-sparql!SPARQL | SPARQL} text and
- * {@link @metreeca/wire-sparql!Tuple | Tuple} solution rows, whose values are `@metreeca/trio`
- * {@link @metreeca/trio!Term | Term} values. Backend node values are lifted into terms with the
- * {@link @metreeca/trio!named | named}, {@link @metreeca/trio!tagged | tagged} and {@link @metreeca/trio!typed | typed}
- * constructors. The reference implementation in `@metreeca/wire-sparql-oxigraph` follows this pattern:
+ * A new SPARQL backend is supported by implementing a {@link @grafctory/wire-sparql!Repository | Repository}. The
+ * repository exchanges {@link @grafctory/wire-sparql!SPARQL | SPARQL} text and
+ * {@link @grafctory/wire-sparql!Tuple | Tuple} solution rows, whose values are `@grafctory/trio`
+ * {@link @grafctory/trio!Term | Term} values. Backend node values are lifted into terms with the
+ * {@link @grafctory/trio!named | named}, {@link @grafctory/trio!tagged | tagged} and {@link @grafctory/trio!typed | typed}
+ * constructors. The reference implementation in `@grafctory/wire-sparql-oxigraph` follows this pattern:
  *
  * ```typescript
- * import { named, tagged, type Term, typed } from "@metreeca/trio";
- * import { type Repository } from "@metreeca/wire-sparql";
+ * import { named, tagged, type Term, typed } from "@grafctory/trio";
+ * import { type Repository } from "@grafctory/wire-sparql";
  *
  * function decode(node: BackendNode): Term {
  *     return node.kind === "iri" ? named(node.iri)
@@ -73,18 +73,18 @@
  * @module index
  */
 
-import { assert } from "@metreeca/core";
-import type { Store, StoreClient } from "@metreeca/keep";
-import { createBatchingStore } from "@metreeca/keep/batching";
-import { createManagingStore } from "@metreeca/keep/managing";
-import { createValidatingStore } from "@metreeca/keep/validating";
-import { log } from "@metreeca/tape";
+import { assert } from "@grafctory/core";
+import type { Store, StoreClient } from "@grafctory/keep";
+import { createBatchingStore } from "@grafctory/keep/batching";
+import { createManagingStore } from "@grafctory/keep/managing";
+import { createValidatingStore } from "@grafctory/keep/validating";
+import { log } from "@grafctory/tape";
 import {
 	createBufferingRepository,
 	createLoggingRepository,
 	type Repository,
 	type RepositoryClient
-} from "@metreeca/wire-sparql";
+} from "@grafctory/wire-sparql";
 import { detail } from "./detail/index.js";
 import { detect } from "./detect/index.js";
 import { modify } from "./modify/index.js";

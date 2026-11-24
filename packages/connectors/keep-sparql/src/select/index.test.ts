@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import { getShapeProperties, type Property, type ResourceShape } from "@metreeca/blue/resource";
-import { error, type Lazy } from "@metreeca/core";
-import { Category, Product } from "@metreeca/keep-suite/toys";
-import type { Broker, Deferred, Select } from "@metreeca/keep/batching";
-import type { Query, Slot } from "@metreeca/qest/model";
-import type { Reference } from "@metreeca/qest/state";
-import { xsd } from "@metreeca/core/datatype";
-import { named, typed } from "@metreeca/trio";
-import type { RepositoryClient, SPARQL } from "@metreeca/wire-sparql";
-import { data, insert, pattern, update } from "@metreeca/wire-sparql/builder";
-import { createOxiRepository } from "@metreeca/wire-sparql-oxigraph";
+import { getShapeProperties, type Property, type ResourceShape } from "@grafctory/blue/resource";
+import { error, type Lazy } from "@grafctory/core";
+import { Category, Product } from "@grafctory/keep-suite/toys";
+import type { Broker, Deferred, Select } from "@grafctory/keep/batching";
+import type { Query, Slot } from "@grafctory/qest/model";
+import type { Reference } from "@grafctory/qest/state";
+import { xsd } from "@grafctory/core/datatype";
+import { named, typed } from "@grafctory/trio";
+import type { RepositoryClient, SPARQL } from "@grafctory/wire-sparql";
+import { data, insert, pattern, update } from "@grafctory/wire-sparql/builder";
+import { createOxiRepository } from "@grafctory/wire-sparql-oxigraph";
 import { describe, expect, it, type Mock, vi } from "vitest";
 import { select } from "./index.js";
 

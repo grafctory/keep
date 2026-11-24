@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { getShapeProperties, type Property } from "@metreeca/blue/resource";
-import type { Scope } from "@metreeca/core/scope";
-import { Category } from "@metreeca/keep-suite/toys";
-import type { Broker, Deferred, Detail, Detect, Request } from "@metreeca/keep/batching";
-import type { Reference } from "@metreeca/qest/state";
-import { named } from "@metreeca/trio";
-import type { RepositoryClient, Tuple, Variable } from "@metreeca/wire-sparql";
+import { getShapeProperties, type Property } from "@grafctory/blue/resource";
+import type { Scope } from "@grafctory/core/scope";
+import { Category } from "@grafctory/keep-suite/toys";
+import type { Broker, Deferred, Detail, Detect, Request } from "@grafctory/keep/batching";
+import type { Reference } from "@grafctory/qest/state";
+import { named } from "@grafctory/trio";
+import type { RepositoryClient, Tuple, Variable } from "@grafctory/wire-sparql";
 import { describe, expect, it, vi } from "vitest";
 import { all, collection, map, plain, read, resource, write } from "./spine.js";
 

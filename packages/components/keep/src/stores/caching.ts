@@ -24,10 +24,10 @@
  * @module
  */
 
-import { isArray, isObject, type Optional } from "@metreeca/core";
-import type { Tag } from "@metreeca/core/language";
-import { immutable } from "@metreeca/core/values";
-import type { Reference } from "@metreeca/qest/state";
+import { isArray, isObject, type Optional } from "@grafctory/core";
+import type { Tag } from "@grafctory/core/language";
+import { immutable } from "@grafctory/core/values";
+import type { Reference } from "@grafctory/qest/state";
 import type { Store } from "../index.js";
 
 

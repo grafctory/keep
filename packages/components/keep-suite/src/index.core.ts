@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { isFunction } from "@metreeca/core";
-import type { Some } from "@metreeca/core/arrays";
-import type { Store, StoreClient } from "@metreeca/keep";
-import type { Reference, Resource } from "@metreeca/qest/state";
+import { isFunction } from "@grafctory/core";
+import type { Some } from "@grafctory/core/arrays";
+import type { Store, StoreClient } from "@grafctory/keep";
+import type { Reference, Resource } from "@grafctory/qest/state";
 import type { StoreTestOptions } from "./index.js";
 
 

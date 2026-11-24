@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { number } from "@metreeca/blue/number";
-import { reference } from "@metreeca/blue/reference";
-import { id, multiple, required, resource } from "@metreeca/blue/resource";
-import { string } from "@metreeca/blue/string";
-import type { Resource } from "@metreeca/qest/state";
+import { number } from "@grafctory/blue/number";
+import { reference } from "@grafctory/blue/reference";
+import { id, multiple, required, resource } from "@grafctory/blue/resource";
+import { string } from "@grafctory/blue/string";
+import type { Resource } from "@grafctory/qest/state";
 import { describe, expect, it, vi } from "vitest";
 import type { Store, StoreClient, StoreObserver } from "../index.js";
 import { createManagingStore } from "./managing.js";

@@ -32,16 +32,16 @@
  * @module
  */
 
-import { getShapeClass, type Property } from "@metreeca/blue/resource";
-import { getShapeBranches } from "@metreeca/blue/union";
-import { type Shape } from "@metreeca/blue/value";
-import { isString, type Lazy, opt } from "@metreeca/core";
-import { xsd } from "@metreeca/core/datatype";
-import type { Tag } from "@metreeca/core/language";
-import type { Scope } from "@metreeca/core/scope";
-import { type Transform } from "@metreeca/qest/model";
-import { named, type Named, rdf, type Subject, type Term } from "@metreeca/trio";
-import type { SPARQL, Variable } from "@metreeca/wire-sparql";
+import { getShapeClass, type Property } from "@grafctory/blue/resource";
+import { getShapeBranches } from "@grafctory/blue/union";
+import { type Shape } from "@grafctory/blue/value";
+import { isString, type Lazy, opt } from "@grafctory/core";
+import { xsd } from "@grafctory/core/datatype";
+import type { Tag } from "@grafctory/core/language";
+import type { Scope } from "@grafctory/core/scope";
+import { type Transform } from "@grafctory/qest/model";
+import { named, type Named, rdf, type Subject, type Term } from "@grafctory/trio";
+import type { SPARQL, Variable } from "@grafctory/wire-sparql";
 import {
 	abs,
 	and,
@@ -86,7 +86,7 @@ import {
 	union,
 	variable,
 	year
-} from "@metreeca/wire-sparql/builder";
+} from "@grafctory/wire-sparql/builder";
 
 
 /**

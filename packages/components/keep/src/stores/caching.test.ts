@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { reference } from "@metreeca/blue/reference";
-import { multiple, required, resource, type ResourceShape } from "@metreeca/blue/resource";
-import { string } from "@metreeca/blue/string";
-import type { Match } from "@metreeca/blue/value";
-import type { Lazy } from "@metreeca/core";
-import type { Template } from "@metreeca/qest/model";
-import type { Reference } from "@metreeca/qest/state";
+import { reference } from "@grafctory/blue/reference";
+import { multiple, required, resource, type ResourceShape } from "@grafctory/blue/resource";
+import { string } from "@grafctory/blue/string";
+import type { Match } from "@grafctory/blue/value";
+import type { Lazy } from "@grafctory/core";
+import type { Template } from "@grafctory/qest/model";
+import type { Reference } from "@grafctory/qest/state";
 import { describe, expect, it, vi } from "vitest";
 import type { Store, StoreClient, StoreObserver } from "../index.js";
 import { createCachingStore } from "./caching.js";

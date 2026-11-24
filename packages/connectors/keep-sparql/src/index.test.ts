@@ -15,8 +15,8 @@
  */
 
 
-import { dictionary } from "@metreeca/blue/dictionary";
-import { reference } from "@metreeca/blue/reference";
+import { dictionary } from "@grafctory/blue/dictionary";
+import { reference } from "@grafctory/blue/reference";
 import {
 	getShapeClass,
 	getShapeClasses,
@@ -27,18 +27,18 @@ import {
 	required,
 	resource as shaped,
 	type ResourceShape
-} from "@metreeca/blue/resource";
-import { string, type StringShape } from "@metreeca/blue/string";
-import { eager, type Shape, type State } from "@metreeca/blue/value";
-import { error, isBoolean, isNumber, isString, type Lazy, map, type Scalar } from "@metreeca/core";
-import { some, type Some } from "@metreeca/core/arrays";
-import { xsd } from "@metreeca/core/datatype";
-import type { Tag } from "@metreeca/core/language";
-import { createNamespace } from "@metreeca/core/resource";
-import { immutable } from "@metreeca/core/values";
-import { createSPARQLStore } from "@metreeca/keep-sparql";
-import type { StoreTestScope } from "@metreeca/keep-suite";
-import { testStore } from "@metreeca/keep-suite";
+} from "@grafctory/blue/resource";
+import { string, type StringShape } from "@grafctory/blue/string";
+import { eager, type Shape, type State } from "@grafctory/blue/value";
+import { error, isBoolean, isNumber, isString, type Lazy, map, type Scalar } from "@grafctory/core";
+import { some, type Some } from "@grafctory/core/arrays";
+import { xsd } from "@grafctory/core/datatype";
+import type { Tag } from "@grafctory/core/language";
+import { createNamespace } from "@grafctory/core/resource";
+import { immutable } from "@grafctory/core/values";
+import { createSPARQLStore } from "@grafctory/keep-sparql";
+import type { StoreTestScope } from "@grafctory/keep-suite";
+import { testStore } from "@grafctory/keep-suite";
 import {
 	base,
 	catalogues,
@@ -56,16 +56,16 @@ import {
 	Vendor,
 	Vendors,
 	Video
-} from "@metreeca/keep-suite/toys";
-import { type Reference, type Resource } from "@metreeca/qest/state";
-import { log } from "@metreeca/tape";
-import { blank, named, rdfs, skolemize, tagged, type Tagged, triple, type Triple, typed } from "@metreeca/trio";
-import { data, description as resource, link, property, resource as about, term } from "@metreeca/trio/builder";
-import type { Repository } from "@metreeca/wire-sparql";
-import { createHTTPRepository } from "@metreeca/wire-sparql-http";
-import { createOxiRepository } from "@metreeca/wire-sparql-oxigraph";
-import { createRDF4JRepository } from "@metreeca/wire-sparql-rdf4j";
-import { pattern, patterns, triples } from "@metreeca/wire-sparql/builder";
+} from "@grafctory/keep-suite/toys";
+import { type Reference, type Resource } from "@grafctory/qest/state";
+import { log } from "@grafctory/tape";
+import { blank, named, rdfs, skolemize, tagged, type Tagged, triple, type Triple, typed } from "@grafctory/trio";
+import { data, description as resource, link, property, resource as about, term } from "@grafctory/trio/builder";
+import type { Repository } from "@grafctory/wire-sparql";
+import { createHTTPRepository } from "@grafctory/wire-sparql-http";
+import { createOxiRepository } from "@grafctory/wire-sparql-oxigraph";
+import { createRDF4JRepository } from "@grafctory/wire-sparql-rdf4j";
+import { pattern, patterns, triples } from "@grafctory/wire-sparql/builder";
 import { GenericContainer, type StartedTestContainer, Wait } from "testcontainers";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 

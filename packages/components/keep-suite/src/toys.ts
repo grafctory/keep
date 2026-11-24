@@ -32,10 +32,10 @@
  * @module toys
  */
 
-import { boolean } from "@metreeca/blue/boolean";
-import { dictionary } from "@metreeca/blue/dictionary";
-import { byte, decimal, integer } from "@metreeca/blue/number";
-import { reference } from "@metreeca/blue/reference";
+import { boolean } from "@grafctory/blue/boolean";
+import { dictionary } from "@grafctory/blue/dictionary";
+import { byte, decimal, integer } from "@grafctory/blue/number";
+import { reference } from "@grafctory/blue/reference";
 import {
 	id,
 	multiple,
@@ -46,12 +46,12 @@ import {
 	resource,
 	type ResourceShape,
 	type
-} from "@metreeca/blue/resource";
-import { date, duration, email, instant, phone, string, time, timestamp, url, year } from "@metreeca/blue/string";
-import { union } from "@metreeca/blue/union";
-import type { Lazy } from "@metreeca/core";
-import { createNamespace } from "@metreeca/core/resource";
-import { rdfs } from "@metreeca/trio";
+} from "@grafctory/blue/resource";
+import { date, duration, email, instant, phone, string, time, timestamp, url, year } from "@grafctory/blue/string";
+import { union } from "@grafctory/blue/union";
+import type { Lazy } from "@grafctory/core";
+import { createNamespace } from "@grafctory/core/resource";
+import { rdfs } from "@grafctory/trio";
 
 export { catalogues, collections, identify, clone } from "./toys.core.js";
 

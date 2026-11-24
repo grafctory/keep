@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import { getShapeProperties, type Property } from "@metreeca/blue/resource";
-import { xsd } from "@metreeca/core/datatype";
-import { createScope, type Scope } from "@metreeca/core/scope";
-import { createQueryFlake, getFlakeProjection } from "@metreeca/keep-flake";
-import { Category } from "@metreeca/keep-suite/toys";
-import type { Query, Slot } from "@metreeca/qest/model";
-import type { Reference } from "@metreeca/qest/state";
-import { named, tagged, typed } from "@metreeca/trio";
-import { type Tuple, variable, type Variable } from "@metreeca/wire-sparql";
+import { getShapeProperties, type Property } from "@grafctory/blue/resource";
+import { xsd } from "@grafctory/core/datatype";
+import { createScope, type Scope } from "@grafctory/core/scope";
+import { createQueryFlake, getFlakeProjection } from "@grafctory/keep-flake";
+import { Category } from "@grafctory/keep-suite/toys";
+import type { Query, Slot } from "@grafctory/qest/model";
+import type { Reference } from "@grafctory/qest/state";
+import { named, tagged, typed } from "@grafctory/trio";
+import { type Tuple, variable, type Variable } from "@grafctory/wire-sparql";
 import { describe, expect, it, vi } from "vitest";
 import { decode } from "./decode.js";
 import type { Group } from "./encode.js";
@@ -199,7 +199,7 @@ describe("decode", () => {
 
 	it("keeps a reference bound beside a binding descending through it bare", async () => {
 
-		// `n=narrower.code` is a binding of its own, not a template expanding `v` (metreeca/keep#24)
+		// `n=narrower.code` is a binding of its own, not a template expanding `v` (grafctory/keep#24)
 
 		const scope = createScope(variable);
 

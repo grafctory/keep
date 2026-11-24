@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import type { State } from "@metreeca/blue/value";
-import type { Store, StoreClient, StoreObserver } from "@metreeca/keep";
-import type { Reference } from "@metreeca/qest/state";
+import type { State } from "@grafctory/blue/value";
+import type { Store, StoreClient, StoreObserver } from "@grafctory/keep";
+import type { Reference } from "@grafctory/qest/state";
 import { describe, expect, it } from "vitest";
 import { collect, type TestFactory } from "../index.core.js";
 import { collections, created, testProduct } from "../toys.core.js";

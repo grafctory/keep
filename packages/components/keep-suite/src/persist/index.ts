@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import type { ResourceShape } from "@metreeca/blue/resource";
-import type { State } from "@metreeca/blue/value";
-import type { Lazy, Optional } from "@metreeca/core";
-import { TraceError } from "@metreeca/core/trace";
-import type { StoreClient } from "@metreeca/keep";
-import type { Reference, Resource } from "@metreeca/qest/state";
+import type { ResourceShape } from "@grafctory/blue/resource";
+import type { State } from "@grafctory/blue/value";
+import type { Lazy, Optional } from "@grafctory/core";
+import { TraceError } from "@grafctory/core/trace";
+import type { StoreClient } from "@grafctory/keep";
+import type { Reference, Resource } from "@grafctory/qest/state";
 import { describe, expect, it } from "vitest";
 import { lookup, type TestFactory, type TestTools } from "../index.core.js";
 import { collections, created, loose, testProduct } from "../toys.core.js";
@@ -1886,7 +1886,7 @@ export function testPersistClear(op: "delete" | "remove", factory: TestFactory):
 		});
 
 		// captive lifecycle and cascading captive writes deferred —
-		// tracked in https://github.com/metreeca/keep/issues/4
+		// tracked in https://github.com/grafctory/keep/issues/4
 
 	});
 

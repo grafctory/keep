@@ -1,10 +1,10 @@
 {
   "externalSymbolLinkMappings": {
-    "@metreeca/keep": {
-      "*": "https://metreeca.github.io/keep/"
+    "@grafctory/keep": {
+      "*": "https://grafctory.github.io/keep/"
     },
-    "@metreeca/blue": {
-      "*": "https://metreeca.github.io/blue/"
+    "@grafctory/blue": {
+      "*": "https://grafctory.github.io/blue/"
     }
   }
 }

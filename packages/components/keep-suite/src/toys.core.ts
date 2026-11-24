@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import { validate } from "@metreeca/blue";
-import { getShapeId, type ResourceShape } from "@metreeca/blue/resource";
-import { eager, type State } from "@metreeca/blue/value";
-import { error, isString, type Lazy, lazy, map, type Optional } from "@metreeca/core";
-import { getIRIParent } from "@metreeca/core/resource";
-import { TraceError } from "@metreeca/core/trace";
-import { immutable } from "@metreeca/core/values";
-import type { StoreClient } from "@metreeca/keep";
-import { isReference, type Reference, type Resource } from "@metreeca/qest/state";
+import { validate } from "@grafctory/blue";
+import { getShapeId, type ResourceShape } from "@grafctory/blue/resource";
+import { eager, type State } from "@grafctory/blue/value";
+import { error, isString, type Lazy, lazy, map, type Optional } from "@grafctory/core";
+import { getIRIParent } from "@grafctory/core/resource";
+import { TraceError } from "@grafctory/core/trace";
+import { immutable } from "@grafctory/core/values";
+import type { StoreClient } from "@grafctory/keep";
+import { isReference, type Reference, type Resource } from "@grafctory/qest/state";
 import {
 	base,
 	Categories,
@@ -234,7 +234,7 @@ export function identify<V>(entry: Resource, shape: Lazy<ResourceShape>, mapper?
  *
  * @throws {@link !Error Error} When `shape` declares no id entry or id pattern, the id pattern has no trailing slot,
  * or `sample` is missing its identifier or code value
- * @throws {@link @metreeca/core/trace!TraceError | TraceError} When the clone fails validation against `shape`
+ * @throws {@link @grafctory/core/trace!TraceError | TraceError} When the clone fails validation against `shape`
  */
 export function clone<R extends Resource>(sample: R, shape: Lazy<ResourceShape>): R {
 

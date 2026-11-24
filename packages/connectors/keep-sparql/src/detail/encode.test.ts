@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { createScope } from "@metreeca/core/scope";
-import { createFlake } from "@metreeca/keep-flake";
-import { Category } from "@metreeca/keep-suite/toys";
-import type { Template } from "@metreeca/qest/model";
-import type { Reference } from "@metreeca/qest/state";
-import { type SPARQL, variable } from "@metreeca/wire-sparql";
+import { createScope } from "@grafctory/core/scope";
+import { createFlake } from "@grafctory/keep-flake";
+import { Category } from "@grafctory/keep-suite/toys";
+import type { Template } from "@grafctory/qest/model";
+import type { Reference } from "@grafctory/qest/state";
+import { type SPARQL, variable } from "@grafctory/wire-sparql";
 import { describe, expect, it } from "vitest";
 import { encode } from "./encode.js";
 import { schema } from "./schema.js";

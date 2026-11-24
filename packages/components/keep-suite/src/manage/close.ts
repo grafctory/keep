@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { Store } from "@metreeca/keep";
+import type { Store } from "@grafctory/keep";
 import { describe, expect, it } from "vitest";
 import type { TestFactory } from "../index.core.js";
 import { base, Product } from "../toys.js";

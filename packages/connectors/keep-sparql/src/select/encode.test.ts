@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { getShapeProperties, type Property } from "@metreeca/blue/resource";
-import type { Tag } from "@metreeca/core/language";
-import { createScope } from "@metreeca/core/scope";
-import { createQueryFlake } from "@metreeca/keep-flake";
-import { Category, toys, Vendors } from "@metreeca/keep-suite/toys";
-import type { Select } from "@metreeca/keep/batching";
-import type { Query, Slot } from "@metreeca/qest/model";
-import type { Reference } from "@metreeca/qest/state";
-import { rdfs } from "@metreeca/trio";
-import { type SPARQL, variable } from "@metreeca/wire-sparql";
+import { getShapeProperties, type Property } from "@grafctory/blue/resource";
+import type { Tag } from "@grafctory/core/language";
+import { createScope } from "@grafctory/core/scope";
+import { createQueryFlake } from "@grafctory/keep-flake";
+import { Category, toys, Vendors } from "@grafctory/keep-suite/toys";
+import type { Select } from "@grafctory/keep/batching";
+import type { Query, Slot } from "@grafctory/qest/model";
+import type { Reference } from "@grafctory/qest/state";
+import { rdfs } from "@grafctory/trio";
+import { type SPARQL, variable } from "@grafctory/wire-sparql";
 import { describe, expect, it, vi } from "vitest";
 import { encode, type Group } from "./encode.js";
 import { schema } from "./schema.js";

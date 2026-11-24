@@ -41,10 +41,10 @@
  * >   succeeds silently.
  * >
  * > Servers that ignore the header degrade to the conditional behaviour: {@link Store.insert insert} against a
- * > missing resource then rejects with a `404` {@link @metreeca/http!Problem | Problem}.
+ * > missing resource then rejects with a `404` {@link @grafctory/http!Problem | Problem}.
  *
  * Beyond the per-operation miss codes tabulated above, every remote failure surfaces as a
- * {@link @metreeca/http!Problem | Problem} rejection. This covers non-OK responses as well as protocol anomalies on
+ * {@link @grafctory/http!Problem | Problem} rejection. This covers non-OK responses as well as protocol anomalies on
  * otherwise successful responses, such as a missing `Location` header or a malformed response body. Callers therefore
  * handle every remote failure through a single rejection type.
  *
@@ -55,9 +55,9 @@
  * Standard merge semantics apply, so an `entry` without a trailing `/` strips its last path segment before merging.
  * The resolved IRI must lie strictly below the container `entry` resolves to, that is `entry` itself when it ends
  * with `/` and its parent otherwise: a `Location` outside that scope, whether on a foreign origin or elsewhere on the
- * same one, rejects with a {@link @metreeca/http!Problem | Problem}, so a misbehaving service can't make the caller
+ * same one, rejects with a {@link @grafctory/http!Problem | Problem}, so a misbehaving service can't make the caller
  * adopt a foreign child IRI. An unparseable `Location` surfaces as a {@link !RangeError RangeError} rather than a
- * {@link @metreeca/http!Problem | Problem}.
+ * {@link @grafctory/http!Problem | Problem}.
  *
  * {@link Store.lookup lookup} carries its `model` as a base64url query string, so any template (filter operators
  * such as `~name` and `>=price`, nested shapes, aggregates, collection pagination) survives transport intact. An
@@ -82,7 +82,7 @@
  * {@link StoreScope | retrieval scope} are also enforced locally, so a rejected template never reaches the service.
  * Because the remote endpoint is untrusted by default, {@link Store.lookup lookup} responses are also validated
  * against the shape narrowed by the caller's `model`. Failures reject with a
- * {@link @metreeca/core!TraceError | TraceError} carrying `"invalid model"`, `"invalid state"`, or
+ * {@link @grafctory/core!TraceError | TraceError} carrying `"invalid model"`, `"invalid state"`, or
  * `"invalid response"`, per the unified {@link Store} error channel.
  *
  * @see {@link https://www.rfc-editor.org/rfc/rfc3986 RFC 3986 — URI Generic Syntax}
@@ -94,18 +94,18 @@
  * @module index
  */
 
-import { isError, isObject, type Optional } from "@metreeca/core";
-import type { Tag } from "@metreeca/core/language";
-import { getIRIBase, resolve } from "@metreeca/core/resource";
-import { immutable } from "@metreeca/core/values";
-import { Conflict, createFetch, NotFound } from "@metreeca/http";
-import { type Problem, success } from "@metreeca/http/success";
-import { transport } from "@metreeca/http/transport";
-import type { Store, StoreScope } from "@metreeca/keep";
-import { createManagingStore } from "@metreeca/keep/managing";
-import { createValidatingStore } from "@metreeca/keep/validating";
-import { encodeTemplate, type Template } from "@metreeca/qest/model";
-import { decodeResource, encodeResource } from "@metreeca/qest/state";
+import { isError, isObject, type Optional } from "@grafctory/core";
+import type { Tag } from "@grafctory/core/language";
+import { getIRIBase, resolve } from "@grafctory/core/resource";
+import { immutable } from "@grafctory/core/values";
+import { Conflict, createFetch, NotFound } from "@grafctory/http";
+import { type Problem, success } from "@grafctory/http/success";
+import { transport } from "@grafctory/http/transport";
+import type { Store, StoreScope } from "@grafctory/keep";
+import { createManagingStore } from "@grafctory/keep/managing";
+import { createValidatingStore } from "@grafctory/keep/validating";
+import { encodeTemplate, type Template } from "@grafctory/qest/model";
+import { decodeResource, encodeResource } from "@grafctory/qest/state";
 
 
 /**
@@ -363,13 +363,13 @@ export function createRESTStore({
 
 
 	/**
-	 * Tests whether a caught value is a {@link @metreeca/http!Problem | Problem} carrying the given HTTP status.
+	 * Tests whether a caught value is a {@link @grafctory/http!Problem | Problem} carrying the given HTTP status.
 	 *
-	 * Tells expected miss codes (`404`, `409`) apart from every other {@link @metreeca/http!Problem | Problem}.
-	 * {@link @metreeca/http!Problem | Problem} is an interface rather than a class, so any object with a matching
-	 * numeric `status` property is accepted. This is sound because {@link @metreeca/http!createFetch | createFetch} is
+	 * Tells expected miss codes (`404`, `409`) apart from every other {@link @grafctory/http!Problem | Problem}.
+	 * {@link @grafctory/http!Problem | Problem} is an interface rather than a class, so any object with a matching
+	 * numeric `status` property is accepted. This is sound because {@link @grafctory/http!createFetch | createFetch} is
 	 * the only source of status-carrying errors in scope, and it always throws
-	 * {@link @metreeca/http!Problem | Problem}-shaped values.
+	 * {@link @grafctory/http!Problem | Problem}-shaped values.
 	 *
 	 * @param error - Value caught from a proxy `.catch` branch
 	 * @param status - HTTP status code to match against

@@ -23,15 +23,15 @@
  * @module
  */
 
-import { validate } from "@metreeca/blue";
-import type { ResourceShape } from "@metreeca/blue/resource";
-import { blueprint, type Match } from "@metreeca/blue/value";
-import { error, type Lazy, type Optional } from "@metreeca/core";
-import { isNestedIRI } from "@metreeca/core/resource";
-import { TraceError } from "@metreeca/core/trace";
-import { immutable } from "@metreeca/core/values";
-import type { Template } from "@metreeca/qest/model";
-import { isReference, type Reference, type Resource } from "@metreeca/qest/state";
+import { validate } from "@grafctory/blue";
+import type { ResourceShape } from "@grafctory/blue/resource";
+import { blueprint, type Match } from "@grafctory/blue/value";
+import { error, type Lazy, type Optional } from "@grafctory/core";
+import { isNestedIRI } from "@grafctory/core/resource";
+import { TraceError } from "@grafctory/core/trace";
+import { immutable } from "@grafctory/core/values";
+import type { Template } from "@grafctory/qest/model";
+import { isReference, type Reference, type Resource } from "@grafctory/qest/state";
 import type { Store, StoreClient, StoreScope } from "../index.js";
 
 
@@ -42,7 +42,7 @@ import type { Store, StoreClient, StoreScope } from "../index.js";
  *
  * - `entry` must be an absolute IRI with no query string and no fragment; otherwise the request is rejected with a
  *   {@link !RangeError RangeError}
- * - `model` is validated as a {@link @metreeca/blue!validate | template} for {@link StoreClient.lookup lookup},
+ * - `model` is validated as a {@link @grafctory/blue!validate | template} for {@link StoreClient.lookup lookup},
  *   within the query-complexity bounds (`plain`, `depth`, `limit`) of the caller's
  *   {@link StoreScope | retrieval scope}, and as a collection slice for {@link StoreClient.create create}
  * - `state.id`, if present, must be nested under `entry` for {@link StoreClient.create create}, and equal to `entry`
@@ -57,7 +57,7 @@ import type { Store, StoreClient, StoreScope } from "../index.js";
  * deliver non-conforming data, such as a remote REST endpoint. Local stores that compute results themselves can pass
  * `trusted: true` to skip the redundant check.
  *
- * Validation failures surface as {@link @metreeca/core!TraceError | TraceError} or {@link !RangeError RangeError}
+ * Validation failures surface as {@link @grafctory/core!TraceError | TraceError} or {@link !RangeError RangeError}
  * rejections, in line with the unified {@link Store} error channel.
  *
  * @param store - Inner StoreClient receiving the validated requests

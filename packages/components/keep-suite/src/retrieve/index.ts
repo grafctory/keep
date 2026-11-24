@@ -20,9 +20,9 @@
  * @module retrieve/index
  */
 
-import { type Identifier, isObject } from "@metreeca/core";
-import type { Criteria } from "@metreeca/qest/model";
-import type { Values } from "@metreeca/qest/state";
+import { type Identifier, isObject } from "@grafctory/core";
+import type { Criteria } from "@grafctory/qest/model";
+import type { Values } from "@grafctory/qest/state";
 
 
 /**

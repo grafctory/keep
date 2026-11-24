@@ -34,10 +34,10 @@
  * @module
  */
 
-import { createScope, type Scope } from "@metreeca/core/scope";
-import type { Broker, Deferred, Detail, Request, Response, Select } from "@metreeca/keep/batching";
-import type { Reference, Resource, Value } from "@metreeca/qest/state";
-import { type RepositoryClient, type SPARQL, type Tuple, type Variable, variable } from "@metreeca/wire-sparql";
+import { createScope, type Scope } from "@grafctory/core/scope";
+import type { Broker, Deferred, Detail, Request, Response, Select } from "@grafctory/keep/batching";
+import type { Reference, Resource, Value } from "@grafctory/qest/state";
+import { type RepositoryClient, type SPARQL, type Tuple, type Variable, variable } from "@grafctory/wire-sparql";
 
 
 /**

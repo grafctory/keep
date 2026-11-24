@@ -24,10 +24,10 @@
  * @module
  */
 
-import type { Scope } from "@metreeca/core/scope";
-import type { Deferred, Detect } from "@metreeca/keep/batching";
-import type { SPARQL, Variable } from "@metreeca/wire-sparql";
-import { distinct, edge, reference, select, values, variable, where } from "@metreeca/wire-sparql/builder";
+import type { Scope } from "@grafctory/core/scope";
+import type { Deferred, Detect } from "@grafctory/keep/batching";
+import type { SPARQL, Variable } from "@grafctory/wire-sparql";
+import { distinct, edge, reference, select, values, variable, where } from "@grafctory/wire-sparql/builder";
 
 
 /**

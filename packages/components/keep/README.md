@@ -1,19 +1,19 @@
-# @metreeca/keep
+# @grafctory/keep
 
-[![npm](https://img.shields.io/npm/v/@metreeca/keep)](https://www.npmjs.com/package/@metreeca/keep)
+[![npm](https://img.shields.io/npm/v/@grafctory/keep)](https://www.npmjs.com/package/@grafctory/keep)
 
-Core model-driven storage API for the [@metreeca/keep](https://github.com/metreeca/keep) linked data storage framework.
+Core model-driven storage API for the [@grafctory/keep](https://github.com/grafctory/keep) linked data storage framework.
 
 Provides one backend-agnostic API for persisting and retrieving linked data resources, validated against their models
 and retrieved through client-defined templates and queries. Resource models are defined with
-[@metreeca/blue](https://github.com/metreeca/blue), and resource states and retrieval templates follow the data and
-query models of [@metreeca/qest](https://github.com/metreeca/qest). Actual storage is delegated to backend
-[connector packages](https://github.com/metreeca/keep#installation).
+[@grafctory/blue](https://github.com/grafctory/blue), and resource states and retrieval templates follow the data and
+query models of [@grafctory/qest](https://github.com/grafctory/qest). Actual storage is delegated to backend
+[connector packages](https://github.com/grafctory/keep#installation).
 
 # Installation
 
 ```shell
-npm install @metreeca/keep
+npm install @grafctory/keep
 ```
 
 # Usage
@@ -21,27 +21,27 @@ npm install @metreeca/keep
 > [!NOTE]
 >
 > This section introduces essential concepts; for complete coverage, see the
-> [API reference](https://metreeca.github.io/keep/modules/_metreeca_keep.html).
+> [API reference](https://grafctory.github.io/keep/modules/_grafctory_keep.html).
 
 | Module                                  | Description              |
 |-----------------------------------------|--------------------------|
-| [@metreeca/keep][keep]                  | Model-driven storage API |
+| [@grafctory/keep][keep]                  | Model-driven storage API |
 | **Stores**                              |                          |
-| [@metreeca/keep/caching][caching]       | Caching store wrapper    |
-| [@metreeca/keep/managing][managing]     | Managing store wrapper   |
+| [@grafctory/keep/caching][caching]       | Caching store wrapper    |
+| [@grafctory/keep/managing][managing]     | Managing store wrapper   |
 | **Store Clients**                       |                          |
-| [@metreeca/keep/validating][validating] | Validating store wrapper |
-| [@metreeca/keep/batching][batching]     | Batching store client    |
+| [@grafctory/keep/validating][validating] | Validating store wrapper |
+| [@grafctory/keep/batching][batching]     | Batching store client    |
 
-[keep]: https://metreeca.github.io/keep/modules/_metreeca_keep.html
+[keep]: https://grafctory.github.io/keep/modules/_grafctory_keep.html
 
-[validating]: https://metreeca.github.io/keep/modules/_metreeca_keep.validating.html
+[validating]: https://grafctory.github.io/keep/modules/_grafctory_keep.validating.html
 
-[batching]: https://metreeca.github.io/keep/modules/_metreeca_keep.batching.html
+[batching]: https://grafctory.github.io/keep/modules/_grafctory_keep.batching.html
 
-[caching]: https://metreeca.github.io/keep/modules/_metreeca_keep.caching.html
+[caching]: https://grafctory.github.io/keep/modules/_grafctory_keep.caching.html
 
-[managing]: https://metreeca.github.io/keep/modules/_metreeca_keep.managing.html
+[managing]: https://grafctory.github.io/keep/modules/_grafctory_keep.managing.html
 
 All store methods accept an `entry` that MUST be an absolute IRI without query string or fragment: non-conforming
 entries reject with `RangeError`. `create` takes as `entry` the resource holding the collection, and as `model` a slice
@@ -175,22 +175,22 @@ await store.execute(async store => {
 ```
 
 Cross-backend atomicity and isolation semantics, concurrency models, and the buffer-and-flush emulation pattern are
-documented in the [Transaction Design](https://metreeca.github.io/keep/documents/_metreeca_keep.Transaction_Design.html)
+documented in the [Transaction Design](https://grafctory.github.io/keep/documents/_grafctory_keep.Transaction_Design.html)
 companion document.
 
 # Implementing Connectors
 
 A backend connector implements the bare `StoreClient` interface against its native primitives, then wraps it with the
 `createValidatingStore` helper from
-[@metreeca/keep/validating](https://metreeca.github.io/keep/modules/_metreeca_keep.validating.html) for shape-driven
+[@grafctory/keep/validating](https://grafctory.github.io/keep/modules/_grafctory_keep.validating.html) for shape-driven
 input validation and `createManagingStore` from
-[@metreeca/keep/managing](https://metreeca.github.io/keep/modules/_metreeca_keep.managing.html) for mutation events,
+[@grafctory/keep/managing](https://grafctory.github.io/keep/modules/_grafctory_keep.managing.html) for mutation events,
 transactional execution, and lifecycle:
 
 ```typescript
-import type { StoreClient, Store } from "@metreeca/keep";
-import { createManagingStore } from "@metreeca/keep/managing";
-import { createValidatingStore } from "@metreeca/keep/validating";
+import type { StoreClient, Store } from "@grafctory/keep";
+import { createManagingStore } from "@grafctory/keep/managing";
+import { createValidatingStore } from "@grafctory/keep/validating";
 
 function createMyStore(): Store {
 
@@ -231,16 +231,16 @@ Connectors MUST preserve this contract: convert backend-specific exceptions into
 rejections propagate untouched.
 
 Each connector MUST document its supported transaction isolation level and mutation event scope per the conventions
-defined in the [Transaction Design](https://metreeca.github.io/keep/documents/_metreeca_keep.Transaction_Design.html)
+defined in the [Transaction Design](https://grafctory.github.io/keep/documents/_grafctory_keep.Transaction_Design.html)
 companion document.
 
 ## Testing
 
-Use [@metreeca/keep-suite](https://github.com/metreeca/keep/tree/main/packages/components/keep-suite) to run the full
+Use [@grafctory/keep-suite](https://github.com/grafctory/keep/tree/main/packages/components/keep-suite) to run the full
 conformance suite against your connector:
 
 ```typescript
-import { testStore } from "@metreeca/keep-suite";
+import { testStore } from "@grafctory/keep-suite";
 import { describe } from "vitest";
 
 describe("my-store", () => testStore({
@@ -261,14 +261,14 @@ describe("my-store", () => testStore({
 
 Narrow the run to a subset of sub-suites or tests with the `target` and `ignore` options (for example,
 `target: ["Retrieve", "PersistCreate"]`); see the
-[API reference](https://metreeca.github.io/keep/modules/_metreeca_keep-suite.html) for the full list.
+[API reference](https://grafctory.github.io/keep/modules/_grafctory_keep-suite.html) for the full list.
 
 # Support
 
-- open an [issue](https://github.com/metreeca/keep/issues) to report a problem or to suggest a new feature
-- start a [discussion](https://github.com/metreeca/keep/discussions) to ask a how-to question or to share an idea
+- open an [issue](https://github.com/grafctory/keep/issues) to report a problem or to suggest a new feature
+- start a [discussion](https://github.com/grafctory/keep/discussions) to ask a how-to question or to share an idea
 
 # License
 
 This project is licensed under the Apache 2.0 License –
-see [LICENSE](https://github.com/metreeca/keep?tab=Apache-2.0-1-ov-file) file for details.
+see [LICENSE](https://github.com/grafctory/keep?tab=Apache-2.0-1-ov-file) file for details.

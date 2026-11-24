@@ -29,9 +29,9 @@
  * @module
  */
 
-import { type Shape } from "@metreeca/blue/value";
-import { immutable } from "@metreeca/core/values";
-import { type Template } from "@metreeca/qest/model";
+import { type Shape } from "@grafctory/blue/value";
+import { immutable } from "@grafctory/core/values";
+import { type Template } from "@grafctory/qest/model";
 import { getDrain, getEntries, getRootRange } from "./index.core.js";
 import { type Flake } from "./index.js";
 

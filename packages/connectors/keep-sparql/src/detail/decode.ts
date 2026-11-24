@@ -23,19 +23,19 @@
  * @module
  */
 
-import { type ResourceShape } from "@metreeca/blue/resource";
-import { getShapeBranches } from "@metreeca/blue/union";
-import { eager, type Shape } from "@metreeca/blue/value";
-import { type Identifier, isArray, isObject, opt } from "@metreeca/core";
-import { unique } from "@metreeca/core/arrays";
-import { isTagRange, matchTag } from "@metreeca/core/language";
-import type { Scope } from "@metreeca/core/scope";
-import { equals } from "@metreeca/core/values";
-import { type Branch, type Drain, type Flake, getFlakeVariant, isModelBranch, isQueryBranch } from "@metreeca/keep-flake";
-import type { Deferred, Detail } from "@metreeca/keep/batching";
-import { type Dictionary, type Reference, type Resource, type Value, type Values } from "@metreeca/qest/state";
-import type { Term } from "@metreeca/trio";
-import type { Tuple, Variable } from "@metreeca/wire-sparql";
+import { type ResourceShape } from "@grafctory/blue/resource";
+import { getShapeBranches } from "@grafctory/blue/union";
+import { eager, type Shape } from "@grafctory/blue/value";
+import { type Identifier, isArray, isObject, opt } from "@grafctory/core";
+import { unique } from "@grafctory/core/arrays";
+import { isTagRange, matchTag } from "@grafctory/core/language";
+import type { Scope } from "@grafctory/core/scope";
+import { equals } from "@grafctory/core/values";
+import { type Branch, type Drain, type Flake, getFlakeVariant, isModelBranch, isQueryBranch } from "@grafctory/keep-flake";
+import type { Deferred, Detail } from "@grafctory/keep/batching";
+import { type Dictionary, type Reference, type Resource, type Value, type Values } from "@grafctory/qest/state";
+import type { Term } from "@grafctory/trio";
+import type { Tuple, Variable } from "@grafctory/wire-sparql";
 import { coalesce, termToReference, termToValue } from "../terms.js";
 import { all, collection, type Decoded, map, plain } from "../spine.js";
 import { column, entries, type Schema } from "./schema.js";

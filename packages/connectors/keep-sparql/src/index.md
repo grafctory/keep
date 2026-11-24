@@ -16,7 +16,7 @@ The connector is five layers, each a module or folder depending only on the laye
 | **patterns** | [`patterns.ts`](./patterns.ts)              | the shape-aware SPARQL emitters: edges, variant gates, localised text, transform pipes                 |
 | **terms**    | [`terms.ts`](./terms.ts)                    | the value and term codecs, with no SPARQL in them                                                       |
 
-Plan grouping and batch sizing sit below the connector, in `@metreeca/keep/batching`: a handler call is one plan,
+Plan grouping and batch sizing sit below the connector, in `@grafctory/keep/batching`: a handler call is one plan,
 capped at the limit the connector declares. A connector for another query language keeps the spine, the terms and the
 drivers, and rewrites the patterns and the clause assembly in the passes, the only layers that know the language.
 

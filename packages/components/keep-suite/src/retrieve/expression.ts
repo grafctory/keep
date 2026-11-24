@@ -24,8 +24,8 @@
  * @module retrieve/expression
  */
 
-import { ascending, by } from "@metreeca/core/order";
-import type { Criteria } from "@metreeca/qest/model";
+import { ascending, by } from "@grafctory/core/order";
+import type { Criteria } from "@grafctory/qest/model";
 import { beforeAll, describe, expect, it } from "vitest";
 import { lookup, type TestFactory } from "../index.core.js";
 import { collections } from "../toys.core.js";

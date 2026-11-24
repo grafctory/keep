@@ -18,9 +18,9 @@
  * Core model-driven storage API.
  *
  * Persists and retrieves linked data resources independently of the backend holding them. Resources are described by
- * {@link ResourceShape shapes} defined with the [@metreeca/blue](https://github.com/metreeca/blue) validation library.
+ * {@link ResourceShape shapes} defined with the [@grafctory/blue](https://github.com/grafctory/blue) validation library.
  * They are read and written as {@link Resource} states, {@link Template} retrieval templates and {@link Projection}
- * queries, following the data and query models of the [@metreeca/qest](https://github.com/metreeca/qest)
+ * queries, following the data and query models of the [@grafctory/qest](https://github.com/grafctory/qest)
  * data-modelling library.
  *
  * A {@link StoreClient} defines the data operations a connector implements against its backend. A {@link Store} adds
@@ -28,7 +28,7 @@
  * Connectors typically obtain the management surface from {@link createManagingStore}.
  *
  * {@link StoreClient} implementations are expected to fully support the {@link Template | query language}
- * defined by [@metreeca/qest](https://github.com/metreeca/qest), including property selection, linked
+ * defined by [@grafctory/qest](https://github.com/grafctory/qest), including property selection, linked
  * resource expansion, filtering, ordering, and pagination.
  *
  * **CRUD Operations**
@@ -198,17 +198,17 @@
  * @module index
  */
 
-import type { validate } from "@metreeca/blue";
-import type { ResourceShape } from "@metreeca/blue/resource";
-import type { Draft, Match, Model, Slice } from "@metreeca/blue/value";
-import type { Lazy, Optional } from "@metreeca/core";
-import type { Some } from "@metreeca/core/arrays";
-import type { Awaitable } from "@metreeca/core/async";
-import type { Tag } from "@metreeca/core/language";
-import type { TraceError } from "@metreeca/core/trace";
-import type { Problem } from "@metreeca/http/success";
-import { type Projection, Template } from "@metreeca/qest/model";
-import { type Reference, Resource } from "@metreeca/qest/state";
+import type { validate } from "@grafctory/blue";
+import type { ResourceShape } from "@grafctory/blue/resource";
+import type { Draft, Match, Model, Slice } from "@grafctory/blue/value";
+import type { Lazy, Optional } from "@grafctory/core";
+import type { Some } from "@grafctory/core/arrays";
+import type { Awaitable } from "@grafctory/core/async";
+import type { Tag } from "@grafctory/core/language";
+import type { TraceError } from "@grafctory/core/trace";
+import type { Problem } from "@grafctory/http/success";
+import { type Projection, Template } from "@grafctory/qest/model";
+import { type Reference, Resource } from "@grafctory/qest/state";
 import type { createManagingStore } from "./stores/managing.js";
 
 
@@ -249,7 +249,7 @@ export interface Store extends StoreClient {
 	 *
 	 * - `undefined` (omitted) — no filter; the observer fires for every mutation
 	 * - a single {@link Reference} — fires for mutations to that resource and its
-	 *   {@link @metreeca/core!isNestedIRI | descendants}
+	 *   {@link @grafctory/core!isNestedIRI | descendants}
 	 * - a collection of references — an array, a set, an iterator, or any other iterable; fires for mutations
 	 *   matching any element and its descendants
 	 * - an empty collection — ignored; no registration is created and the returned handle is a no-op
@@ -396,9 +396,9 @@ export interface StoreClient {
 	 * Specific reference kinds are handled as follows:
 	 *
 	 * - {@link ResourceShape | embedded references} — cascades recursively with the same semantics
-	 * - {@link @metreeca/blue/resource!PropertyConstraints.captive | captive references} — accepted only as bare
+	 * - {@link @grafctory/blue/resource!PropertyConstraints.captive | captive references} — accepted only as bare
 	 * IRI references; inline captive batches are rejected, as `state` is always validated at depth `0`
-	 * - {@link @metreeca/blue/resource!PropertyConstraints.foreign | foreign references} — skipped, as their
+	 * - {@link @grafctory/blue/resource!PropertyConstraints.foreign | foreign references} — skipped, as their
 	 * data is owned by the defining resource
 	 *
 	 * @typeParam S - The shape driving the creation, describing the collecting resource
@@ -426,9 +426,9 @@ export interface StoreClient {
 	 * embedded data. Specific reference kinds are handled as follows:
 	 *
 	 * - {@link ResourceShape | embedded references} — cascades recursively with the same semantics
-	 * - {@link @metreeca/blue/resource!PropertyConstraints.captive | captive references} — accepted only as bare
+	 * - {@link @grafctory/blue/resource!PropertyConstraints.captive | captive references} — accepted only as bare
 	 * IRI references; inline captive batches are rejected, as `state` is always validated at depth `0`
-	 * - {@link @metreeca/blue/resource!PropertyConstraints.foreign | foreign references} — skipped, as their
+	 * - {@link @grafctory/blue/resource!PropertyConstraints.foreign | foreign references} — skipped, as their
 	 * data is owned by the defining resource
 	 *
 	 * @typeParam S - The shape driving the update, describing the state
@@ -453,7 +453,7 @@ export interface StoreClient {
 	 * Specific reference kinds are handled as follows:
 	 *
 	 * - {@link ResourceShape | embedded references} — cascades recursively with the same semantics
-	 * - {@link @metreeca/blue/resource!PropertyConstraints.captive | captive references} — cascade-deleted with
+	 * - {@link @grafctory/blue/resource!PropertyConstraints.captive | captive references} — cascade-deleted with
 	 * the same semantics
 	 *
 	 * @typeParam S - The shape driving the deletion, identifying the data cascaded with the resource
@@ -478,9 +478,9 @@ export interface StoreClient {
 	 * data. Specific reference kinds are handled as follows:
 	 *
 	 * - {@link ResourceShape | embedded references} — cascades recursively with the same semantics
-	 * - {@link @metreeca/blue/resource!PropertyConstraints.captive | captive references} — accepted only as bare
+	 * - {@link @grafctory/blue/resource!PropertyConstraints.captive | captive references} — accepted only as bare
 	 * IRI references; inline captive batches are rejected, as `state` is always validated at depth `0`
-	 * - {@link @metreeca/blue/resource!PropertyConstraints.foreign | foreign references} — skipped, as their
+	 * - {@link @grafctory/blue/resource!PropertyConstraints.foreign | foreign references} — skipped, as their
 	 * data is owned by the defining resource
 	 *
 	 * @typeParam S - The shape driving the insertion, describing the state
@@ -506,7 +506,7 @@ export interface StoreClient {
 	 * reference kinds are handled as follows:
 	 *
 	 * - {@link ResourceShape | embedded references} — cascades recursively with the same semantics
-	 * - {@link @metreeca/blue/resource!PropertyConstraints.captive | captive references} — cascade-removed with
+	 * - {@link @grafctory/blue/resource!PropertyConstraints.captive | captive references} — cascade-removed with
 	 * the same semantics
 	 *
 	 * @typeParam S - The shape driving the removal, identifying the data cascaded with the resource

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { reference } from "@metreeca/blue/reference";
-import { id, multiple, required, resource } from "@metreeca/blue/resource";
-import { string } from "@metreeca/blue/string";
-import { decodeBase64 } from "@metreeca/core/base64";
-import { TraceError } from "@metreeca/core/trace";
-import { type StoreClient, type StoreObserver } from "@metreeca/keep";
+import { reference } from "@grafctory/blue/reference";
+import { id, multiple, required, resource } from "@grafctory/blue/resource";
+import { string } from "@grafctory/blue/string";
+import { decodeBase64 } from "@grafctory/core/base64";
+import { TraceError } from "@grafctory/core/trace";
+import { type StoreClient, type StoreObserver } from "@grafctory/keep";
 import { describe, expect, it, type Mock, vi } from "vitest";
 import { createRESTStore } from "./index.js";
 

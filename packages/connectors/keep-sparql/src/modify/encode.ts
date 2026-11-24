@@ -38,16 +38,16 @@
  * @module
  */
 
-import { getStateEntries, type Property, type ResourceShape } from "@metreeca/blue/resource";
-import { getShapeBranches, getStateBranch } from "@metreeca/blue/union";
-import { eager, type Shape } from "@metreeca/blue/value";
-import { isObject } from "@metreeca/core";
-import type { Scope } from "@metreeca/core/scope";
-import { type Branch, type Flake, getFlakeVariant, isPropertyBranch } from "@metreeca/keep-flake";
-import type { Deferred, Modify } from "@metreeca/keep/batching";
-import type { Reference, Resource, Values } from "@metreeca/qest/state";
-import { named, type Named, rdf } from "@metreeca/trio";
-import { type SPARQL, type Variable } from "@metreeca/wire-sparql";
+import { getStateEntries, type Property, type ResourceShape } from "@grafctory/blue/resource";
+import { getShapeBranches, getStateBranch } from "@grafctory/blue/union";
+import { eager, type Shape } from "@grafctory/blue/value";
+import { isObject } from "@grafctory/core";
+import type { Scope } from "@grafctory/core/scope";
+import { type Branch, type Flake, getFlakeVariant, isPropertyBranch } from "@grafctory/keep-flake";
+import type { Deferred, Modify } from "@grafctory/keep/batching";
+import type { Reference, Resource, Values } from "@grafctory/qest/state";
+import { named, type Named, rdf } from "@grafctory/trio";
+import { type SPARQL, type Variable } from "@grafctory/wire-sparql";
 import {
 	data,
 	deleet,
@@ -62,7 +62,7 @@ import {
 	values,
 	variable,
 	where
-} from "@metreeca/wire-sparql/builder";
+} from "@grafctory/wire-sparql/builder";
 import { forward, reverse } from "../patterns.js";
 import { valuesToTerms } from "../terms.js";
 

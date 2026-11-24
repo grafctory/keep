@@ -10,7 +10,7 @@ description: >-
 
 The `Store` interface extends `StoreClient` with the ability to group multiple operations into a single unit of work.
 Transaction semantics follow the same cross-backend principle adopted by
-[@metreeca/qest](https://metreeca.github.io/qest/documents/model.Model_Design.html): each connector targets the
+[@grafctory/qest](https://grafctory.github.io/qest/documents/model.Model_Design.html): each connector targets the
 strongest guarantees its backend supports and documents the result. The guarantees are drawn from the well-defined
 counterparts across [SQL:2011](https://www.iso.org/standard/53681.html),
 [GQL:2024](https://www.iso.org/standard/76120.html), and [SPARQL 1.1](https://www.w3.org/TR/sparql11-update/) (via

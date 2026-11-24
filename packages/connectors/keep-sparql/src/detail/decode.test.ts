@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import type { ResourceShape } from "@metreeca/blue/resource";
-import type { Lazy } from "@metreeca/core";
-import { createScope, type Scope } from "@metreeca/core/scope";
-import { type Branch, createFlake, type Flake } from "@metreeca/keep-flake";
-import { Category, toys, Vendor } from "@metreeca/keep-suite/toys";
-import type { Deferred, Detail } from "@metreeca/keep/batching";
-import type { Template } from "@metreeca/qest/model";
-import type { Reference } from "@metreeca/qest/state";
-import { named, tagged, typed } from "@metreeca/trio";
-import { type Tuple, variable, type Variable } from "@metreeca/wire-sparql";
-import { xsd } from "@metreeca/core/datatype";
+import type { ResourceShape } from "@grafctory/blue/resource";
+import type { Lazy } from "@grafctory/core";
+import { createScope, type Scope } from "@grafctory/core/scope";
+import { type Branch, createFlake, type Flake } from "@grafctory/keep-flake";
+import { Category, toys, Vendor } from "@grafctory/keep-suite/toys";
+import type { Deferred, Detail } from "@grafctory/keep/batching";
+import type { Template } from "@grafctory/qest/model";
+import type { Reference } from "@grafctory/qest/state";
+import { named, tagged, typed } from "@grafctory/trio";
+import { type Tuple, variable, type Variable } from "@grafctory/wire-sparql";
+import { xsd } from "@grafctory/core/datatype";
 import { describe, expect, it, vi } from "vitest";
 import { decode } from "./decode.js";
 import { column, schema } from "./schema.js";

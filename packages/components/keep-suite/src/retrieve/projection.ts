@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { isObject } from "@metreeca/core";
-import { ascending, by, compound, descending, locale } from "@metreeca/core/order";
-import type { Criteria, Projection } from "@metreeca/qest/model";
-import type { Resource } from "@metreeca/qest/state";
+import { isObject } from "@grafctory/core";
+import { ascending, by, compound, descending, locale } from "@grafctory/core/order";
+import type { Criteria, Projection } from "@grafctory/qest/model";
+import type { Resource } from "@grafctory/qest/state";
 import { beforeAll, describe, expect, it } from "vitest";
 import { lookup, type TestFactory } from "../index.core.js";
 import { collections } from "../toys.core.js";
@@ -710,7 +710,7 @@ export function testRetrieveProjection(factory: TestFactory): void {
 			it("should project reference-typed binding as id beside a binding descending through it", factory(async ({ store }) => {
 
 				// `name=vendor.name` is a binding of its own (§5.2), not a template expanding `vendor`, so the
-				// reference stays bare next to the sibling value it is paired with (metreeca/keep#24)
+				// reference stays bare next to the sibling value it is paired with (grafctory/keep#24)
 
 				const expected = [...new Set(products.map(p => p.vendor))].sort();
 
@@ -767,7 +767,7 @@ export function testRetrieveProjection(factory: TestFactory): void {
 
 			it("should project the item itself as id beside a binding descending through it (§5.2, §5.8.1)", factory(async ({ store }) => {
 
-				// `sku=sku` is a binding of its own, not a template expanding the item (metreeca/keep#24)
+				// `sku=sku` is a binding of its own, not a template expanding the item (grafctory/keep#24)
 
 				const expected = products.map(p => ({ product: p.id, sku: p.sku }));
 

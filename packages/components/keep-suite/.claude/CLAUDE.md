@@ -116,7 +116,7 @@ the property's own value rather than an omission.
 - **captive lifecycle** — captive references (orthogonal to link semantics; applies to scalar and array reference slots
 	alike) carry independent identity and lifecycle but are cascade-deleted with their captor; managed standalone today,
 	with cascading captive writes (creation/update/insertion through the captor slot as IRI plus nested state) deferred
-	pending [metreeca/keep#4](https://github.com/metreeca/keep/issues/4)
+	pending [grafctory/keep#4](https://github.com/grafctory/keep/issues/4)
 
 # Persist
 
@@ -143,7 +143,7 @@ Applies to mutation suites: `create`, `insert`, `update`, `remove`, `delete`.
 	the foreign slot: the view is read-only and derived from its target property
 - **Captive cascades**: deferred; captive lifecycle tests (independent create / update / delete by own IRI,
 	cascade-delete on captor removal) and cascading captive writes (creation/update/insertion through the captor slot as
-	IRI plus nested state) are tracked in [metreeca/keep#4](https://github.com/metreeca/keep/issues/4) and intentionally
+	IRI plus nested state) are tracked in [grafctory/keep#4](https://github.com/grafctory/keep/issues/4) and intentionally
 	not exercised by the suite until the form is supported
 
 # Retrieve

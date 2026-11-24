@@ -1,19 +1,19 @@
 {
   "externalSymbolLinkMappings": {
-    "@metreeca/blue": {
-      "*": "https://metreeca.github.io/blue/"
+    "@grafctory/blue": {
+      "*": "https://grafctory.github.io/blue/"
     },
-    "@metreeca/blue/value": {
-      "*": "https://metreeca.github.io/blue/"
+    "@grafctory/blue/value": {
+      "*": "https://grafctory.github.io/blue/"
     },
-    "@metreeca/core": {
-      "*": "https://metreeca.github.io/core/"
+    "@grafctory/core": {
+      "*": "https://grafctory.github.io/core/"
     },
-    "@metreeca/qest": {
-      "*": "https://metreeca.github.io/qest/"
+    "@grafctory/qest": {
+      "*": "https://grafctory.github.io/qest/"
     },
-    "@metreeca/qest/model": {
-      "*": "https://metreeca.github.io/qest/"
+    "@grafctory/qest/model": {
+      "*": "https://grafctory.github.io/qest/"
     }
   }
 }

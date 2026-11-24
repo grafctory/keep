@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import { dictionary } from "@metreeca/blue/dictionary";
-import { decimal, integer } from "@metreeca/blue/number";
-import { getShapeTarget, reference } from "@metreeca/blue/reference";
-import { id, multiple, optional, required, resource, type } from "@metreeca/blue/resource";
-import { string } from "@metreeca/blue/string";
-import { getShapeBranches, union, type UnionShape } from "@metreeca/blue/union";
-import { eager, effective, type Range } from "@metreeca/blue/value";
-import type { Identifier } from "@metreeca/core";
-import { createNamespace } from "@metreeca/core/resource";
-import { PostalAddress, Product, Vendor } from "@metreeca/keep-suite/toys";
-import type { Probe, Query, Slot, Template, Transform } from "@metreeca/qest/model";
+import { dictionary } from "@grafctory/blue/dictionary";
+import { decimal, integer } from "@grafctory/blue/number";
+import { getShapeTarget, reference } from "@grafctory/blue/reference";
+import { id, multiple, optional, required, resource, type } from "@grafctory/blue/resource";
+import { string } from "@grafctory/blue/string";
+import { getShapeBranches, union, type UnionShape } from "@grafctory/blue/union";
+import { eager, effective, type Range } from "@grafctory/blue/value";
+import type { Identifier } from "@grafctory/core";
+import { createNamespace } from "@grafctory/core/resource";
+import { PostalAddress, Product, Vendor } from "@grafctory/keep-suite/toys";
+import type { Probe, Query, Slot, Template, Transform } from "@grafctory/qest/model";
 import { describe, expect, expectTypeOf, it } from "vitest";
 import { getQueryEntries, getUnionBranches, getUnionPlaceholders } from "./index.core.js";
 import type { Branch, Entries, Flake } from "./index.js";

@@ -46,14 +46,14 @@
  * @module
  */
 
-import { getShapeClass, type Property } from "@metreeca/blue/resource";
-import { getBoundBranch, getShapeBranches } from "@metreeca/blue/union";
-import { sh, type Shape } from "@metreeca/blue/value";
-import { error, isNumber, opt } from "@metreeca/core";
-import { unique } from "@metreeca/core/arrays";
-import { xsd } from "@metreeca/core/datatype";
-import type { Tag } from "@metreeca/core/language";
-import type { Scope } from "@metreeca/core/scope";
+import { getShapeClass, type Property } from "@grafctory/blue/resource";
+import { getBoundBranch, getShapeBranches } from "@grafctory/blue/union";
+import { sh, type Shape } from "@grafctory/blue/value";
+import { error, isNumber, opt } from "@grafctory/core";
+import { unique } from "@grafctory/core/arrays";
+import { xsd } from "@grafctory/core/datatype";
+import type { Tag } from "@grafctory/core/language";
+import type { Scope } from "@grafctory/core/scope";
 import {
 	type Branch,
 	type Flake,
@@ -69,8 +69,8 @@ import {
 	isConstrainedFlake,
 	isGroupingFlake,
 	isRequiredFlake
-} from "@metreeca/keep-flake";
-import type { Deferred, Select } from "@metreeca/keep/batching";
+} from "@grafctory/keep-flake";
+import type { Deferred, Select } from "@grafctory/keep/batching";
 import {
 	type Aggregate,
 	getOrderDirection,
@@ -78,10 +78,10 @@ import {
 	type Query,
 	type Slot,
 	Transforms
-} from "@metreeca/qest/model";
-import type { Literal } from "@metreeca/qest/state";
-import { named, rdf, type Term } from "@metreeca/trio";
-import type { SPARQL, Variable } from "@metreeca/wire-sparql";
+} from "@grafctory/qest/model";
+import type { Literal } from "@grafctory/qest/state";
+import { named, rdf, type Term } from "@grafctory/trio";
+import type { SPARQL, Variable } from "@grafctory/wire-sparql";
 import {
 	all as wildcard,
 	and,
@@ -132,7 +132,7 @@ import {
 	values,
 	variable,
 	where
-} from "@metreeca/wire-sparql/builder";
+} from "@grafctory/wire-sparql/builder";
 import {
 	admission,
 	anchor,

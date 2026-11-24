@@ -17,7 +17,7 @@
 /**
  * Localised retrieval conformance: coalesced access (single-string and string-array) under language negotiation.
  *
- * Covers the {@link https://github.com/metreeca/qest QEST} §6 split between **structural** access (tag-preserving,
+ * Covers the {@link https://github.com/grafctory/qest QEST} §6 split between **structural** access (tag-preserving,
  * exercised by the template suite) and **coalesced** access (a localised property reduced to a plain string, or an
  * array of plain strings for an array-per-tag property, under language negotiation).
  *
@@ -28,10 +28,10 @@
  * @module retrieve/localised
  */
 
-import type { Tag } from "@metreeca/core/language";
-import { isString, opt } from "@metreeca/core";
-import { ascending, by, compound } from "@metreeca/core/order";
-import type { Criteria } from "@metreeca/qest/model";
+import type { Tag } from "@grafctory/core/language";
+import { isString, opt } from "@grafctory/core";
+import { ascending, by, compound } from "@grafctory/core/order";
+import type { Criteria } from "@grafctory/qest/model";
 import { beforeAll, describe, expect, it } from "vitest";
 import { lookup, type TestFactory } from "../index.core.js";
 import { collections } from "../toys.core.js";
@@ -411,7 +411,7 @@ export function testRetrieveLocalised(factory: TestFactory): void {
 
 			it("should match a tagged option under language negotiation (§5.7.3)", factory(async ({ store }) => {
 
-				// the case metreeca/keep#25 reports: `Product.name` carries no `und` entry, so the selection holds
+				// the case grafctory/keep#25 reports: `Product.name` carries no `und` entry, so the selection holds
 				// only where the option is matched against the text stored under its own tag, `en`
 
 				const target = lookup(products, p => enOf(p.name) !== undefined);

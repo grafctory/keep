@@ -23,13 +23,13 @@
  * @module
  */
 
-import type { Optional } from "@metreeca/core";
-import { some } from "@metreeca/core/arrays";
-import type { Awaitable } from "@metreeca/core/async";
-import { isNestedIRI } from "@metreeca/core/resource";
-import { immutable } from "@metreeca/core/values";
+import type { Optional } from "@grafctory/core";
+import { some } from "@grafctory/core/arrays";
+import type { Awaitable } from "@grafctory/core/async";
+import { isNestedIRI } from "@grafctory/core/resource";
+import { immutable } from "@grafctory/core/values";
 
-import type { Reference } from "@metreeca/qest/state";
+import type { Reference } from "@grafctory/qest/state";
 
 import type { Store, StoreClient, StoreObserver } from "../index.js";
 
@@ -49,8 +49,8 @@ import type { Store, StoreClient, StoreObserver } from "../index.js";
  * discarded and no observer is notified. Synchronous throws and asynchronous rejections from observers are caught and
  * silently ignored, so one faulty observer cannot break delivery to others.
  *
- * All errors, including {@link !RangeError RangeError}, {@link @metreeca/core!TraceError | TraceError} and
- * {@link @metreeca/http!Problem | Problem}, propagate as promise rejections, in line with the unified {@link Store}
+ * All errors, including {@link !RangeError RangeError}, {@link @grafctory/core!TraceError | TraceError} and
+ * {@link @grafctory/http!Problem | Problem}, propagate as promise rejections, in line with the unified {@link Store}
  * error channel.
  *
  * > [!IMPORTANT]

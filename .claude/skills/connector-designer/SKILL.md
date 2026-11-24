@@ -13,11 +13,11 @@ encoder and its decoder, decoders pure, and the IR minimal.
 - [keep-sparql package](../../../packages/connectors/keep-sparql/README.md) — reference implementation
 - [keep-sparql pass contract](../../../packages/connectors/keep-sparql/src/index.md) — the layers, the spine, the
 	schema rule, the locale rule and the clause structure of every pass; authoritative for the connector
-- [@metreeca/keep-flake](../../../packages/components/keep-flake/README.md) — the shared planner: shape-driven
+- [@grafctory/keep-flake](../../../packages/components/keep-flake/README.md) — the shared planner: shape-driven
 	traversal trees (`Flake`) built from a shape, a retrieval template or a collection query
 - [Keep CLAUDE.md](../../CLAUDE.md) — design principles (model-driven, lowercase generated queries, forward/reverse
 	predicates, foreign references, embedded vs captive resources). Authoritative; this skill does not restate them.
-- [@metreeca/keep](../../../packages/components/keep/README.md) — the `Store` contract and the batching request
+- [@grafctory/keep](../../../packages/components/keep/README.md) — the `Store` contract and the batching request
 	types connectors serve: a handler receives a batch sharing one plan, capped at the limit the connector declares
 
 # Responsibilities
@@ -52,7 +52,7 @@ the result back. Five layers, each a module or folder depending only on the laye
 | **patterns** | the shape-aware target-language emitters: edges, variant gates, localised text, transform pipes             |
 | **terms**    | the value and term codecs, with no target-language text in them                                             |
 
-Plan grouping and batch sizing sit below the connector, in `@metreeca/keep/batching`. A connector for another query
+Plan grouping and batch sizing sit below the connector, in `@grafctory/keep/batching`. A connector for another query
 language keeps the spine, the terms and the drivers, and rewrites the patterns and the clause assembly in the passes.
 
 ## Problem It Solves

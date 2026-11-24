@@ -1,16 +1,16 @@
 {
-  "name": "@metreeca/keep-rest",
+  "name": "@grafctory/keep-rest",
   "version": "0.14.2",
-  "description": "REST/JSON proxy connector for @metreeca/keep.",
+  "description": "REST/JSON proxy connector for @grafctory/keep.",
   "keywords": [
     "typescript",
     "json-ld",
     "model-driven",
     "rest"
   ],
-  "homepage": "https://metreeca.github.io/keep/",
+  "homepage": "https://grafctory.github.io/keep/",
   "bugs": {
-    "url": "https://github.com/metreeca/keep/issues",
+    "url": "https://github.com/grafctory/keep/issues",
     "email": "info@metreeca.com"
   },
   "license": "Apache-2.0",
@@ -21,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/metreeca/keep.git",
+    "url": "git+https://github.com/grafctory/keep.git",
     "directory": "packages/connectors/keep-rest"
   },
   "type": "module",
   "sideEffects": false,
   "exports": {
     ".": {
-      "@metreeca/source": "./src/index.ts",
+      "@grafctory/source": "./src/index.ts",
       "default": "./dist/index.js"
     }
   },
@@ -46,13 +46,13 @@
     "check": "npx vitest --typecheck run"
   },
   "dependencies": {
-    "@metreeca/core": "^0.14.0",
-    "@metreeca/http": "^0.6.0",
-    "@metreeca/keep": "^0.14.2",
-    "@metreeca/qest": "^0.15.0"
+    "@grafctory/core": "^0.14.0",
+    "@grafctory/http": "^0.6.0",
+    "@grafctory/keep": "^0.14.2",
+    "@grafctory/qest": "^0.15.0"
   },
   "devDependencies": {
-    "@metreeca/blue": "^0.15.0",
+    "@grafctory/blue": "^0.15.0",
     "typescript": "^6.0.3",
     "vitest": "^4.0.13"
   }

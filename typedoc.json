@@ -6,16 +6,16 @@
   "plugin": [
     "./typedoc.mjs"
   ],
-  "name": "@metreeca/keep",
+  "name": "@grafctory/keep",
   "out": "docs",
   "readme": "README.md",
-  "hostedBaseUrl": "https://metreeca.github.io/keep/",
+  "hostedBaseUrl": "https://grafctory.github.io/keep/",
   "useFirstParagraphOfCommentAsSummary": true,
   "favicon": "https://metreeca.com/assets/icon.ico",
   "sourceLinkExternal": true,
   "markdownLinkExternal": true,
   "navigationLinks": {
-    "GitHub": "https://github.com/metreeca/keep"
+    "GitHub": "https://github.com/grafctory/keep"
   },
   "navigation": {
     "includeGroups": true
@@ -51,37 +51,37 @@
       "TypeError": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
       "fetch": "https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch"
     },
-    "@metreeca/blue/union": {
-      "getShapeBranches": "https://metreeca.github.io/blue/functions/union.getShapeBranches.html"
+    "@grafctory/blue/union": {
+      "getShapeBranches": "https://grafctory.github.io/blue/functions/union.getShapeBranches.html"
     },
-    "@metreeca/blue/resource": {
-      "PropertyConstraints.foreign": "https://metreeca.github.io/blue/types/resource.PropertyConstraints.html#foreign",
-      "PropertyConstraints.captive": "https://metreeca.github.io/blue/types/resource.PropertyConstraints.html#captive"
+    "@grafctory/blue/resource": {
+      "PropertyConstraints.foreign": "https://grafctory.github.io/blue/types/resource.PropertyConstraints.html#foreign",
+      "PropertyConstraints.captive": "https://grafctory.github.io/blue/types/resource.PropertyConstraints.html#captive"
     },
-    "@metreeca/core": {
-      "Optional": "https://metreeca.github.io/core/types/index.Optional.html",
-      "TraceError": "https://metreeca.github.io/core/classes/trace.TraceError.html"
+    "@grafctory/core": {
+      "Optional": "https://grafctory.github.io/core/types/index.Optional.html",
+      "TraceError": "https://grafctory.github.io/core/classes/trace.TraceError.html"
     },
-    "@metreeca/core/trace": {
-      "TraceError": "https://metreeca.github.io/core/classes/trace.TraceError.html"
+    "@grafctory/core/trace": {
+      "TraceError": "https://grafctory.github.io/core/classes/trace.TraceError.html"
     },
-    "@metreeca/core/values": {
-      "DeepPartial": "https://metreeca.github.io/core/types/values.DeepPartial.html"
+    "@grafctory/core/values": {
+      "DeepPartial": "https://grafctory.github.io/core/types/values.DeepPartial.html"
     },
-    "@metreeca/http": {
-      "Problem": "https://metreeca.github.io/http/types/success.Problem.html"
+    "@grafctory/http": {
+      "Problem": "https://grafctory.github.io/http/types/success.Problem.html"
     },
-    "@metreeca/trio": {
-      "Term": "https://metreeca.github.io/trio/types/index.Term.html",
-      "named": "https://metreeca.github.io/trio/functions/index.named.html",
-      "tagged": "https://metreeca.github.io/trio/functions/index.tagged.html",
-      "typed": "https://metreeca.github.io/trio/functions/index.typed.html"
+    "@grafctory/trio": {
+      "Term": "https://grafctory.github.io/trio/types/index.Term.html",
+      "named": "https://grafctory.github.io/trio/functions/index.named.html",
+      "tagged": "https://grafctory.github.io/trio/functions/index.tagged.html",
+      "typed": "https://grafctory.github.io/trio/functions/index.typed.html"
     },
-    "@metreeca/wire-sparql": {
-      "Repository": "https://metreeca.github.io/wire/interfaces/_metreeca_wire-sparql.index.Repository.html",
-      "Repository.execute": "https://metreeca.github.io/wire/interfaces/_metreeca_wire-sparql.index.Repository.html#execute",
-      "SPARQL": "https://metreeca.github.io/wire/types/_metreeca_wire-sparql.index.SPARQL.html",
-      "Tuple": "https://metreeca.github.io/wire/types/_metreeca_wire-sparql.index.Tuple.html"
+    "@grafctory/wire-sparql": {
+      "Repository": "https://grafctory.github.io/wire/interfaces/_grafctory_wire-sparql.index.Repository.html",
+      "Repository.execute": "https://grafctory.github.io/wire/interfaces/_grafctory_wire-sparql.index.Repository.html#execute",
+      "SPARQL": "https://grafctory.github.io/wire/types/_grafctory_wire-sparql.index.SPARQL.html",
+      "Tuple": "https://grafctory.github.io/wire/types/_grafctory_wire-sparql.index.Tuple.html"
     }
   },
   "packageOptions": {

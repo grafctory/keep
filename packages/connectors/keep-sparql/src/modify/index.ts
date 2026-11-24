@@ -22,9 +22,9 @@
  * @module index
  */
 
-import { createFlake } from "@metreeca/keep-flake";
-import type { Deferred, Modify } from "@metreeca/keep/batching";
-import type { RepositoryClient } from "@metreeca/wire-sparql";
+import { createFlake } from "@grafctory/keep-flake";
+import type { Deferred, Modify } from "@grafctory/keep/batching";
+import type { RepositoryClient } from "@grafctory/wire-sparql";
 import { write } from "../spine.js";
 import { encode } from "./encode.js";
 

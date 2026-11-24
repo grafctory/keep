@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import { reference } from "@metreeca/blue/reference";
-import { multiple, required, resource } from "@metreeca/blue/resource";
-import { string } from "@metreeca/blue/string";
-import { error } from "@metreeca/core";
-import { collections, identify, Product, toys } from "@metreeca/keep-suite/toys";
-import type { Deferred, Modify } from "@metreeca/keep/batching";
-import type { Reference, Resource } from "@metreeca/qest/state";
-import { named, type Term, typed } from "@metreeca/trio";
-import type { Repository } from "@metreeca/wire-sparql";
-import { data, insert, pattern, select, update, variable, where } from "@metreeca/wire-sparql/builder";
-import { createOxiRepository } from "@metreeca/wire-sparql-oxigraph";
+import { reference } from "@grafctory/blue/reference";
+import { multiple, required, resource } from "@grafctory/blue/resource";
+import { string } from "@grafctory/blue/string";
+import { error } from "@grafctory/core";
+import { collections, identify, Product, toys } from "@grafctory/keep-suite/toys";
+import type { Deferred, Modify } from "@grafctory/keep/batching";
+import type { Reference, Resource } from "@grafctory/qest/state";
+import { named, type Term, typed } from "@grafctory/trio";
+import type { Repository } from "@grafctory/wire-sparql";
+import { data, insert, pattern, select, update, variable, where } from "@grafctory/wire-sparql/builder";
+import { createOxiRepository } from "@grafctory/wire-sparql-oxigraph";
 import { describe, expect, it, vi } from "vitest";
 import { modify } from "./index.js";
 

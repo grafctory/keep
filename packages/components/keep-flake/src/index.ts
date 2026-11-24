@@ -17,8 +17,8 @@
 /**
  * Shape-driven traversal trees.
  *
- * A {@link Shape} and its retrieval {@link @metreeca/qest/model!Template | template} or collection
- * {@link @metreeca/qest/model!Query | query} scatter what to fetch across independent probes: property requests,
+ * A {@link Shape} and its retrieval {@link @grafctory/qest/model!Template | template} or collection
+ * {@link @grafctory/qest/model!Query | query} scatter what to fetch across independent probes: property requests,
  * constraints, and transforms. A flake gathers those probes into one traversal tree. A connector walks that tree
  * directly, instead of matching the raw shape against the raw input at every step.
  *
@@ -45,11 +45,11 @@
  * @module index
  */
 
-import { getShapeProperties, type Id, type Member, type Property, type Type } from "@metreeca/blue/resource";
-import { eager, type Range, type Shape } from "@metreeca/blue/value";
-import { type Identifier, isObject, type Lazy } from "@metreeca/core";
-import { some } from "@metreeca/core/arrays";
-import { by } from "@metreeca/core/order";
+import { getShapeProperties, type Id, type Member, type Property, type Type } from "@grafctory/blue/resource";
+import { eager, type Range, type Shape } from "@grafctory/blue/value";
+import { type Identifier, isObject, type Lazy } from "@grafctory/core";
+import { some } from "@grafctory/core/arrays";
+import { by } from "@grafctory/core/order";
 import {
 	type Atomic,
 	type Cell,
@@ -63,8 +63,8 @@ import {
 	type Slot,
 	type Template,
 	type Transform
-} from "@metreeca/qest/model";
-import type { Dictionary, Literal } from "@metreeca/qest/state";
+} from "@grafctory/qest/model";
+import type { Dictionary, Literal } from "@grafctory/qest/state";
 import { createModelFlake } from "./model.js";
 import { createQueryFlake as createFlakeQuery } from "./query.js";
 import { createShapeFlake } from "./shape.js";
@@ -99,7 +99,7 @@ export type Flake = {
 	 * the multi-valued cardinality. On the root, the range envelopes the driving shape. On a {@link Branch}, it is
 	 * the effective range of the entry; {@link Id} / {@link Type} markers resolve to the IRI range. On a transform
 	 * stage, it is the output of the transform. Consumers read it directly, with no need to resolve it again
-	 * through blue's {@link @metreeca/blue/value!effective | effective}.
+	 * through blue's {@link @grafctory/blue/value!effective | effective}.
 	 */
 	readonly range: Range;
 
@@ -213,14 +213,14 @@ export type Branch = Flake & {
 /**
  * The retrieval requested at a {@link Flake | node} of a flake.
  *
- * Pairs the {@link @metreeca/qest/model!Query | query} requested at the node with the projection alias bound to
+ * Pairs the {@link @grafctory/qest/model!Query | query} requested at the node with the projection alias bound to
  * it, if any. The drain also settles the `form` the query takes against the node's {@link Flake.range | range}, so
  * consumers switch on the form instead of classifying the query again:
  *
- * - **atomic** — an {@link @metreeca/qest/model!Atomic | atomic} requesting the value as it stands, on any range;
- * - **template** — a {@link @metreeca/qest/model!Template | template} on a resource or reference range;
- * - **locale** — a {@link @metreeca/qest/model!Locale | locale} on a localised range;
- * - **projection** — a {@link @metreeca/qest/model!Projection | projection} on a collection;
+ * - **atomic** — an {@link @grafctory/qest/model!Atomic | atomic} requesting the value as it stands, on any range;
+ * - **template** — a {@link @grafctory/qest/model!Template | template} on a resource or reference range;
+ * - **locale** — a {@link @grafctory/qest/model!Locale | locale} on a localised range;
+ * - **projection** — a {@link @grafctory/qest/model!Projection | projection} on a collection;
  * - **union** — a union on a union-typed range, with its alternatives resolved to the variants they reach.
  *
  * The form follows the query's retrieval keys: a query stating none is an atomic (§5.3).
@@ -372,7 +372,7 @@ export function createFlake(shape: Lazy<Shape>): Flake;
  * a resource root: a non-resource root yields a leaf flake with no drain.
  *
  * @param shape The {@link Lazy | lazy} root shape
- * @param model The retrieval {@link @metreeca/qest/model!Template | template} selecting the properties to keep
+ * @param model The retrieval {@link @grafctory/qest/model!Template | template} selecting the properties to keep
  *
  * @returns An immutable {@link Flake} restricted to the properties `model` addresses
  *
@@ -382,7 +382,7 @@ export function createFlake(shape: Lazy<Shape>, model: Template): Flake;
 
 /**
  * Builds a {@link Flake} from a {@link Shape} and an optional retrieval
- * {@link @metreeca/qest/model!Template | template}.
+ * {@link @grafctory/qest/model!Template | template}.
  */
 export function createFlake(shape: Lazy<Shape>, model?: Template): Flake {
 
@@ -396,8 +396,8 @@ export function createFlake(shape: Lazy<Shape>, model?: Template): Flake {
  *
  * Each node the query addresses carries the constraints, ordering, pagination, transforms, and projections the
  * query states for it. The root carries the whole query as its {@link Flake.drain | drain}. Collection queries
- * need this factory: unlike the plain {@link @metreeca/qest/model!Template | template} that {@link createFlake}
- * accepts, a query merges its {@link @metreeca/qest/model!Criteria | criteria} with its retrieval keys.
+ * need this factory: unlike the plain {@link @grafctory/qest/model!Template | template} that {@link createFlake}
+ * accepts, a query merges its {@link @grafctory/qest/model!Criteria | criteria} with its retrieval keys.
  *
  * An empty-path binding (qest §5.8.1) projects each member itself. The root then carries the binding alias, so
  * {@link getFlakeProjection} indexes the root under it and a grouped query uses the member as a grouping key.
@@ -437,7 +437,7 @@ export function isComputedFlake(flake: Flake): boolean {
  * Checks whether a {@link Flake} is an aggregate transform stage.
  *
  * True for a {@link isComputedFlake | computed} node whose leading {@link Flake.pipe | pipe} transform
- * aggregates a group (`qest`'s {@link @metreeca/qest/model!isAggregate | isAggregate}), such as a count or
+ * aggregates a group (`qest`'s {@link @grafctory/qest/model!isAggregate | isAggregate}), such as a count or
  * sum. Aggregate stages drive grouped query semantics: the non-aggregate projections become the grouping keys, and
  * constraints on aggregates filter groups rather than items. The test is local to the node and ignores aggregate
  * stages nested beneath it; {@link isGroupingFlake} checks the projections across the whole tree.
@@ -454,7 +454,7 @@ export function isAggregateFlake(flake: Flake): boolean {
  * Checks whether a {@link Flake} groups the query.
  *
  * True when any of the flake's {@link getFlakeProjections | projected flakes} carries an
- * {@link @metreeca/qest/model!isAggregate | aggregate} transform along its {@link Flake.pipe | pipe}. A single
+ * {@link @grafctory/qest/model!isAggregate | aggregate} transform along its {@link Flake.pipe | pipe}. A single
  * aggregate projection switches the whole query to grouped semantics: the non-aggregate projections become the
  * grouping keys (see {@link getFlakeGrouping}) and the aggregates reduce each group. The test covers every
  * projection in the tree, unlike {@link isAggregateFlake}, which tests one node.
@@ -675,7 +675,7 @@ export function isModelBranch(flake: Flake): flake is Branch & {
 
 /**
  * Checks whether a flake steps through a multi-valued {@link Property}, whose retrieval addresses a collection
- * and carries the {@link @metreeca/qest/model!Criteria | criteria} narrowing it.
+ * and carries the {@link @grafctory/qest/model!Criteria | criteria} narrowing it.
  *
  * Cardinality is read off the property the branch steps through, as explained on {@link isModelBranch}; localised
  * properties never qualify.
@@ -815,7 +815,7 @@ export function getFlakeProjection(flake: Flake): { readonly [alias: Identifier]
  * declares (qest §5.5), so each variant of a union is expanded under its own template.
  *
  * @param flake The node whose branches to read
- * @param shape One of the range {@link @metreeca/blue/union!getShapeBranches | variants} to restrict the template to
+ * @param shape One of the range {@link @grafctory/blue/union!getShapeBranches | variants} to restrict the template to
  *
  * @returns The template `flake`'s branches request, keyed by property name
  */
@@ -833,7 +833,7 @@ export function getFlakeTemplate(flake: Flake, shape?: Shape): Template {
  * Collects the grouping keys of a {@link Flake}.
  *
  * The {@link getFlakeProjections | projected flakes} that do not carry an
- * {@link @metreeca/qest/model!isAggregate | aggregate} transform along their {@link Flake.pipe | pipe}. When the
+ * {@link @grafctory/qest/model!isAggregate | aggregate} transform along their {@link Flake.pipe | pipe}. When the
  * flake {@link isGroupingFlake | groups the query}, these are the keys each group is formed on, while the aggregate
  * projections reduce per group.
  *
@@ -877,7 +877,7 @@ export function getFlakeFocusing(flake: Flake): readonly (Flake & { readonly foc
  *
  * Returns every node at or under the flake that bears a {@link Flake.order | sort order} (qest §5.7.5), including
  * transform stages and nested property branches. Nodes are sorted by their
- * {@link @metreeca/qest/model!getOrderPrecedence | precedence}, with tree order breaking ties. These are the regular
+ * {@link @grafctory/qest/model!getOrderPrecedence | precedence}, with tree order breaking ties. These are the regular
  * sort criteria, applied after any {@link getFlakeFocusing | sort focus}.
  *
  * @param flake The flake to collect from
@@ -912,7 +912,7 @@ export function getFlakeOrdering(flake: Flake): readonly (Flake & { readonly ord
  *
  * @param flake The node whose branches to select: any {@link Flake}, including a collection flake root, not only
  * a {@link Branch}
- * @param shape One of the range {@link @metreeca/blue/union!getShapeBranches | variants} to select by
+ * @param shape One of the range {@link @grafctory/blue/union!getShapeBranches | variants} to select by
  *
  * @returns The branches `shape` declares, in the order of the node's {@link Flake.entries | entries}
  */

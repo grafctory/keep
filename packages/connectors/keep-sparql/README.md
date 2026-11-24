@@ -1,13 +1,13 @@
-# @metreeca/keep-sparql
+# @grafctory/keep-sparql
 
-[![npm](https://img.shields.io/npm/v/@metreeca/keep-sparql)](https://www.npmjs.com/package/@metreeca/keep-sparql)
+[![npm](https://img.shields.io/npm/v/@grafctory/keep-sparql)](https://www.npmjs.com/package/@grafctory/keep-sparql)
 
-SPARQL 1.1 repository connector for the [@metreeca/keep](https://github.com/metreeca/keep) model-driven linked data
+SPARQL 1.1 repository connector for the [@grafctory/keep](https://github.com/grafctory/keep) model-driven linked data
 storage framework.
 
-Translates @metreeca/keep storage operations into SPARQL queries and updates against a pluggable graph backend.
-Application developers can pick one of the [ready-made connectors](https://github.com/metreeca/wire#installation) or
-implement the [@metreeca/wire-sparql](https://github.com/metreeca/wire/tree/main/packages/wire-sparql) `Repository`
+Translates @grafctory/keep storage operations into SPARQL queries and updates against a pluggable graph backend.
+Application developers can pick one of the [ready-made connectors](https://github.com/grafctory/wire#installation) or
+implement the [@grafctory/wire-sparql](https://github.com/grafctory/wire/tree/main/packages/wire-sparql) `Repository`
 interface to support a new SPARQL backend.
 
 > [!IMPORTANT]
@@ -28,11 +28,11 @@ interface to support a new SPARQL backend.
 # Installation
 
 Install the framework together with a backend connector from the
-[@metreeca/wire](https://github.com/metreeca/wire) SPARQL connector collection:
+[@grafctory/wire](https://github.com/grafctory/wire) SPARQL connector collection:
 
 ```shell
-npm install @metreeca/keep-sparql
-npm install @metreeca/wire-sparql-oxigraph    # or another backend connector
+npm install @grafctory/keep-sparql
+npm install @grafctory/wire-sparql-oxigraph    # or another backend connector
 ```
 
 # Usage
@@ -40,16 +40,16 @@ npm install @metreeca/wire-sparql-oxigraph    # or another backend connector
 > [!NOTE]
 >
 > This section introduces essential concepts; for complete coverage, see the
-> [API reference](https://metreeca.github.io/keep/modules/_metreeca_keep-sparql.html).
+> [API reference](https://grafctory.github.io/keep/modules/_grafctory_keep-sparql.html).
 
 ## Wiring a Store
 
-Pass any [@metreeca/wire-sparql](https://github.com/metreeca/wire/tree/main/packages/wire-sparql) `Repository`
+Pass any [@grafctory/wire-sparql](https://github.com/grafctory/wire/tree/main/packages/wire-sparql) `Repository`
 connector to `createSPARQLStore` to obtain a fully functional `Store`:
 
 ```typescript
-import { createSPARQLStore } from "@metreeca/keep-sparql";
-import { createOxiRepository } from "@metreeca/wire-sparql-oxigraph";
+import { createSPARQLStore } from "@grafctory/keep-sparql";
+import { createOxiRepository } from "@grafctory/wire-sparql-oxigraph";
 
 const store = createSPARQLStore(createOxiRepository());
 
@@ -74,18 +74,18 @@ const store = createSPARQLStore(createOxiRepository(), { batch: 200, burst: 4 })
 
 ## Implementing a Connector
 
-A backend connector is a [@metreeca/wire-sparql](https://github.com/metreeca/wire/tree/main/packages/wire-sparql)
+A backend connector is a [@grafctory/wire-sparql](https://github.com/grafctory/wire/tree/main/packages/wire-sparql)
 `Repository`: implement `ask`, `select`, `construct`, `update`, `execute`, and `close`, lifting backend node values into
-the shared [@metreeca/trio](https://github.com/metreeca/trio) `Term` representation with the `named`, `tagged`, and
+the shared [@grafctory/trio](https://github.com/grafctory/trio) `Term` representation with the `named`, `tagged`, and
 `typed` constructors. `createSPARQLStore` then turns any such connector into a `Store`.
 
-See [@metreeca/wire-sparql-oxigraph](https://github.com/metreeca/wire/tree/main/packages/wire-sparql-oxigraph) for a
+See [@grafctory/wire-sparql-oxigraph](https://github.com/grafctory/wire/tree/main/packages/wire-sparql-oxigraph) for a
 complete reference connector.
 
 # Verified Backends
 
 This SPARQL connector has been exercised against the
-[@metreeca/keep-suite](https://github.com/metreeca/keep/tree/main/packages/components/keep-suite) conformance suite on
+[@grafctory/keep-suite](https://github.com/grafctory/keep/tree/main/packages/components/keep-suite) conformance suite on
 the backends and versions below, through the listed connectors.
 
 | Engine                       | Version | Storage       | Connectors                                      |
@@ -107,10 +107,10 @@ the backends and versions below, through the listed connectors.
 
 # Support
 
-- open an [issue](https://github.com/metreeca/keep/issues) to report a problem or to suggest a new feature
-- start a [discussion](https://github.com/metreeca/keep/discussions) to ask a how-to question or to share an idea
+- open an [issue](https://github.com/grafctory/keep/issues) to report a problem or to suggest a new feature
+- start a [discussion](https://github.com/grafctory/keep/discussions) to ask a how-to question or to share an idea
 
 # License
 
 This project is licensed under the Apache 2.0 License –
-see [LICENSE](https://github.com/metreeca/keep?tab=Apache-2.0-1-ov-file) file for details.
+see [LICENSE](https://github.com/grafctory/keep?tab=Apache-2.0-1-ov-file) file for details.

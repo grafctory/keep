@@ -24,9 +24,9 @@
  * @module index
  */
 
-import { createQueryFlake } from "@metreeca/keep-flake";
-import type { Broker, Deferred, Select } from "@metreeca/keep/batching";
-import type { RepositoryClient } from "@metreeca/wire-sparql";
+import { createQueryFlake } from "@grafctory/keep-flake";
+import type { Broker, Deferred, Select } from "@grafctory/keep/batching";
+import type { RepositoryClient } from "@grafctory/wire-sparql";
 import { read } from "../spine.js";
 import { decode } from "./decode.js";
 import { encode, type Group } from "./encode.js";

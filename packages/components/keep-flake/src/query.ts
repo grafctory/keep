@@ -34,11 +34,11 @@
  * @module
  */
 
-import { getShapeProperties } from "@metreeca/blue/resource";
-import { getShapeBranches, type UnionShape } from "@metreeca/blue/union";
-import { type Range, type Shape } from "@metreeca/blue/value";
-import { type Identifier, isIdentifier, isObject } from "@metreeca/core";
-import { immutable } from "@metreeca/core/values";
+import { getShapeProperties } from "@grafctory/blue/resource";
+import { getShapeBranches, type UnionShape } from "@grafctory/blue/union";
+import { type Range, type Shape } from "@grafctory/blue/value";
+import { type Identifier, isIdentifier, isObject } from "@grafctory/core";
+import { immutable } from "@grafctory/core/values";
 import {
 	decodeProbe,
 	isQuery,
@@ -49,7 +49,7 @@ import {
 	type Query,
 	type Slot,
 	type Transform
-} from "@metreeca/qest/model";
+} from "@grafctory/qest/model";
 import {
 	getDrain,
 	getEntries,
@@ -115,7 +115,7 @@ type Entry = Omit<Probe, "target"> & {
  * resolves the lazy member shape and delegates here.
  *
  * @param shape The member shape: the value shape of the collection's elements
- * @param query The query retrieving the collection, its {@link @metreeca/qest/model!Criteria | criteria} merged
+ * @param query The query retrieving the collection, its {@link @grafctory/qest/model!Criteria | criteria} merged
  * in alongside its retrieval keys
  *
  * @returns The immutable {@link Flake} rooted at `shape`, carrying the whole query on its
@@ -205,12 +205,12 @@ function queryProbeEntryOf([key, value]: readonly [string, unknown]): Entry {
 }
 
 /**
- * Checks whether a key labels a {@link @metreeca/qest/model!Union | union} alternative.
+ * Checks whether a key labels a {@link @grafctory/qest/model!Union | union} alternative.
  *
  * Alternatives are keyed by opaque canonical non-negative integer strings (§5.5), which is what tells the
  * keyed union form apart from a template or projection naming the element. Model walks settle the same
- * question with qest's {@link @metreeca/qest/model!isUnion | isUnion}, which a query node escapes: its
- * alternatives carry the bindings and criteria no {@link @metreeca/qest/model!Placeholder | placeholder}
+ * question with qest's {@link @grafctory/qest/model!isUnion | isUnion}, which a query node escapes: its
+ * alternatives carry the bindings and criteria no {@link @grafctory/qest/model!Placeholder | placeholder}
  * admits.
  */
 function isVariantKey(key: string): boolean {
@@ -226,7 +226,7 @@ const VariantKeys = /^(0|[1-9]\d*)$/;
  *
  * A bare identifier path (`name`, `vendor.name`) is a template entry retrieved by descent. It names no
  * binding, so it carries no target and its node gets no alias: an alias marks a projected node alone. qest's
- * {@link @metreeca/qest/model!decodeProbe | decodeProbe} accepts only explicit `alias=expression` bindings, so
+ * {@link @grafctory/qest/model!decodeProbe | decodeProbe} accepts only explicit `alias=expression` bindings, so
  * the descent is decoded locally, while binding (`alias=expr`) and operator (`>price`) keys route through
  * `decodeProbe`, which rejects a malformed key as a contract violation of the query.
  */
@@ -298,7 +298,7 @@ function queryNodeOf(range: Range, path: readonly Identifier[], entries: readonl
  * Folds a projection binding's nested `Query<Slot>` into the terminal node's {@link Entries}.
  *
  * A binding whose expression crosses a union-typed step (§5.8.1) is union-typed, so it carries the keyed
- * {@link @metreeca/qest/model!Union | union} form (§5.5) even though the walk has fanned each variant to its
+ * {@link @grafctory/qest/model!Union | union} form (§5.5) even though the walk has fanned each variant to its
  * own single reference/resource variant. Decompose it against that narrowed `range`: fold every keyed alternative
  * on its own and merge, so the alternative matching this variant surfaces its branches while the others, naming
  * no property of this target, drop out (§5.5). A multi-variant `range` (a binding whose final step is itself

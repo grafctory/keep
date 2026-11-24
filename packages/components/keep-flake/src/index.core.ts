@@ -23,13 +23,13 @@
  * @module
  */
 
-import { getShapeTarget } from "@metreeca/blue/reference";
-import type { Member } from "@metreeca/blue/resource";
-import { getModelBranches, getShapeBranches } from "@metreeca/blue/union";
-import { effective, type Range, type Shape } from "@metreeca/blue/value";
-import { type Identifier, isArray, isObject, isString, type Lazy, opt } from "@metreeca/core";
-import { TraceError } from "@metreeca/core/trace";
-import { immutable } from "@metreeca/core/values";
+import { getShapeTarget } from "@grafctory/blue/reference";
+import type { Member } from "@grafctory/blue/resource";
+import { getModelBranches, getShapeBranches } from "@grafctory/blue/union";
+import { effective, type Range, type Shape } from "@grafctory/blue/value";
+import { type Identifier, isArray, isObject, isString, type Lazy, opt } from "@grafctory/core";
+import { TraceError } from "@grafctory/core/trace";
+import { immutable } from "@grafctory/core/values";
 import {
 	encodeProbe,
 	isAtomic,
@@ -46,7 +46,7 @@ import {
 	type Slot,
 	type Transform,
 	type Union
-} from "@metreeca/qest/model";
+} from "@grafctory/qest/model";
 import type { Branch, Drain, Entries } from "./index.js";
 
 
@@ -79,12 +79,12 @@ export function getTransformRange(range: Range, transform: Transform): Range {
 
 
 /**
- * Resolves a probe against a shape or range through blue's {@link @metreeca/blue/value!effective | effective}.
+ * Resolves a probe against a shape or range through blue's {@link @grafctory/blue/value!effective | effective}.
  *
  * Backs {@link getRootRange}, {@link getPropertyRange}, and {@link getTransformRange}; every range in a flake is
  * built one step at a time through those, never over a multi-step path.
  *
- * @throws {@link @metreeca/core/trace!TraceError | TraceError} If the probe fails to resolve: a contract violation,
+ * @throws {@link @grafctory/core/trace!TraceError | TraceError} If the probe fails to resolve: a contract violation,
  * since Keep validates models at its boundary
  */
 function getRange(source: Shape | Range, path: readonly Identifier[], pipe: readonly Transform[]): Range {
@@ -112,7 +112,7 @@ function getRange(source: Shape | Range, path: readonly Identifier[], pipe: read
  *
  * A query addresses a union-typed property in one of two forms:
  *
- *  - a **keyed** {@link @metreeca/qest/model!Union | union}, whose retrieval keys are all opaque branch keys, states
+ *  - a **keyed** {@link @grafctory/qest/model!Union | union}, whose retrieval keys are all opaque branch keys, states
  *    one alternative per key;
  *  - any **other** query is itself the single alternative.
  *
@@ -129,7 +129,7 @@ function getRange(source: Shape | Range, path: readonly Identifier[], pipe: read
  * > alternative matching no variant (§5.3, §5.5); an alternative that still matches none contributes nothing here.
  *
  * @param shape The union-typed property's shape, possibly deferred to break definition cycles; its variants are
- * resolved as {@link @metreeca/blue/union!getShapeBranches | getShapeBranches} enumerates them
+ * resolved as {@link @grafctory/blue/union!getShapeBranches | getShapeBranches} enumerates them
  * @param query The union-typed property's query: a keyed union, or a single alternative
  *
  * @returns One `[variant, alternative]` pair per alternative and variant it reaches, in alternative order; empty
@@ -201,7 +201,7 @@ export function getUnionBranches(shape: Lazy<Shape>, query: Query<Slot>): readon
  * it through its alternative.
  *
  * @param shape The union-typed property's shape, possibly deferred to break definition cycles; its variants are
- * resolved as {@link @metreeca/blue/union!getShapeBranches | getShapeBranches} enumerates them
+ * resolved as {@link @grafctory/blue/union!getShapeBranches | getShapeBranches} enumerates them
  * @param query The union-typed property's query: a keyed union, or a single alternative
  *
  * @returns Each retrieved variant mapped to its folded alternative, in the order alternatives first reach them;
@@ -319,7 +319,7 @@ export function getDrain(range: Range, query: Query<Slot>, alias?: Identifier): 
  * entered through the first declaring variant's member and ranging over the disjunction of the per-variant
  * declarations (§5.8.1). Only a single-valued property expanded by a non-atomic request is descended for nested
  * properties. An atomic request (§5.3) or a multi-valued property, whose nested retrieval stays in its
- * {@link @metreeca/qest/model!Query | query} (§5.6), holds none. `path` accumulates the branch path to this node
+ * {@link @grafctory/qest/model!Query | query} (§5.6), holds none. `path` accumulates the branch path to this node
  * and is prefixed onto the path of every emitted child branch, so each branch carries its full address.
  *
  * @param range The effective {@link Range} of the node whose properties are assembled
@@ -465,8 +465,8 @@ export function mergeEntries(entries: readonly Entries[]): undefined | Entries {
 /**
  * Lists the retrieval entries a query states.
  *
- * Splits off the retrieval half a {@link @metreeca/qest/model!Query | query} states from the
- * {@link @metreeca/qest/model!Criteria | criteria} it carries alongside (§5.6): the criteria constrain the collection
+ * Splits off the retrieval half a {@link @grafctory/qest/model!Query | query} states from the
+ * {@link @grafctory/qest/model!Criteria | criteria} it carries alongside (§5.6): the criteria constrain the collection
  * the query retrieves and are held by the node retrieving it, so a walk descending into the entries leaves them
  * behind. Every retrieval form keys its entries by string and nests a query under each, so the entries serve
  * whatever form the query takes.

@@ -18,7 +18,7 @@
  * Connector conformance test suite.
  *
  * Provides reusable test suites that backend connector packages run to verify their {@link Store}
- * implementations satisfy the contracts defined by `@metreeca/keep`.
+ * implementations satisfy the contracts defined by `@grafctory/keep`.
  *
  * {@link testStore} covers resource and collection retrieval, conditional and unconditional writes, transaction
  * execution, mutation events, and lifecycle management.
@@ -27,7 +27,7 @@
  * them with the {@link toys | sample dataset}.
  *
  * ```typescript
- * import { testStore } from "@metreeca/keep-suite";
+ * import { testStore } from "@grafctory/keep-suite";
  * import { describe } from "vitest";
  *
  * describe("my-connector", () => testStore({
@@ -45,12 +45,12 @@
  * @module index
  */
 
-import type { ResourceShape } from "@metreeca/blue/resource";
-import type { State } from "@metreeca/blue/value";
-import type { Eager, Lazy } from "@metreeca/core";
-import type { DeepPartial } from "@metreeca/core/values";
-import type { Store, StoreClient } from "@metreeca/keep";
-import type { Reference, Resource } from "@metreeca/qest/state";
+import type { ResourceShape } from "@grafctory/blue/resource";
+import type { State } from "@grafctory/blue/value";
+import type { Eager, Lazy } from "@grafctory/core";
+import type { DeepPartial } from "@grafctory/core/values";
+import type { Store, StoreClient } from "@grafctory/keep";
+import type { Reference, Resource } from "@grafctory/qest/state";
 import type { Awaitable } from "@vitest/utils";
 import { afterAll, beforeAll, describe } from "vitest";
 import type { TestFactory, TestFixture } from "./index.core.js";
@@ -75,7 +75,7 @@ import { testRetrieveVirtual } from "./retrieve/virtual.js";
 /**
  * Fact probe accepted for a resource shape.
  *
- * For a concrete shape, a {@link @metreeca/core/values!DeepPartial | DeepPartial} state: the probe states only the
+ * For a concrete shape, a {@link @grafctory/core/values!DeepPartial | DeepPartial} state: the probe states only the
  * slots it asserts, each held to its declared type. For an abstract shape, any resource.
  *
  * @typeParam S The resource shape the probe conforms to

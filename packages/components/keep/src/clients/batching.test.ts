@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { reference } from "@metreeca/blue/reference";
-import { id, multiple, optional, type Property, required, resource, type ResourceShape } from "@metreeca/blue/resource";
-import { string } from "@metreeca/blue/string";
-import { eager } from "@metreeca/blue/value";
-import type { Lazy } from "@metreeca/core";
-import type { Query, Slot, Template } from "@metreeca/qest/model";
-import type { Reference } from "@metreeca/qest/state";
+import { reference } from "@grafctory/blue/reference";
+import { id, multiple, optional, type Property, required, resource, type ResourceShape } from "@grafctory/blue/resource";
+import { string } from "@grafctory/blue/string";
+import { eager } from "@grafctory/blue/value";
+import type { Lazy } from "@grafctory/core";
+import type { Query, Slot, Template } from "@grafctory/qest/model";
+import type { Reference } from "@grafctory/qest/state";
 import { describe, expect, it, vi } from "vitest";
 import { createBroker, mint } from "./batching.core.js";
 import {

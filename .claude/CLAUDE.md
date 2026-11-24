@@ -1,6 +1,6 @@
 ---
 title: Project Guidelines
-description: Development guidelines and conventions for the @metreeca/keep package.
+description: Development guidelines and conventions for the @grafctory/keep package.
 ---
 
 > [!CAUTION]
@@ -10,13 +10,13 @@ description: Development guidelines and conventions for the @metreeca/keep packa
 
 # References
 
-- [@metreeca/core](https://github.com/metreeca/core) - Core utilities and shared types
-- [@metreeca/qest](https://github.com/metreeca/qest) - Linked data models and query languages
-- [@metreeca/blue](https://github.com/metreeca/blue) - Model-driven linked data modeling
-- [@metreeca/tape](https://github.com/metreeca/tape) - Simplified logging facade over LogTape
+- [@grafctory/core](https://github.com/grafctory/core) - Core utilities and shared types
+- [@grafctory/qest](https://github.com/grafctory/qest) - Linked data models and query languages
+- [@grafctory/blue](https://github.com/grafctory/blue) - Model-driven linked data modeling
+- [@grafctory/tape](https://github.com/grafctory/tape) - Simplified logging facade over LogTape
 
 > [!CAUTION]
-> Any work depending on QEST semantics MUST be checked against the specs index at `@metreeca/qest/src/index.md`. The
+> Any work depending on QEST semantics MUST be checked against the specs index at `@grafctory/qest/src/index.md`. The
 > specs are authoritative: in doubt, they win over code and tests; suspected spec errors must be raised, never worked
 > around.
 
@@ -24,7 +24,7 @@ description: Development guidelines and conventions for the @metreeca/keep packa
 
 - **`npm run clean`** - Remove dependencies and build artefacts
 - **`npm run prime`** - Install dependencies from the lockfile
-- **`npm run setup`** - Install dependencies and link sibling `@metreeca/*` repositories
+- **`npm run setup`** - Install dependencies and link sibling `@grafctory/*` repositories
 - **`npm run build`** - Compile sources and generate docs
 - **`npm run check`** - Run the test suite
 - **`npm run proof`** - Build and serve docs
@@ -32,19 +32,19 @@ description: Development guidelines and conventions for the @metreeca/keep packa
 		see [#1772](https://github.com/TypeStrong/typedoc/issues/1772)
 
 > [!CAUTION]
-> **`prime` and `setup` are not interchangeable.** Run `prime` when finalising a public release: `@metreeca/*` imports
+> **`prime` and `setup` are not interchangeable.** Run `prime` when finalising a public release: `@grafctory/*` imports
 > resolve to the published releases recorded in the lockfile. Run `setup` for local development against unpublished
 > sibling branches: imports resolve to the working copies in the neighbouring repositories.
 
 # Testing
 
-The root `vitest.config.ts` resolves imports of symlinked `@metreeca/*` packages (workspace packages and siblings
-linked by `npm run setup`) to the TypeScript source their `@metreeca/source` export entries declare, so vitest
-transpiles directly from `src/` without requiring a prior build step. Every export MUST declare its `@metreeca/source`
+The root `vitest.config.ts` resolves imports of symlinked `@grafctory/*` packages (workspace packages and siblings
+linked by `npm run setup`) to the TypeScript source their `@grafctory/source` export entries declare, so vitest
+transpiles directly from `src/` without requiring a prior build step. Every export MUST declare its `@grafctory/source`
 entry: one lacking it silently resolves to the stale `dist` build.
 
 > [!CAUTION]
-> **NEVER** enable `@metreeca/source` through vitest `resolve.conditions`. Published manifests carry the entry while
+> **NEVER** enable `@grafctory/source` through vitest `resolve.conditions`. Published manifests carry the entry while
 > the tarball ships no `src/`, and Vite does not fall back to `default` on a missing target, so a global condition
 > breaks every registry-installed package that declares it. Gating on the symlink keeps CI runs on `dist`.
 
@@ -60,7 +60,7 @@ files by name) still hold.
 
 All workspace packages share the same version, defined in the root `package.json` `version` entry. When bumping the
 version, cascade the change to all `packages/*/package.json`: both the package `version` entry and any internal
-`@metreeca/keep*` dependency ranges.
+`@grafctory/keep*` dependency ranges.
 
 When adding, removing, or renaming packages, update the package table in the root `README.md` Usage section to match.
 
@@ -68,14 +68,14 @@ When adding, removing, or renaming packages, update the package table in the roo
 
 Each `packages/*/README.md` follows this structure (read standalone on npm):
 
-1. **Title** — `# @metreeca/<package>`
+1. **Title** — `# @grafctory/<package>`
 2. **npm badge** — links to npmjs.com
 3. **Description with framework link** — one sentence combining `package.json` `description` with a link to the
-	 framework, for example `SPARQL storage connector for the [@metreeca/keep](...) model-driven linked data storage
+	 framework, for example `SPARQL storage connector for the [@grafctory/keep](...) model-driven linked data storage
    framework.` The framework link is mandatory on every package, including the framework-namesake core package: the
 	 self-reference still anchors the package within the wider framework. Where the description already says
 	 `model-driven`, drop it from the framework qualifier to avoid the repetition, as the core package does:
-	 `Core model-driven storage API for the [@metreeca/keep](...) linked data storage framework.`
+	 `Core model-driven storage API for the [@grafctory/keep](...) linked data storage framework.`
 
 When changing a package description, update all three locations (`package.json` `description`, README first paragraph,
 and module doc definition line), plus the package table in the root `README.md`.
@@ -96,7 +96,7 @@ and module doc definition line), plus the package table in the root `README.md`.
 revising, verify:
 
 - Every cross-reference to sibling packages, "connector packages", or other framework concepts resolves to an absolute
-	URL, typically `https://github.com/metreeca/keep#installation` for the connector table, the sibling repository, or the
+	URL, typically `https://github.com/grafctory/keep#installation` for the connector table, the sibling repository, or the
   matching TypeDoc page. No bare prose references that leave a cold reader stranded
 - Code examples conform to the documented API contract: for example, `entry` literals in `Store` examples are absolute
 	IRIs (`http://example.com/...`), since the contract rejects relative paths with `RangeError`
@@ -105,9 +105,9 @@ revising, verify:
 
 # Dependency Guidelines
 
-- **Internal `@metreeca/keep*` packages**: Use regular dependencies, not peer dependencies. Consumers should not have to
+- **Internal `@grafctory/keep*` packages**: Use regular dependencies, not peer dependencies. Consumers should not have to
 	manually install the full transitive chain
-- **External adapted libraries** (for example, `oxigraph` in `@metreeca/wire-sparql-oxigraph`): Use peer dependencies.
+- **External adapted libraries** (for example, `oxigraph` in `@grafctory/wire-sparql-oxigraph`): Use peer dependencies.
 	The consumer provides the library being adapted
 
 # Issues
@@ -116,7 +116,7 @@ When filing issues against this monorepo, apply a `pkg:*` label to identify the 
 `packages/keep-<name>/` directory names (`pkg:core`, `pkg:suite`, ...) and share the convention colour `#0e8a16`, with
 one exception: the SPARQL stack folds into the single `pkg:sparql` label rather than minting a label per package. The
 stack is now just `keep-sparql`, since the backend connectors were extracted to the separate
-[`@metreeca/wire`](https://github.com/metreeca/wire) collection. When a new non-SPARQL package is added, clone the
+[`@grafctory/wire`](https://github.com/grafctory/wire) collection. When a new non-SPARQL package is added, clone the
 `pkg:core` label (same colour, description `<package> package`) to keep the set consistent.
 
 > [!IMPORTANT]
@@ -152,7 +152,7 @@ stack is now just `keep-sparql`, since the backend connectors were extracted to 
 # Transaction Isolation and Mutation Event Declarations
 
 The `Store` interface contract requires every implementation to document its supported transaction isolation level and
-mutation event scope. The graph-layer `Repository` interface (in `@metreeca/wire-sparql`) carries the same isolation
+mutation event scope. The graph-layer `Repository` interface (in `@grafctory/wire-sparql`) carries the same isolation
 requirement.
 
 **Placement** — on the factory function TSDoc (the exported `create*` symbol), immediately after the brief description.
@@ -182,7 +182,7 @@ leading with a bold label:
 - **Wrapper factory** — state explicitly that semantics are inherited, for example
 	`Inherited from the wrapped {@link Store}`.
 - **Delegating factory** — state which inner component determines the level, for example
-	`Determined by the supplied {@link @metreeca/wire-sparql!Repository | Repository}`.
+	`Determined by the supplied {@link @grafctory/wire-sparql!Repository | Repository}`.
 - **No native support** — use `None` and describe the resulting caller-visible behaviour (eager apply, no rollback, no
 	cross-client signal).
 
@@ -190,5 +190,5 @@ leading with a bold label:
 `[!IMPORTANT]` or `[!WARNING]` alert in the slot defined by the `Package README Structure` section, so the contract is
 visible to npm readers without drilling into the API reference. See
 [`keep-sparql/README.md`](../packages/connectors/keep-sparql/README.md) for a delegating-factory claim, and the
-[`@metreeca/wire-sparql-oxigraph`](https://github.com/metreeca/wire/blob/main/packages/wire-sparql-oxigraph/README.md)
+[`@grafctory/wire-sparql-oxigraph`](https://github.com/grafctory/wire/blob/main/packages/wire-sparql-oxigraph/README.md)
 README for a native-backend claim.

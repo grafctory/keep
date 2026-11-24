@@ -1,8 +1,8 @@
-# @metreeca/keep-flake
+# @grafctory/keep-flake
 
-[![npm](https://img.shields.io/npm/v/@metreeca/keep-flake)](https://www.npmjs.com/package/@metreeca/keep-flake)
+[![npm](https://img.shields.io/npm/v/@grafctory/keep-flake)](https://www.npmjs.com/package/@grafctory/keep-flake)
 
-Shape-driven traversal trees for connectors of the [@metreeca/keep](https://github.com/metreeca/keep) model-driven
+Shape-driven traversal trees for connectors of the [@grafctory/keep](https://github.com/grafctory/keep) model-driven
 linked data storage framework.
 
 Gathers a resource shape and its optional retrieval template or collection query into a single traversal tree. A
@@ -13,7 +13,7 @@ names or dataset-specific assumptions.
 # Installation
 
 ```shell
-npm install @metreeca/keep-flake
+npm install @grafctory/keep-flake
 ```
 
 # Usage
@@ -21,10 +21,10 @@ npm install @metreeca/keep-flake
 > [!NOTE]
 >
 > This section introduces essential concepts; for complete coverage, see the
-> [API reference](https://metreeca.github.io/keep/modules/_metreeca_keep-flake.html).
+> [API reference](https://grafctory.github.io/keep/modules/_grafctory_keep-flake.html).
 
 This package serves connector authors building backends for
-[@metreeca/keep](https://github.com/metreeca/keep#installation). Connectors depending on it pull it in automatically, so
+[@grafctory/keep](https://github.com/grafctory/keep#installation). Connectors depending on it pull it in automatically, so
 application code does not normally install it directly.
 
 The package builds three flavours of traversal tree:
@@ -36,10 +36,10 @@ The package builds three flavours of traversal tree:
 
 # Support
 
-- open an [issue](https://github.com/metreeca/keep/issues) to report a problem or to suggest a new feature
-- start a [discussion](https://github.com/metreeca/keep/discussions) to ask a how-to question or to share an idea
+- open an [issue](https://github.com/grafctory/keep/issues) to report a problem or to suggest a new feature
+- start a [discussion](https://github.com/grafctory/keep/discussions) to ask a how-to question or to share an idea
 
 # License
 
 This project is licensed under the Apache 2.0 License –
-see [LICENSE](https://github.com/metreeca/keep?tab=Apache-2.0-1-ov-file) file for details.
+see [LICENSE](https://github.com/grafctory/keep?tab=Apache-2.0-1-ov-file) file for details.

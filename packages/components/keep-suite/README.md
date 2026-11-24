@@ -1,8 +1,8 @@
-# @metreeca/keep-suite
+# @grafctory/keep-suite
 
-[![npm](https://img.shields.io/npm/v/@metreeca/keep-suite)](https://www.npmjs.com/package/@metreeca/keep-suite)
+[![npm](https://img.shields.io/npm/v/@grafctory/keep-suite)](https://www.npmjs.com/package/@grafctory/keep-suite)
 
-Connector conformance test suite for the [@metreeca/keep](https://github.com/metreeca/keep) model-driven linked data
+Connector conformance test suite for the [@grafctory/keep](https://github.com/grafctory/keep) model-driven linked data
 storage framework.
 
 Provides shared test fixtures and a conformance harness for verifying that storage connector implementations correctly
@@ -12,7 +12,7 @@ developers.
 # Installation
 
 ```shell
-npm install @metreeca/keep-suite
+npm install @grafctory/keep-suite
 npm install vitest
 ```
 
@@ -25,7 +25,7 @@ Connector packages add the suite and Vitest under `devDependencies`:
 ```json
 {
   "devDependencies": {
-    "@metreeca/keep-suite": "^0.11.0",
+    "@grafctory/keep-suite": "^0.11.0",
     "vitest": "^4.0.0"
   }
 }
@@ -36,7 +36,7 @@ Connector packages add the suite and Vitest under `devDependencies`:
 Import `testStore` and call it inside a `describe` block with callbacks that provision and manage your store:
 
 ```typescript
-import { testStore } from "@metreeca/keep-suite";
+import { testStore } from "@grafctory/keep-suite";
 import { describe } from "vitest";
 
 describe("my-connector", () => testStore({
@@ -56,7 +56,7 @@ describe("my-connector", () => testStore({
 ```
 
 The suite registers sub-suites for retrieval, create, update, delete, insert, remove, transactions, mutation events, and
-lifecycle. See the [API reference](https://metreeca.github.io/keep/modules/_metreeca_keep-suite.html) for the full list.
+lifecycle. See the [API reference](https://grafctory.github.io/keep/modules/_grafctory_keep-suite.html) for the full list.
 Filter sub-suites or individual tests with `target` and `ignore`. Patterns are matched as substrings against the full
 test path (well-known sub-suite tag plus inner `describe`/`it` names, joined by ` > `):
 
@@ -81,15 +81,15 @@ describe("my-connector", () => testStore({
 Tests run against a toy catalogue dataset with 62 products, 11 hierarchical categories, and 5 vendors. The dataset
 exercises cardinality variants, data types, structural patterns, and query operations.
 
-Resource [shapes][shapes] ([source][shapes-src]) are defined using [@metreeca/blue](https://github.com/metreeca/blue),
-the declarative modelling language that drives the entire @metreeca/keep storage framework. [Sample data][data] is
+Resource [shapes][shapes] ([source][shapes-src]) are defined using [@grafctory/blue](https://github.com/grafctory/blue),
+the declarative modelling language that drives the entire @grafctory/keep storage framework. [Sample data][data] is
 loaded by the `populate` callback before each retrieval sub-suite.
 
-[shapes]: https://metreeca.github.io/keep/modules/_metreeca_keep-suite.toys.html
+[shapes]: https://grafctory.github.io/keep/modules/_grafctory_keep-suite.toys.html
 
-[shapes-src]: https://github.com/metreeca/keep/blob/main/packages/components/keep-suite/src/toys.ts
+[shapes-src]: https://github.com/grafctory/keep/blob/main/packages/components/keep-suite/src/toys.ts
 
-[data]: https://metreeca.github.io/keep/variables/_metreeca_keep-suite.toys.collections.html
+[data]: https://grafctory.github.io/keep/variables/_grafctory_keep-suite.toys.collections.html
 
 ## Backends Requiring an Endpoint
 
@@ -136,7 +136,7 @@ npm install testcontainers --save-dev
 Then wire the container around the suite:
 
 ```typescript
-import { testStore } from "@metreeca/keep-suite";
+import { testStore } from "@grafctory/keep-suite";
 import { GenericContainer, type StartedTestContainer } from "testcontainers";
 import { afterAll, beforeAll, describe } from "vitest";
 
@@ -171,10 +171,10 @@ the toy fixture.
 
 # Support
 
-- open an [issue](https://github.com/metreeca/keep/issues) to report a problem or to suggest a new feature
-- start a [discussion](https://github.com/metreeca/keep/discussions) to ask a how-to question or to share an idea
+- open an [issue](https://github.com/grafctory/keep/issues) to report a problem or to suggest a new feature
+- start a [discussion](https://github.com/grafctory/keep/discussions) to ask a how-to question or to share an idea
 
 # License
 
 This project is licensed under the Apache 2.0 License –
-see [LICENSE](https://github.com/metreeca/keep?tab=Apache-2.0-1-ov-file) file for details.
+see [LICENSE](https://github.com/grafctory/keep?tab=Apache-2.0-1-ov-file) file for details.

@@ -26,9 +26,9 @@
  * @module
  */
 
-import type { Property } from "@metreeca/blue/resource";
-import { eager, type Shape } from "@metreeca/blue/value";
-import type { Scope } from "@metreeca/core/scope";
+import type { Property } from "@grafctory/blue/resource";
+import { eager, type Shape } from "@grafctory/blue/value";
+import type { Scope } from "@grafctory/core/scope";
 import {
 	type Branch,
 	type Drain,
@@ -36,8 +36,8 @@ import {
 	getFlakeEntries,
 	getFlakeVariant,
 	isModelBranch
-} from "@metreeca/keep-flake";
-import type { Variable } from "@metreeca/wire-sparql";
+} from "@grafctory/keep-flake";
+import type { Variable } from "@grafctory/wire-sparql";
 
 
 /**

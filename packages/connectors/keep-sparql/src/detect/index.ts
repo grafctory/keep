@@ -22,8 +22,8 @@
  * @module index
  */
 
-import type { Broker, Deferred, Detect } from "@metreeca/keep/batching";
-import type { RepositoryClient } from "@metreeca/wire-sparql";
+import type { Broker, Deferred, Detect } from "@grafctory/keep/batching";
+import type { RepositoryClient } from "@grafctory/wire-sparql";
 import { plain, read } from "../spine.js";
 import { encode } from "./encode.js";
 

@@ -43,12 +43,12 @@
  * @module
  */
 
-import type { Scope } from "@metreeca/core/scope";
-import { type Branch, type Flake, getFlakeEntries } from "@metreeca/keep-flake";
-import type { Reference } from "@metreeca/qest/state";
-import { named } from "@metreeca/trio";
-import { type SPARQL, type Variable } from "@metreeca/wire-sparql";
-import { all, fragment, optional, select, term, union, values, where } from "@metreeca/wire-sparql/builder";
+import type { Scope } from "@grafctory/core/scope";
+import { type Branch, type Flake, getFlakeEntries } from "@grafctory/keep-flake";
+import type { Reference } from "@grafctory/qest/state";
+import { named } from "@grafctory/trio";
+import { type SPARQL, type Variable } from "@grafctory/wire-sparql";
+import { all, fragment, optional, select, term, union, values, where } from "@grafctory/wire-sparql/builder";
 import { link, membership } from "../patterns.js";
 import { type Column, column, entries as nested, type Schema } from "./schema.js";
 

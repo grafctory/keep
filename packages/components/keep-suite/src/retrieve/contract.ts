@@ -24,9 +24,9 @@
  * @module retrieve/contract
  */
 
-import type { Optional } from "@metreeca/core";
-import type { Template } from "@metreeca/qest/model";
-import type { Resource } from "@metreeca/qest/state";
+import type { Optional } from "@grafctory/core";
+import type { Template } from "@grafctory/qest/model";
+import type { Resource } from "@grafctory/qest/state";
 import { beforeAll, describe, expect, it } from "vitest";
 import { lookup, type TestFactory } from "../index.core.js";
 import { collections } from "../toys.core.js";

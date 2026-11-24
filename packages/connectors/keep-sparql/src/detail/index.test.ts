@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Category } from "@metreeca/keep-suite/toys";
-import type { Broker, Deferred, Detail } from "@metreeca/keep/batching";
-import type { Template } from "@metreeca/qest/model";
-import type { Reference } from "@metreeca/qest/state";
-import type { RepositoryClient, SPARQL } from "@metreeca/wire-sparql";
+import { Category } from "@grafctory/keep-suite/toys";
+import type { Broker, Deferred, Detail } from "@grafctory/keep/batching";
+import type { Template } from "@grafctory/qest/model";
+import type { Reference } from "@grafctory/qest/state";
+import type { RepositoryClient, SPARQL } from "@grafctory/wire-sparql";
 import { describe, expect, it, type Mock, vi } from "vitest";
 import { detail } from "./index.js";
 

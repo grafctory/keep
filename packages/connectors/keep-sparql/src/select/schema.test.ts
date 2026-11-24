@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import type { ResourceShape } from "@metreeca/blue/resource";
-import type { Lazy } from "@metreeca/core";
-import { createScope } from "@metreeca/core/scope";
-import { createQueryFlake, getFlakeProjection } from "@metreeca/keep-flake";
-import { Category, Vendor } from "@metreeca/keep-suite/toys";
-import type { Query, Slot } from "@metreeca/qest/model";
-import { variable, type Variable } from "@metreeca/wire-sparql";
+import type { ResourceShape } from "@grafctory/blue/resource";
+import type { Lazy } from "@grafctory/core";
+import { createScope } from "@grafctory/core/scope";
+import { createQueryFlake, getFlakeProjection } from "@grafctory/keep-flake";
+import { Category, Vendor } from "@grafctory/keep-suite/toys";
+import type { Query, Slot } from "@grafctory/qest/model";
+import { variable, type Variable } from "@grafctory/wire-sparql";
 import { describe, expect, it } from "vitest";
 import { column, schema } from "./schema.js";
 

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { number } from "@metreeca/blue/number";
-import { reference } from "@metreeca/blue/reference";
-import { id, multiple, optional, required, resource } from "@metreeca/blue/resource";
-import { string } from "@metreeca/blue/string";
-import { TraceError } from "@metreeca/core/trace";
+import { number } from "@grafctory/blue/number";
+import { reference } from "@grafctory/blue/reference";
+import { id, multiple, optional, required, resource } from "@grafctory/blue/resource";
+import { string } from "@grafctory/blue/string";
+import { TraceError } from "@grafctory/core/trace";
 import { describe, expect, it, vi } from "vitest";
 import type { Store, StoreClient } from "../index.js";
 import { createManagingStore } from "../stores/managing.js";
@@ -382,7 +382,7 @@ describe("createValidatingStore", () => {
 	});
 
 	// Captive expansion depth: create/update/insert always validate state at depth 0, rejecting inline captive
-	// batches until cascading captive writes are supported (https://github.com/metreeca/keep/issues/4).
+	// batches until cascading captive writes are supported (https://github.com/grafctory/keep/issues/4).
 	describe("captive expansion depth cap", () => {
 
 		it("should reject an inline captive batch on create (always capped at depth 0)", async () => {

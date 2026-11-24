@@ -1,12 +1,12 @@
-# @metreeca/keep-rest
+# @grafctory/keep-rest
 
-[![npm](https://img.shields.io/npm/v/@metreeca/keep-rest)](https://www.npmjs.com/package/@metreeca/keep-rest)
+[![npm](https://img.shields.io/npm/v/@grafctory/keep-rest)](https://www.npmjs.com/package/@grafctory/keep-rest)
 
-REST/JSON proxy connector for the [@metreeca/keep](https://github.com/metreeca/keep) model-driven linked data storage
+REST/JSON proxy connector for the [@grafctory/keep](https://github.com/grafctory/keep) model-driven linked data storage
 framework.
 
 Gives an application access to a remote REST service through the same
-[`Store`](https://metreeca.github.io/keep/modules/_metreeca_keep.html) API as every other connector: each data operation
+[`Store`](https://grafctory.github.io/keep/modules/_grafctory_keep.html) API as every other connector: each data operation
 is round-tripped to the service rather than applied to a local backing store. Inputs are shape-validated before the
 request is sent. Retrieval responses are validated as well, since the remote service is treated as untrusted by default.
 
@@ -21,7 +21,7 @@ request is sent. Retrieval responses are validated as well, since the remote ser
 # Installation
 
 ```shell
-npm install @metreeca/keep-rest
+npm install @grafctory/keep-rest
 ```
 
 # Usage
@@ -29,14 +29,14 @@ npm install @metreeca/keep-rest
 > [!NOTE]
 >
 > This section introduces essential concepts; for complete coverage, see the
-> [API reference](https://metreeca.github.io/keep/modules/_metreeca_keep-rest.html).
+> [API reference](https://grafctory.github.io/keep/modules/_grafctory_keep-rest.html).
 
 ## Wiring a Store
 
 Call `createRESTStore` to obtain a `Store` proxying a remote REST service over the global `fetch`:
 
 ```typescript
-import { createRESTStore } from "@metreeca/keep-rest";
+import { createRESTStore } from "@grafctory/keep-rest";
 
 const store = createRESTStore();
 
@@ -56,10 +56,10 @@ remote service is trusted to deliver shape-conforming data.
 
 # Support
 
-- open an [issue](https://github.com/metreeca/keep/issues) to report a problem or to suggest a new feature
-- start a [discussion](https://github.com/metreeca/keep/discussions) to ask a how-to question or to share an idea
+- open an [issue](https://github.com/grafctory/keep/issues) to report a problem or to suggest a new feature
+- start a [discussion](https://github.com/grafctory/keep/discussions) to ask a how-to question or to share an idea
 
 # License
 
 This project is licensed under the Apache 2.0 License –
-see [LICENSE](https://github.com/metreeca/keep?tab=Apache-2.0-1-ov-file) file for details.
+see [LICENSE](https://github.com/grafctory/keep?tab=Apache-2.0-1-ov-file) file for details.

@@ -28,12 +28,12 @@
  * @module
  */
 
-import { getShapeTarget } from "@metreeca/blue/reference";
-import type { Member } from "@metreeca/blue/resource";
-import { getShapeBranches } from "@metreeca/blue/union";
-import { type Range, type Shape } from "@metreeca/blue/value";
-import type { Identifier } from "@metreeca/core";
-import { immutable } from "@metreeca/core/values";
+import { getShapeTarget } from "@grafctory/blue/reference";
+import type { Member } from "@grafctory/blue/resource";
+import { getShapeBranches } from "@grafctory/blue/union";
+import { type Range, type Shape } from "@grafctory/blue/value";
+import type { Identifier } from "@grafctory/core";
+import { immutable } from "@grafctory/core/values";
 import { getPropertyRange, getRootRange } from "./index.core.js";
 import { type Entries, type Flake } from "./index.js";
 

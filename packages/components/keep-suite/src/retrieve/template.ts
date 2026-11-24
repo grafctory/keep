@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { isObject, isString } from "@metreeca/core";
+import { isObject, isString } from "@grafctory/core";
 import { beforeAll, describe, expect, it } from "vitest";
 import { lookup, type TestFactory } from "../index.core.js";
 import { collections } from "../toys.core.js";

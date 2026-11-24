@@ -33,16 +33,16 @@
  * @module
  */
 
-import { getShapeTarget } from "@metreeca/blue/reference";
-import { type ResourceShape } from "@metreeca/blue/resource";
-import { getShapeBranches } from "@metreeca/blue/union";
-import { opt } from "@metreeca/core";
-import type { Scope } from "@metreeca/core/scope";
-import { type Flake, getFlakeProjection, getFlakeTemplate } from "@metreeca/keep-flake";
-import type { Deferred, Select } from "@metreeca/keep/batching";
-import type { Value, Values } from "@metreeca/qest/state";
-import type { Term } from "@metreeca/trio";
-import type { Tuple, Variable } from "@metreeca/wire-sparql";
+import { getShapeTarget } from "@grafctory/blue/reference";
+import { type ResourceShape } from "@grafctory/blue/resource";
+import { getShapeBranches } from "@grafctory/blue/union";
+import { opt } from "@grafctory/core";
+import type { Scope } from "@grafctory/core/scope";
+import { type Flake, getFlakeProjection, getFlakeTemplate } from "@grafctory/keep-flake";
+import type { Deferred, Select } from "@grafctory/keep/batching";
+import type { Value, Values } from "@grafctory/qest/state";
+import type { Term } from "@grafctory/trio";
+import type { Tuple, Variable } from "@grafctory/wire-sparql";
 import { computedToValue, termToReference, termToValue } from "../terms.js";
 import { all, type Decoded, map, plain, resource } from "../spine.js";
 import type { Group } from "./encode.js";
@@ -115,7 +115,7 @@ export function decode(
 	 * content, and kept as the bare reference naming it where it asks for the reference alone. The content is the
 	 * template the request states for the cell; for the item itself bound through an empty path (§5.8.1), it is the
 	 * template folded into the root. A sibling binding descending through the cell asks for no content, so
-	 * `"v=vendor": {}` beside `"n=vendor.name": {}` keeps `v` a bare reference (metreeca/keep#24).
+	 * `"v=vendor": {}` beside `"n=vendor.name": {}` keeps `v` a bare reference (grafctory/keep#24).
 	 */
 	function value(root: Flake, { node, variant, drain, form }: Column, term: Term): Decoded<undefined | Value> {
 

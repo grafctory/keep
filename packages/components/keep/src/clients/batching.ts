@@ -46,13 +46,13 @@
  * @module
  */
 
-import type { Property, ResourceShape } from "@metreeca/blue/resource";
-import { blueprint, collection, type Match } from "@metreeca/blue/value";
-import { isString, type Lazy, type Optional } from "@metreeca/core";
-import type { Tag } from "@metreeca/core/language";
-import { immutable } from "@metreeca/core/values";
-import type { Query, Slot, Template } from "@metreeca/qest/model";
-import type { Reference, Resource, Value } from "@metreeca/qest/state";
+import type { Property, ResourceShape } from "@grafctory/blue/resource";
+import { blueprint, collection, type Match } from "@grafctory/blue/value";
+import { isString, type Lazy, type Optional } from "@grafctory/core";
+import type { Tag } from "@grafctory/core/language";
+import { immutable } from "@grafctory/core/values";
+import type { Query, Slot, Template } from "@grafctory/qest/model";
+import type { Reference, Resource, Value } from "@grafctory/qest/state";
 import type { StoreClient } from "../index.js";
 import { createBroker, mint } from "./batching.core.js";
 

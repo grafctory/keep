@@ -19,8 +19,8 @@ description: Development guidelines and conventions for the SPARQL store engine.
 	below; the `connector-designer` skill holds the conventions and MUST be activated on pass work.
 
 - **Everything is a range**: Every value coordinate a flake exposes resolves to a
-	[`flake.range`](../../../components/keep-flake/src/index.ts): a `@metreeca/blue/value` `Range` whose `shape`
-	expands, through `getShapeBranches(range.shape)` from `@metreeca/blue/union`, into a **never-empty** list of variants.
+	[`flake.range`](../../../components/keep-flake/src/index.ts): a `@grafctory/blue/value` `Range` whose `shape`
+	expands, through `getShapeBranches(range.shape)` from `@grafctory/blue/union`, into a **never-empty** list of variants.
   The range is the **single, universal representation** of what a coordinate can hold; all encode/decode logic MUST be
   driven by iterating those variants uniformly.
 
@@ -67,18 +67,18 @@ Conventions for `src/**/encode.ts` modules. Existing encoders (`detect/encode.ts
 
 # Transaction Isolation and Mutation Event Declarations
 
-The graph-layer `Repository` interface, consumed from `@metreeca/wire-sparql`, carries its own isolation contract
+The graph-layer `Repository` interface, consumed from `@grafctory/wire-sparql`, carries its own isolation contract
 documented in that package; this package does not redeclare it.
 
-Within `@metreeca/keep-sparql`, the `createSPARQLStore` factory is a delegating `Store` factory: it declares both
+Within `@grafctory/keep-sparql`, the `createSPARQLStore` factory is a delegating `Store` factory: it declares both
 **Transaction Isolation** (determined by the supplied `Repository`) and **Mutation Events** on its factory function
 TSDoc, following the format defined in the root `CLAUDE.md`.
 
 # Testing
 
 - Features in this package are tested by `src/index.test.ts`, which defines the SPARQL conformance suite inline (wiring
-	the shared `@metreeca/keep-suite` harness) and runs it against the connector packages: themselves pure
-	`@metreeca/wire-sparql` `Repository` connectors carrying no tests of their own. The connectors are dev-only
+	the shared `@grafctory/keep-suite` harness) and runs it against the connector packages: themselves pure
+	`@grafctory/wire-sparql` `Repository` connectors carrying no tests of their own. The connectors are dev-only
 	dependencies pulled in solely for these conformance runs
 
 - Unit tests per layer pin what the oracle cannot see: `spine.test.ts` (owner indexing, settlement, nested requests,

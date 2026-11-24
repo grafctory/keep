@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import type { ResourceShape } from "@metreeca/blue/resource";
-import { eager, type Match } from "@metreeca/blue/value";
-import { error, isNumber, isString, type Lazy } from "@metreeca/core";
-import { resolve } from "@metreeca/core/resource";
-import { equals, immutable } from "@metreeca/core/values";
-import type { Query, Slot, Template } from "@metreeca/qest/model";
-import type { Reference, Resource, Value } from "@metreeca/qest/state";
+import type { ResourceShape } from "@grafctory/blue/resource";
+import { eager, type Match } from "@grafctory/blue/value";
+import { error, isNumber, isString, type Lazy } from "@grafctory/core";
+import { resolve } from "@grafctory/core/resource";
+import { equals, immutable } from "@grafctory/core/values";
+import type { Query, Slot, Template } from "@grafctory/qest/model";
+import type { Reference, Resource, Value } from "@grafctory/qest/state";
 import type { Broker, Deferred, Detail, Detect, Handler, Limits, Modify, Request, Select } from "./batching.js";
 
 
