@@ -10,36 +10,36 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/grafctory/keep/compare/v0.14.2...HEAD)
 
-## [0.14.2](https://github.com/metreeca/keep/compare/v0.14.1...v0.14.2) - 2026-11-24
+## [0.14.2](https://github.com/grafctory/keep/compare/v0.14.1...v0.14.2) - 2026-11-24
 
 ### Changed
 
 - Maintenance release with no change to the published API or behaviour
 
-## [0.14.1](https://github.com/metreeca/keep/compare/v0.14.0...v0.14.1) - 2026-11-20
+## [0.14.1](https://github.com/grafctory/keep/compare/v0.14.0...v0.14.1) - 2026-11-20
 
 ### Changed
 
 - `@metreeca/keep-sparql` — collections filtered, sorted or aggregated on localised text are retrieved markedly
   faster, most of all where the request states a single language, so sorting a large collection on a label no longer
-  takes several times as long as sorting it on a plain value ([#30](https://github.com/metreeca/keep/issues/30))
+  takes several times as long as sorting it on a plain value ([#30](https://github.com/grafctory/keep/issues/30))
 
 ### Fixed
 
 - `@metreeca/keep-sparql` — a filter, sort, focus or aggregate on a localised property applies to its label where
   the model also retrieves the property under a locale placeholder such as `{ "*": {} }`: filters and tagged options
-  match again, and sort and focus keys are no longer ignored ([#25](https://github.com/metreeca/keep/issues/25))
+  match again, and sort and focus keys are no longer ignored ([#25](https://github.com/grafctory/keep/issues/25))
 - `@metreeca/keep-suite` — localised retrieval checks that a criterion on a localised property selects and orders
   the same members whether or not the model retrieves that property under a locale placeholder
 
-## [0.14.0](https://github.com/metreeca/keep/compare/v0.13.0...v0.14.0) - 2026-11-19
+## [0.14.0](https://github.com/grafctory/keep/compare/v0.13.0...v0.14.0) - 2026-11-19
 
 ### Changed
 
 - **Breaking**: Upgrade `@metreeca/blue` and `@metreeca/qest` to `^0.15.0`; projects using them alongside these
   packages raise their own ranges as well, so that each is shared as a single copy
 
-## [0.13.0](https://github.com/metreeca/keep/compare/v0.12.2...v0.13.0) - 2026-11-17
+## [0.13.0](https://github.com/grafctory/keep/compare/v0.12.2...v0.13.0) - 2026-11-17
 
 ### Added
 
@@ -85,7 +85,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - `@metreeca/keep-sparql` — lookups expanding the members of a large collection and updates to resources with many
   multi-valued values no longer fail or slow down on query size: their cost grows linearly with the members and
-  values involved, no longer with their product ([#22](https://github.com/metreeca/keep/issues/22)), and a paged
+  values involved, no longer with their product ([#22](https://github.com/grafctory/keep/issues/22)), and a paged
   multi-valued property read under several members fetches only the pages requested for each member
 - `@metreeca/keep-sparql` — a backend failure on one query rejects the requests that query served and no other:
   unrelated requests batched in the same round, such as the other members of an expanded collection, settle on
@@ -100,17 +100,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `@metreeca/keep-sparql` — a reference projected under the atomic placeholder beside a binding descending through
   it, as in `"value=university": {}, "label=university.label": {}`, comes back as the bare reference naming the
   resource, where it previously came back as an object holding the sibling's value and no identifier, leaving
-  facets over linked resources with no value to offer ([#24](https://github.com/metreeca/keep/issues/24)); the
+  facets over linked resources with no value to offer ([#24](https://github.com/grafctory/keep/issues/24)); the
   item itself, projected through an empty path beside such a binding, now comes back as a bare reference as well
 - `@metreeca/keep-sparql` — a localised label coalesces under the owner's own tags whatever other resources carry:
   under a priority such as `["en", "und"]`, a resource labelled only in `und` now sorts, projects and contributes
   its union text variant by that label, where it previously came back unbound whenever the leading tag was present
-  anywhere else in the store ([#26](https://github.com/metreeca/keep/issues/26))
+  anywhere else in the store ([#26](https://github.com/grafctory/keep/issues/26))
 - `@metreeca/keep-sparql` — `min`, `max`, `sum` and `avg` reduce only the values in their domain, as the
   specification requires: over a property some items lack they reduce the items carrying it, where they previously
-  came back undefined on backends such as Oxigraph and Jena ([#27](https://github.com/metreeca/keep/issues/27)),
+  came back undefined on backends such as Oxigraph and Jena ([#27](https://github.com/grafctory/keep/issues/27)),
   and over a union-typed property `sum` and `avg` reduce its numeric values and `min` and `max` its literals, where
-  a single value on another branch previously voided the result ([#28](https://github.com/metreeca/keep/issues/28));
+  a single value on another branch previously voided the result ([#28](https://github.com/grafctory/keep/issues/28));
   `@metreeca/keep-suite` checks connectors for both cases and for localised label fallthrough
 - `@metreeca/keep-flake` — a bare template key in a collection query no longer gives its node an alias, so
   `isProbeBranch` picks out projected nodes alone and `isModelBranch` no longer misses single-valued template entries
@@ -120,7 +120,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Upgrade `undici` to `8.12.3`, fixing GHSA-xjj6-f33q-929c, GHSA-2m5v-pch6-74hx, GHSA-9fm3-97px-rjf6 and
   GHSA-qrxm-fqhp-jwvm (development dependency, no consumer impact: the published packages never load it)
 
-## [0.12.2](https://github.com/metreeca/keep/compare/v0.12.1...v0.12.2) - 2026-10-22
+## [0.12.2](https://github.com/grafctory/keep/compare/v0.12.1...v0.12.2) - 2026-10-22
 
 ### Fixed
 
@@ -137,14 +137,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Upgrade `vitest` to `4.1.12`, fixing GHSA-qxg6-89mg-rqv8 and GHSA-xp26-3454-mjgp (development dependency, no
   consumer impact)
 
-## [0.12.1](https://github.com/metreeca/keep/compare/v0.12.0...v0.12.1) - 2026-10-20
+## [0.12.1](https://github.com/grafctory/keep/compare/v0.12.0...v0.12.1) - 2026-10-20
 
 ### Fixed
 
 - `@metreeca/keep-sparql` — `Store.lookup` fails with a `RangeError` on a blank node naming an embedded resource,
   instead of silently dropping that resource and the content requested under it from the result
 
-## [0.12.0](https://github.com/metreeca/keep/compare/v0.11.1...v0.12.0) - 2026-10-19
+## [0.12.0](https://github.com/grafctory/keep/compare/v0.11.1...v0.12.0) - 2026-10-19
 
 ### Changed
 
@@ -161,7 +161,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Remove the `rdfs` namespace from `@metreeca/keep-suite/toys`: take it from `@metreeca/trio`, which defines it
   (`import { rdfs } from "@metreeca/keep-suite/toys"` → `import { rdfs } from "@metreeca/trio"`)
 
-## [0.11.1](https://github.com/metreeca/keep/compare/v0.11.0...v0.11.1) - 2026-10-14
+## [0.11.1](https://github.com/grafctory/keep/compare/v0.11.0...v0.11.1) - 2026-10-14
 
 ### Changed
 
@@ -173,7 +173,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Upgrade `@metreeca/wire-sparql` to `^0.11.2`
 - Upgrade `@metreeca/http` to `^0.4.1`
 
-## [0.11.0](https://github.com/metreeca/keep/releases/tag/v0.11.0) - 2026-10-01
+## [0.11.0](https://github.com/grafctory/keep/releases/tag/v0.11.0) - 2026-10-01
 
 ### Added
 
@@ -255,7 +255,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 	tuple-arity rejections, per-leaf elision, kind-based branch discrimination and per-tag arity mismatches
 - `@metreeca/keep` — the `depth` option of `StoreClient.insert`: like `create` and `update`, `insert` accepts captive
 	references only as bare IRIs and rejects inline captive batches, pending cascading captive writes
-	([#4](https://github.com/metreeca/keep/issues/4))
+	([#4](https://github.com/grafctory/keep/issues/4))
 
 ### Fixed
 
@@ -279,7 +279,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Hand each variant a template alternative spans only the members that variant admits, as `@metreeca/qest` allows a
   union template to span several nested-resource variants
 
-## [0.10.0](https://github.com/metreeca/keep/releases/tag/v0.10.0) - 2026-09-09
+## [0.10.0](https://github.com/grafctory/keep/releases/tag/v0.10.0) - 2026-09-09
 
 ### Added
 
@@ -291,7 +291,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 	connector implementations honour the `Store` contract
 - `@metreeca/keep-rest` — REST/JSON proxy connector, forwarding every store operation to a remote endpoint over HTTP
 - `@metreeca/keep-sparql` — SPARQL 1.1 repository connector, translating store operations into queries and updates
-	against a pluggable graph backend from the [@metreeca/wire](https://github.com/metreeca/wire) collection
+	against a pluggable graph backend from the [@metreeca/wire](https://github.com/grafctory/wire) collection
 
 ### Changed
 
