@@ -1,14 +1,18 @@
 # @grafctory/keep
 
-[![npm](https://img.shields.io/npm/v/@grafctory/keep)](https://www.npmjs.com/package/@grafctory/keep)
+[![npm][npm-badge]][npm]
+
+[npm-badge]: https://img.shields.io/npm/v/@grafctory/keep
+[npm]: https://www.npmjs.com/package/@grafctory/keep
+[grafctory]: https://github.com/grafctory
 
 Turnkey model-driven storage for linked data resources.
 
-**@grafctory/keep** stores and retrieves linked data resources independently of the backend holding them, driven by the
-resource models that describe them:
+**@grafctory/keep** is the storage module of the [Grafctory][grafctory] model-driven knowledge graph framework. It
+stores and retrieves linked data resources independently of the backend holding them, driven by the resource models that
+describe them:
 
-- **Model-Driven Storage**: data models defined with [@grafctory/blue](https://github.com/grafctory/blue) drive storage
-	and validation
+- **Model-Driven Storage**: data models defined with [@grafctory/blue] drive storage and validation
 - **Declarative Operations**: CRUD operations on linked data resources without handwritten queries
 - **Pluggable Connectors**: one storage API over every supported backend, through interchangeable connector packages
 
@@ -38,6 +42,8 @@ resource models that describe them:
 
 [SPARQL 1.1]: https://www.w3.org/TR/sparql11-overview/
 
+
+[@grafctory/blue]: https://github.com/grafctory/blue
 
 # Installation
 
@@ -97,3 +103,5 @@ const product = await store.lookup({
 
 This project is licensed under the Apache 2.0 License –
 see [LICENSE](https://github.com/grafctory/keep?tab=Apache-2.0-1-ov-file) file for details.
+
+<sub>Grafctory™ is a trademark of Metreeca srl.</sub>
