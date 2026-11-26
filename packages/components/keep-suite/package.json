@@ -1,6 +1,6 @@
 {
   "name": "@grafctory/keep-suite",
-  "version": "0.14.2",
+  "version": "0.15.0",
   "description": "Connector conformance test suite for @grafctory/keep.",
   "keywords": [
     "typescript",
@@ -52,7 +52,7 @@
   "dependencies": {
     "@grafctory/blue": "^0.15.0",
     "@grafctory/core": "^0.14.0",
-    "@grafctory/keep": "^0.14.2",
+    "@grafctory/keep": "^0.15.0",
     "@grafctory/qest": "^0.15.0",
     "@grafctory/trio": "^0.3.0"
   },

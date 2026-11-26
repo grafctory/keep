@@ -1,6 +1,6 @@
 {
   "name": "@grafctory/keep",
-  "version": "0.14.2",
+  "version": "0.15.0",
   "description": "Core model-driven storage API for @grafctory/keep.",
   "keywords": [
     "typescript",

@@ -1,6 +1,6 @@
 {
   "name": "@grafctory/keep-flake",
-  "version": "0.14.2",
+  "version": "0.15.0",
   "description": "Shape-driven traversal trees for @grafctory/keep connectors.",
   "keywords": [
     "typescript",
@@ -51,7 +51,7 @@
     "@grafctory/qest": "^0.15.0"
   },
   "devDependencies": {
-    "@grafctory/keep-suite": "^0.14.2",
+    "@grafctory/keep-suite": "^0.15.0",
     "typescript": "^6.0.3",
     "vitest": "^4.0.13"
   }
