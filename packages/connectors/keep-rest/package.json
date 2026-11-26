@@ -52,7 +52,7 @@
     "@grafctory/qest": "^0.15.0"
   },
   "devDependencies": {
-    "@grafctory/blue": "^0.15.0",
+    "@grafctory/blue": "^0.16.0",
     "typescript": "^6.0.3",
     "vitest": "^4.0.13"
   }

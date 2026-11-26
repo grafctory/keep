@@ -8,7 +8,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 > [!NOTE]
 > Packages published under the `@grafctory` scope from version 0.14.2; earlier versions were published under `@metreeca`.
 
-## [0.15.0](https://github.com/grafctory/keep/compare/v0.14.2...HEAD)
+## [Unreleased](https://github.com/grafctory/keep/compare/v0.15.0...HEAD)
+
+## [0.15.0](https://github.com/grafctory/keep/compare/v0.14.2...v0.15.0) - 2026-11-26
+
+### Changed
+
+- **Breaking**: Upgrade `@grafctory/blue` to `^0.16.0`, whose models these packages accept and expose; projects using
+  it alongside them raise their own range as well, so that it is shared as a single copy. Required localised members
+  stated as `{}` or `{ en: [] }` now fail validation: submit text under at least one language tag, or declare the
+  member `optional()` where an empty value is legitimate, as stores reject such a resource where they accepted it before
+- Bug reports by email go to `info@grafctory.dev`
 
 ## [0.14.2](https://github.com/grafctory/keep/compare/v0.14.1...v0.14.2) - 2026-11-24
 

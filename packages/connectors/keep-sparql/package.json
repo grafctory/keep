@@ -46,7 +46,7 @@
     "check": "npx vitest --typecheck run"
   },
   "dependencies": {
-    "@grafctory/blue": "^0.15.0",
+    "@grafctory/blue": "^0.16.0",
     "@grafctory/core": "^0.14.0",
     "@grafctory/keep": "^0.15.0",
     "@grafctory/keep-flake": "^0.15.0",
